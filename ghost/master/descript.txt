@@ -16,3 +16,7 @@ icon,icon.ico
 sstp.allowunspecifiedsend,0
 
 balloon,Reading is for Owls
+
+char2.seriko.defaultsurface,0
+char3.seriko.defaultsurface,0
+char4.seriko.defaultsurface,0

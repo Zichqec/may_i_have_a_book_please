@@ -33,4 +33,7 @@ menu.sidebar.alignment,bottom + repeat-y
 seriko.sticky-window,0,2,3,4
 
 sakura.defaultleft,100
+char2.defaultleft,100
+char3.defaultleft,100
+char4.defaultleft,100
 kero.defaultleft,650

@@ -33,8 +33,6 @@ OnFirstBoot
 	
 	"\1\s[-1]\0\s[0]\t"
 	--
-	FixPositions
-	--
 	AlignOwlBalloons
 	--
 	"\0%(usertalk)I've finally made it... All of my work, my research, hours spent making notes, talking to experts, testing out in the field—there's just one more mystery to solve. One missing piece before my magnum opus is complete. One more secret to uncover. And there's only one place in the entire world that might hold the answers.\x"
