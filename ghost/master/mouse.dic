@@ -1,0 +1,215 @@
+//Separate from the menus because you could put other interactions here, like poking or booping or punching or asking about various hotspots
+OnMouseDoubleClick
+{
+	if reference5 == 0 //reference5 is the mouse button being clicked, in this case a left click
+	{
+		//reference3 is which character is being clicked
+		//If you want to add double click interactions, reference4 will be the name of the hitbox the mouse is over
+		if reference3 == 0 && !(BalloonIsOpen && "\![raise,OnBookTest]" _in_ SHIORI3FW.LastTalk)
+		{
+			if !TutorialComplete; OnFirstTutorial
+			else
+			{
+				if SHIORI3FW.IsVisible[1]
+				{
+					if "TalkingToPatron" _in_ SHIORI3FW.LastTalk
+					{
+						REPLACE(IgnoringPatron,"\e TalkingToPatron","")
+						--
+						"\w8%(hoo)"
+						--
+						"\0%(usertalk)"
+						--
+						"She seems a bit upset..."
+						"She seems unhappy..."
+						"Oops..."
+						"Well, that's just great..."
+						"Maybe not the smartest move..."
+						"She's a bit touchy, isn't she..."
+						
+					}
+					else
+					{
+						PatronLeaveDialogue
+						--
+						"\w8%(hoo)"
+						--
+						"\0%(usertalk)"
+						--
+						"She's wandered back off into the library..."
+						"She seems to have gone back to her research..."
+						"She's disappeared behind another bookshelf..."
+						"Seems she's off to continue her studies alone..."
+						"And there she goes, back to her work..."
+					}
+					--
+					"\x\![raise,OnSakuraMenu]"
+				}
+				else; OnSakuraMenu
+			}
+		}
+		elseif reference3 == 1 && !(BalloonIsOpen && "__SettingsMenu__" _in_ SHIORI3FW.LastTalk) && TutorialComplete
+		{
+			if "TalkingToPatron" _in_ SHIORI3FW.LastTalk
+			{
+				IgnoringPatron
+			}
+			elseif "InsultedTheFae" _in_ SHIORI3FW.LastTalk
+			{
+				"\t\1\b[0]"
+				--
+				"\s[27]Oh no, I'm not getting caught up in this mess. You're on your own now."
+				"\s[27]No way, I'm not getting involved with this. You're on your own."
+				"\s[27]Absolutely not, I am not taking the fall for this. You're on your own."
+				--
+				"%(patronleave)"
+			}
+			elseif InsultedTheFae
+			{
+				"\0%(usertalk)\1\b[0]"
+				--
+				"\s[27]What do you want."
+				"\s[27]Excuse me, I'm rather busy."
+				"\s[27]What."
+				"\s[27]This had better be important."
+				"\s[27]Be quick."
+				"\s[27]Got something to say?"
+				--
+				"\0\_q\![*]\__q[OnApologize]I'm sorry for earlier,\_w[] I wasn't thinking\__q\n\n"
+				--
+				"\![*]\__q[OnKeroExit]Never mind...\__q"
+				--
+				"\e TalkingToPatron"
+			}
+			else; OnKeroMenu
+		}
+	}
+}
+
+IgnoringPatron : nonoverlap
+{
+	"\t\1\b[0]"
+	--
+	"\s[27]Excuse me. I have research to get back to, if you're not going to pay attention then don't waste my time."
+	"\s[27]Hello? I thought we were having a conversation, if we're not then I have my research to attend to."
+	"\s[27]Are you paying attention? \s[142]I have research to be working on, please do not waste my time."
+	"\s[27]Hello? Are we having a conversation or no? \s[142]The nerve of some people..."
+	"\s[27]If you're not going to pay attention to our conversation, then I'm going back to my work."
+	"\s[27]Ignoring me? \s[17]How rude. If you're just going to waste time, I have work to be doing."
+	"\s[27]Hello? We were talking? \s[17]Whatever, I have better things to be doing than stand around and be ignored."
+	"\s[27]You're just going to ignore our conversation? \s[17]The nerve. Don't expect me to stick around waiting for you to talk to me, I'm going back to my notes."
+	"\s[27]... Hello? What happened to our conversation? \s[17]If you're not going to continue it anymore then I have better things to be doing."
+	"\s[27]Excuse me? We had a conversation going? \s[17]Fine, then. I'm going back to my work."
+	--
+	"%(patronleave)\e TalkingToPatron"
+}
+
+OnApologize
+{
+	InsultedTheFae = 0
+	
+	"\0%(usertalk)\1\b[0]"
+	--
+	"\s[16]Hmph. \s[27]As you should be. Remember what I told you, this is fae territory. Mind your manners. \n\n%(hoo)\1\s[16]I suppose since Alba does not seem to be angry, I'll continue to help you. \s[27]Just don't do anything stupid."
+	"\s[16]... \s[27]As well you should be. This is fae territory, remember. You need to be more cautious. \n\n%(hoo)\1\s[116]Fortunately, Alba does not seem to be harboring a grudge... \s[10]I suppose I can continue to help you. \s[27]Just show a little sense, will you?"
+	"\s[27]Good. You should be. \n\n%(hoo)\1\s[16]... Look. \s[17]Alba doesn't seem to be holding a grudge, so I suppose I will not either. \s[27]Just be more careful, ok?"
+	--
+	"%(patronleave)"
+}
+
+OnMouseMove
+{
+	if reference4 != ""
+	{
+		stroke++
+		
+		if stroke % 40 == 0
+		{
+			if reference3 == 0; OnMouseMove.Sakura
+		}
+	}
+}
+
+OnMouseMove.Sakura
+{
+	if !(BalloonIsOpen && "\![raise,OnBookTest]" _in_ SHIORI3FW.LastTalk)
+	{
+		if reference4 == "Head" || reference4 == "Bust" || reference4 == "Wing"
+		{
+			"\0\s[0]%(hoo)"
+			"\0\s[1]%(hoo)"
+			"\0\s[0]%(hoo('?'))"
+			//"\s[1]%(hoo('...'))"
+			"\0\s[1]\p[2]\b[100]... "
+			--
+			if RAND(10) == 0
+			{
+				"\0\b[0]%(usertalk)"
+				--
+				"This is nice, but I don't think it's helping me find the information I need..."
+				"He's very feathery... as to be expected, I suppose."
+				"He's really very small underneath all these feathers..."
+				"Can he really be dangerous...? He seems so docile..."
+				"Hard to believe this is a fae that should be feared..."
+				"He seems like he's enjoying this..."
+				"Maybe this will help me win his favor... \n\n%(hoo)\0Maybe not."
+				"I better wash my hands after this..."
+				"I hope this doesn't make me itch..."
+				"Fae don't put curses on people just for petting them, do they...?"
+				
+				if LearnedPatronName && !SHIORI3FW.IsVisible[1]; "I wonder what Oriole would think if she saw me doing this..."
+			}
+		}
+	}
+}
+
+OnMouseLeaveAll
+{
+	stroke = 0
+}
+
+OnNeedlePoke
+{
+	if reference0 <= 1; "\0\b[0]%(usertalk)"
+	--
+	if reference0 == 0
+	{
+		"\s[0]"
+		"\s[1]"
+		"\s[2]"
+		--
+		_punct = ANY("","?","!","!?","...","...?","...!")
+		"%(hoo(_punct))"
+		--
+		if RAND(3) == 0
+		{
+			"\0"
+			--
+			"This may not be the best idea..."
+			"I should probably get my frustration out some other way..."
+			"I might make him angry if I keep doing this..."
+			"I don't think this is helping me get the information I need..."
+			"Maybe I should rethink my approach..."
+			"This doesn't seem likely to earn his favor..."
+			"I probably shouldn't anger the fae..."
+			"On second thought, this probably isn't advisable..."
+			"And that's what I think of this place... Better not say that aloud."
+			"Heh."
+		}
+	}
+	elseif reference0 == 1
+	{
+		"\1\s[17]Alba, I believe there is a mosquito or some other pest in here. \n\n\0\s[2]%(hoo)\1\s[117]Please take care of it, I will retreat back to my notes for now."
+		"\1\s[17]Ah-- Alba, there is some sort of pest in here. \n\n\0\s[2]%(hoo)\1\s[117]I am going back to my studying, please take care of it."
+		"\1\s[17]Ow! Alba, I believe there is a pest in here. \n\n\0\s[2]%(hoo)\1\s[16]Please take care of it, this sort of interruption will not do for my research."
+		"\1\s[17]Ah-! \n\n\0\s[2]%(hoo('?'))\1\s[142]Alba, I believe some kind of stray curse has found its way in here. Please take care of it. \n\n\0\s[2]%(hoo('...'))\1"
+		"\1\s[17]Ah-- \s[117]what is this? Some kind of magic rebound? \n\n\0\s[0]%(hoo('?'))\1\s[127]No, I think it's coming from something else... \s[116]Please take care of it, Alba. I cannot have my research interrupted by such things. \n\n\0\s[2]%(hoo)"
+		"\1\s[117]Ah-- ouch! \s[17]Alba, there's something lurking in this area of the library. \n\n\0\s[2]%(hoo('?'))\1\s[16]Please dispose of it, I have to get back to my research."
+		"\1\s[17]Ow-! Alba, I'm being harassed by some sort of pest! \n\n\0\s[2]%(hoo('!?'))\1\s[117]I'll come back later, I need to concentrate on this."
+		"\1\s[17]Ow-? \s[117]What's this? \n\n\0\s[0]%(hoo('?'))\1\s[116]... Ah. Just a sewing needle left lying on the floor. \s[10]Someone ought to pick up in here... \n\n\0\s[2]%(hoo)\1\s[110]Maybe later. I have to get back to studying."
+		"\1\s[17]Ah-- Alba, I thought I could expect this place to at least be free of pests? \n\n\0\s[2]%(hoo('?'))\1\s[16]Please take care of whatever it is that's hanging around here. I have to get back to my work."
+		"\1\s[117]Ow-- What was that? \n\n\0\s[2]%(hoo('!?'))\1\s[116]Alba, there is some sort of pest in here, and it is interrupting my research. Please take care of it. \n\n\0\s[2]%(hoo('...'))"
+		--
+		"%(patronleave)"
+	}
+}

@@ -1,0 +1,93 @@
+charset,Shift_JIS
+version,1
+
+
+group,1
+{
+	scope,1
+
+	10,Normal
+	11,Embarrased
+	12,Surprised
+	13,Anxious
+	14,Discouraged
+	15,Smile
+	16,Closed eyes
+	17,Angry
+	18,Cold smile
+	19,Flushed + Angry
+	
+	20,Normal@user
+	21,Embarrased@user
+	22,-
+	23,Anxious@user
+	24,-
+	25,Smile@user
+	26,Smile + happy eyes
+	27,Angry@user
+	28,Cold smile@user
+	29,Flushed + Angry@user
+	30,Flushed smile@user
+	
+	110,Normal-hand
+	111,Embarrased-hand
+	112,Surprised-hand
+	113,Anxious-hand
+	114,Discouraged-hand
+	115,Smile-hand
+	116,Closed eyes-hand
+	117,Angry-hand
+	118,Cold smile-hand
+	119,Flushed + Angry-hand
+	
+	120,Normal-hand@user
+	121,Embarrased-hand@user
+	122,-
+	123,Anxious-hand@user
+	124,-
+	125,Smile-hand@user
+	126,Smile + happy eyes-hand
+	127,Angry-hand@user
+	128,Cold smile-hand@user
+	129,Flushed + Angry-hand@user
+	130,Flushed smile-hand@user
+	
+	140,Troubled
+	141,Troubled@user
+	142,Troubled-grrrr
+}
+
+group,0
+{
+	scope,0
+	
+	0,Normal
+	1,Closed eyes
+	2,Surprised
+}
+
+group,__disabled
+{
+	8000,Half eyes (Normal)
+	8001,Closed (Normal)
+	8002,Half eyes (@user)
+	8003,Half eyes (Surprised)
+	
+	8100,Half eyes (Flushed)
+	8101,Closed (Flushed)
+	8102,Half eyes (@user)
+	
+	8200,Talk (Ç¶)
+	8201,Talk (Ç¢)
+	8202,Talk (ÇﬁÇ¡)
+	8203,Talk (Ç†)
+	8204,Talk (ÇÌÅ`)
+	8205,Talk (Ç®)
+	8207,Talk (Smile)
+	8206,Talk (Smile)
+	
+	9000,Blinking
+	
+	10001,Glasses
+	20000,Blank
+}

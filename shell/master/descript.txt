@@ -1,0 +1,36 @@
+charset,Shift_JIS
+type,shell
+name,カフェオレびたしのオールドファッション
+craftman,uyxu
+craftmanw,ゆゆぴか
+craftmanurl,https://yusyuparo.net/
+
+seriko.use_self_alpha,1
+
+kero.bindgroup100000.name,Glasses,Black tea gradient
+
+kero.bindgroup100000.default,1
+
+kero.menuitem0,100000
+
+menu.foreground.font.color.r,051
+menu.foreground.font.color.g,037
+menu.foreground.font.color.b,032
+
+menu.separator.color.r,051
+menu.separator.color.g,037
+menu.separator.color.b,032
+
+menu.frame.color.r,051
+menu.frame.color.g,037
+menu.frame.color.b,032
+
+menu.background.alignment,lefttop + repeatx + repeaty
+menu.foreground.alignment,lefttop + repeatx + repeaty
+
+menu.sidebar.alignment,bottom + repeat-y
+
+seriko.sticky-window,0,2,3,4
+
+sakura.defaultleft,100
+kero.defaultleft,650

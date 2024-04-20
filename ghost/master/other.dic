@@ -1,0 +1,477 @@
+OnTranslate
+{
+	_talk = reference0
+	
+	if reference1 == "" && reference2 == "" //If this is from the input box
+	{ //send input box : no event (ref2) , no special flag (ref1)
+		_talk = EVAL('"' + REPLACE(_talk,'"','""') + '"')
+	}
+	
+	// HootChar = 0
+	// while "[hoo]" _in_ _talk
+	// {
+		// _talk = REPLACE(_talk,"[hoo]",hoo,1)
+		// HootChar++
+		// if HootChar > 4; HootChar = 2
+	// }
+	
+	if DefaultBalloon
+	{
+		if OwlBalloonAmount == "Single"
+		{
+			if OwlBalloonTail == "Side"
+			{
+				_talk = REPLACE(_talk,"\p[2]\b[100]","\p[2]\b[20]")
+				_talk = REPLACE(_talk,"\p[3]\b[100]","\p[3]\b[20]")
+				_talk = REPLACE(_talk,"\p[4]\b[100]","\p[4]\b[20]")
+			}
+			elseif OwlBalloonTail == "Bottom"
+			{
+				_talk = REPLACE(_talk,"\p[2]\b[100]","\p[2]\b[10]")
+				_talk = REPLACE(_talk,"\p[3]\b[100]","\p[3]\b[10]")
+				_talk = REPLACE(_talk,"\p[4]\b[100]","\p[4]\b[10]")
+			}
+			else
+			{
+				_talk = REPLACE(_talk,"\p[2]\b[100]","\p[2]\b[0]")
+				_talk = REPLACE(_talk,"\p[3]\b[100]","\p[3]\b[0]")
+				_talk = REPLACE(_talk,"\p[4]\b[100]","\p[4]\b[0]")
+			}
+		}
+		else
+		{
+			if OwlBalloonTail == "Side"
+			{
+				_talk = REPLACE(_talk,"\p[2]\b[100]","\p[2]\b[120]")
+				_talk = REPLACE(_talk,"\p[3]\b[100]","\p[3]\b[120]")
+				_talk = REPLACE(_talk,"\p[4]\b[100]","\p[4]\b[120]")
+			}
+			elseif OwlBalloonTail == "Bottom"
+			{
+				_talk = REPLACE(_talk,"\p[2]\b[100]","\p[2]\b[110]")
+				_talk = REPLACE(_talk,"\p[3]\b[100]","\p[3]\b[110]")
+				_talk = REPLACE(_talk,"\p[4]\b[100]","\p[4]\b[110]")
+			}
+			elseif OwlBalloonTail == "Mixed"
+			{
+				_talk = REPLACE(_talk,"\p[2]\b[100]","\p[2]\b[110]")
+				_talk = REPLACE(_talk,"\p[3]\b[100]","\p[3]\b[120]")
+				_talk = REPLACE(_talk,"\p[4]\b[100]","\p[4]\b[120]")
+			}
+		}
+		
+		if PatronBalloonTail == "Side"
+		{
+			_talk = REPLACE(_talk,"\1\b[0]","\1\b[20]")
+			_talk = REPLACE(_talk,"\1\b[2]","\1\b[22]")
+		}
+		elseif PatronBalloonTail == "Bottom"
+		{
+			_talk = REPLACE(_talk,"\1\b[0]","\1\b[10]")
+			_talk = REPLACE(_talk,"\1\b[2]","\1\b[12]")
+		}
+	}
+	
+	TOSTR(_talk)
+}
+
+//Written by Zichqec https://ukagaka.zichqec.com/
+OnTranslateInternal.AutoPause
+{
+	_talk = _argv[0]
+	
+	if "\![no-autopause]" !_in_ _talk
+	{
+		/*
+		//Additional options if you want ellipsis to have little pauses between each dot. Personally, I think I want to do that manually, for when I want a particular flavor. If you want this, just uncomment it.
+		
+		_talk = REPLACE(_talk,"... ",".\w2.\w2.\w8 ") //Ellipsis
+		_talk = REPLACE(_talk,"..? ",".\w2.\w2?\w8 ") //Question mark + ellipsis
+		_talk = REPLACE(_talk,"..! ",".\w2.\w2!\w8 ") //Exclamation point + ellipsis
+		*/
+		
+		_talk = REPLACE(_talk,", ",",\w4 ") //Comma
+		_talk = REPLACE(_talk,". ",".\w8\w8 ") //Period
+		_talk = REPLACE(_talk,"? ","?\w8\w8 ") //Question mark
+		_talk = REPLACE(_talk,"! ","!\w8\w8 ") //Exclamation point
+		_talk = REPLACE(_talk,"-- ","--\w8 ") //Double dash
+		_talk = REPLACE(_talk,"; ",";\w4 ") //Semicolon
+		_talk = REPLACE(_talk,"\n\n ","\n\n\w8\w8") //Linebreak or character switch
+	}
+	
+	_talk
+}
+
+hoo
+{
+	"\![embed,OnHoo,%(_argv[0])]\w8\w8"
+}
+
+OnHoo : all
+{
+	if OwlBalloonAmount == "Single" || !DefaultBalloon
+	{
+		"\p[2]\b[100]%(hoot)%(reference0)\n\n"
+	}
+	else
+	{
+		_pos = ASEARCH.substring("balloon",SPLIT(status,","))
+		_status = status[_pos]
+		
+		_hootchar = 2
+		if "2=" _in_ _status; _hootchar = 3
+		if "3=" _in_ _status; _hootchar = 4
+		
+		"\p[%(_hootchar)]\b[100]%(hoot)%(reference0)"
+	}
+}
+
+OnAnchorSelect
+{
+	if "http://" _in_ reference0 || "https://" _in_ reference0; "\j[""%(reference0)""]"
+}
+
+OnKeyPress
+{
+	if reference0 == "f1"; "\![open,readme]"
+	elseif reference0 == "t"; "\![raise,OnAiTalk,prompt]"
+	elseif reference0 == "r"; OnLastTalk
+}
+
+OnSurfaceRestore : all
+{
+	FixPositions
+	AlignOwlBalloons
+	
+	"\0\s[0]\1\![set,alpha,100]"
+	
+	if SHIORI3FW.IsVisible[1]; PatronLeaveDialogue
+	else; "\s[-1]"
+	"\w8\w8"
+	
+}
+
+PatronLeaveDialogue : nonoverlap
+{
+	"\1\b[0]"
+	--
+	"\s[110]If you'll excuse me, I have to get back to my notes."
+	"\s[10]Hm, interesting..."
+	"\s[140]I have to get back to my work. I'll be back later."
+	"\s[10]I'll take my leave now. I have notes to get back to..."
+	"\s[110]I'm going to head back to my research now. If you need me, I'll be around."
+	"\s[140]Oh, here's the section I need..."
+	"\s[115]Oh, now this is interesting..."
+	"\s[140]Hmm, but how would it be..."
+	"\s[116]Intriguing... So then, I wonder if..."
+	"\s[140]Oh, I need to mark down what page this is on before I lose it..."
+	--
+	"%(patronleave)"
+}
+
+FixPositions : all
+{
+	"\p[4]\s[-1]\![move,--x=0,--y=0,--base=0,--option=ignore-sticky-window]"
+	"\![set,alpha,0]\s[0]\![set,balloonoffset,20,-85]\s[-1]"
+	
+	
+	"\p[3]\s[-1]\![move,--x=0,--y=0,--base=0,--option=ignore-sticky-window]"
+	"\![set,alpha,0]\s[0]\![set,balloonoffset,25,-150]\s[-1]"
+	
+	
+	"\p[2]\s[-1]\![move,--x=0,--y=0,--base=0,--option=ignore-sticky-window]"
+	if OwlBalloonAlign == "Mixed"; "\![set,alpha,0]\s[0]%(p2BalloonOffset)\s[-1]"
+	else; "\![set,alpha,0]\s[0]\![set,balloonoffset,0,0]\s[-1]"
+}
+
+p2BalloonOffset
+{
+	"\![set,balloonoffset,160,-250]"
+}
+
+p3BalloonOffset
+{
+	"\![set,balloonoffset,55,-170]"
+}
+
+p4BalloonOffset
+{
+	"\![set,balloonoffset,30,-90]"
+}
+
+AlignOwlBalloons : all
+{
+	if OwlBalloonAmount == "Single"
+	{
+		"\p[2]\s[-1]"
+		"\![set,balloonalign,none]\![set,balloonoffset,0,0]"
+	}
+	else
+	{
+		"\p[2]\s[-1]"
+		if OwlBalloonAlign == "Left"; "\![set,balloonalign,left]%(p2BalloonOffset)"
+		elseif OwlBalloonAlign == "Right"; "\![set,balloonalign,right]%(p2BalloonOffset)"
+		elseif OwlBalloonAlign == "Mixed"; "\![set,balloonalign,top]\![set,balloonoffset,0,0]"
+		else; "\![set,balloonalign,none]%(p2BalloonOffset)"
+		
+		
+		"\p[3]\s[-1]"
+		if OwlBalloonAlign == "Left"; "\![set,balloonalign,left]"
+		elseif OwlBalloonAlign == "Right"; "\![set,balloonalign,right]"
+		elseif OwlBalloonAlign == "Mixed"; "\![set,balloonalign,left]"
+		else; "\![set,balloonalign,none]"
+		"%(p3BalloonOffset)"
+		
+		"\p[4]\s[-1]"
+		if OwlBalloonAlign == "Left"; "\![set,balloonalign,left]"
+		elseif OwlBalloonAlign == "Right"; "\![set,balloonalign,right]"
+		elseif OwlBalloonAlign == "Mixed"; "\![set,balloonalign,right]"
+		else; "\![set,balloonalign,none]"
+		"%(p4BalloonOffset)"
+	}
+}
+
+ASEARCH.substring
+{
+	_array = _argv
+	_array[0] = IARRAY //erases _argv[0] since that's the string we're searching for
+	for _i = 0; _i < ARRAYSIZE(_array); _i++
+	{
+		if _argv[0] _in_ _array[_i]
+		{
+			_i
+			return
+		}
+	}
+	-1
+}
+
+InArray
+{
+	ASEARCH(_argv) != -1
+}
+
+DefaultBalloon
+{
+	SHIORI3FW.BalloonName == "Reading is for Owls"
+}
+
+usertalk
+{
+	"\f[italic,1]"
+}
+
+usertalkoff
+{
+	"\f[italic,default]"
+}
+
+italic
+{
+	"\f[italic,1]"
+}
+
+italicoff
+{
+	"\f[italic,default]"
+}
+
+em
+{
+	"\f[color,default.anchor]\f[underline,1]"
+}
+
+emoff
+{
+	"\f[color,default]\f[underline,default]"
+}
+
+ApplyHighlighting : all
+{
+	_label = _argv[0]
+	_func = _argv[1]
+	
+	"\![*]"
+	if ASEARCH(_label,ActionsTaken) != -1; "\f[color,disable]%(_label)\f[color,default]"
+	elseif ASEARCH(_label,HintsGiven) != -1; "\f[bold,1]\_a[OnAction.%(_func)]%(_label)\_a\f[bold,0]"
+	else; "\__q[OnAction.%(_func)]%(_label)\__q"
+}
+
+BalloonIsOpen
+{
+	"balloon" _in_ status
+}
+
+HasReadABook
+{
+	!FirstBook || BookRead
+}
+
+HintNotReady
+{
+	if HintReady == 1; HintReady = 0
+	NaturalRandomtalks = 0
+}
+
+br
+{
+	if SHIORI3FW.BalloonName == "Reading is for Owls"; "\n"
+	else; " "
+}
+
+timebuffer
+{
+	//"\_w[5000] "
+	"\x"
+}
+
+patronleave
+{
+	"\_w[1500]\1\s[-1]"
+}
+
+//Written by Zichqec https://ukagaka.zichqec.com/
+Capitalize
+{
+	_first = SUBSTR(_argv[0],0,1)
+	_rest = ERASE(_argv[0],0,1) //Erase the first character and store everything else in _rest
+	
+	TOUPPER(_first) + _rest
+}
+
+OnWindowStateRestore
+{
+	OnSurfaceRestore
+}
+
+GenerateRequiredActions
+{
+	RequiredActions = IARRAY
+	_actions = PossibleActions
+	
+	RequiredActions ,= ANY(_actions)
+	_actions[LSO] = IARRAY
+	RequiredActions ,= ANY(_actions)
+	_actions[LSO] = IARRAY
+	RequiredActions ,= ANY(_actions)
+	_actions[LSO] = IARRAY
+	
+	HintsGiven = IARRAY
+}
+
+AllActionsCorrect
+{
+	_taken = ASORT('string',ActionsTaken)
+	_required = ASORT('string',RequiredActions)
+	
+	if _taken[0] == _required[0] /
+	&& _taken[1] == _required[1] /
+	&& _taken[2] == _required[2]; 1
+	else; 0
+}
+
+AllActionsTaken
+{
+	ARRAYSIZE(ActionsTaken) >= 3
+}
+
+//—————————————————————————————— Right click menu links ——————————————————————————————
+
+/*
+//Takes an array of alternating names and urls, and formats them for use with the right click menu
+FormatLinks : all
+{
+	for _i = 0; _i < ARRAYSIZE(_argv); _i++
+	{
+		_argv[_i]
+		if _i % 2 == 1; "%ASC(2)"
+		else; "%ASC(1)"
+	}
+}
+
+On_sakura.recommendsites
+{
+	FormatLinks(recommendsites_sakura)
+}
+
+recommendsites_sakura : array
+{
+	"Link label";	"https://link.example.com/link/to/whatever/here/"
+}
+
+On_sakura.portalsites 
+{
+	FormatLinks(portalsites_sakura)
+}
+
+portalsites_sakura : array
+{
+	"Another link label";	"https://link.example.com/link/to/whatever/here/again/"
+	"A third link label";	"https://link.example.com/link/to/whatever/a/third/time/you/can/add/as/many/as/you/want/"
+}
+
+On_kero.recommendsites
+{
+	FormatLinks(recommendsites_kero)
+}
+
+recommendsites_kero : array
+{
+	"These labels can be anything you want";	"https://link.example.com/link/to/whatever/here/once/more/"
+}
+*/
+
+
+//—————————————————————————————— User pronoun related ——————————————————————————————
+
+AuthorPick
+{
+	CurrentAuthor = ANY("m,f,n")
+	SomeAuthor = AuthorNames(CurrentAuthor)
+}
+
+they
+{
+	if CurrentAuthor == "m"; "he"
+	elseif CurrentAuthor == "f"; "she"
+	else; "they"
+}
+
+them
+{
+	if CurrentAuthor == "m"; "him"
+	elseif CurrentAuthor == "f"; "her"
+	else; "them"
+}
+
+their
+{
+	if CurrentAuthor == "m"; "his"
+	elseif CurrentAuthor == "f"; "her"
+	else; "their"
+}
+
+theirs
+{
+	if CurrentAuthor == "m"; "his"
+	elseif CurrentAuthor == "f"; "hers"
+	else; "theirs"
+}
+
+themself
+{
+	if CurrentAuthor == "m"; "himself"
+	elseif CurrentAuthor == "f"; "herself"
+	else; "themself"
+}
+
+p
+{
+	if CurrentAuthor == "n"; _argv[0] //they are
+	else; _argv[1] //he is/she is
+}
+
+username
+{
+	SHIORI3FW.UserName
+}

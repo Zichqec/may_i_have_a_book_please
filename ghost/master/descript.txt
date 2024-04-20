@@ -1,0 +1,18 @@
+charset,UTF-8
+
+name,May I have a book please?
+type,ghost
+
+shiori,yaya.dll
+
+craftman,Twoaxe Lerns
+craftmanw,Twoaxe Lerns
+
+sakura.name,Alba
+kero.name,Oriole
+
+icon,icon.ico
+
+sstp.allowunspecifiedsend,0
+
+balloon,Reading is for Owls

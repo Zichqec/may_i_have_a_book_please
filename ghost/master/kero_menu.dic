@@ -1,0 +1,1711 @@
+KeroMenuGreetings : nonoverlap_pool
+{
+	"\1\b[0]"
+	--
+	if HintReady <= 0
+	{
+		"\s[27]Can I help you?"
+		"\s[27]Make it quick, please. I have research to get back to."
+		"\s[117]I've got to get back to my notes, make it quick, please."
+		"\s[117]I'm on the verge of a breakthrough, make it quick."
+		"\s[27]What is it?"
+		"\s[27]What do you want?"
+		"\s[117]This had better not take long, I'm in the middle of something."
+		"\s[117]I'm in a hurry, what do you want?"
+		"\s[117]I've got to get back to this, what do you want?"
+		"\s[117]Right now? What is it?"
+	}
+	else
+	{
+		"\s[20]Did you need something?"
+		"\s[110]Mm, what is it."
+		"\s[110]I only have a minute."
+		"\s[110]Yes, what is it?"
+		"\s[110]Something you need?"
+		"\s[10]Mm?"
+		"\s[10]Need help with something?"
+		"\s[20]Yes?"
+		"\s[110]I'm a little busy at the moment, but if it's quick..."
+		"\s[110]Something on your mind?"
+	}
+}
+
+OnKeroMenu : all
+{
+	"\1\b[2]\![set,autoscroll,disable]"
+	if SHIORI3FW.Eventid == "OnMouseDoubleClick"; KeroMenuGreetings
+	"\0\_q%(usertalk)"
+	
+	switch HintReady == -1
+	{
+		"\![*]\__q[OnHint]Can you help me figure out this ritual?\__q\n"
+		"\![*]\f[color,disable]Can you help me figure out this ritual?\f[color,default]\n"
+	}
+	
+	"\![*]\__q[OnReTutorial]Remind me how this works?\__q\n"
+	
+	"\![*]\__q[OnConversation.WhoAreYou]Who are you again?\__q\n"
+	
+	if LearnedPatronName
+	{
+		"\![*]\__q[OnConversation.StarSign]What's your star sign?\__q\n"
+		"\![*]\__q[OnConversation.MagesGuild]Are you with the Mages Guild?\__q\n"
+		"\![*]\__q[OnConversation.WhatStudying]What are you researching,\_w[] exactly?\__q\n"
+		"\![*]\__q[OnConversation.HereLong]Have you been coming here long?\__q\n"
+	}
+	"\![*]\__q[OnConversation.AboutTheLibrary]What can you tell me about the library?\__q\n"
+	
+	"\n"
+	"\![*]\__q[OnKeroExit]Never mind...\__q"
+		
+	"\e TalkingToPatron"
+}
+
+OnKeroExit
+{
+	HintNotReady
+	
+	"\t\1\b[0]"
+	--
+	"\s[27]Please do not waste my time."
+	"\s[27]Please do not bother me if you don't need anything."
+	"\s[27]Fine. I have research to get back to."
+	"\s[27]If you didn't want to talk, why did you bother me? \s[16]Fine, I have work I should be doing."
+	"\s[27]Do not bother me if you don't need anything, please and thank you."
+	"\s[27]What a waste of time. I have work to be doing."
+	"\s[27]Please do not waste my time if you have nothing to say."
+	"\s[27]I'm quite busy, you know. It is rude to interrupt me if you don't actually want to talk. \s[17]Hmph."
+	"\s[27]If you don't need anything, please do not waste my time. I have work to be doing."
+	"\s[27]I have work to be doing, do not bother me unless you need something, please."
+	--
+	"%(patronleave)"
+}
+
+OnChoiceTimeout
+{
+	if SHIORI3FW.IsVisible[1] == 1
+	{
+		HintNotReady
+		
+		"\t\1"
+		--
+		"\s[27]If you will excuse me, I have research to get back to."
+		"\s[27]I have research to attend to."
+		"\s[27]Hello? I'm very busy, please do not waste my time."
+		"\s[27]Hello? Anybody home? \s[17]Whatever, I have work to be doing."
+		"\s[27]Are you paying attention? Hello? \s[17]Fine, I have notes to be making."
+		"\s[17]Fine, ignore me then. \s[27]See if I continue helping you."
+		"\s[17]If you are just going to ignore me, then don't waste my time, please."
+		"\s[17]I have better things to be doing if you're not going to pay attention."
+		"\s[17]I have research to be working on. \s[27]If you're just going to ignore me, then leave me to my work."
+		"\s[17]It's rude to ignore someone you're talking with, you know. \s[27]Especially someone who is very busy with research."
+		--
+		"%(patronleave)"
+	}
+}
+
+OnHint : nonoverlap_pool
+{
+	if BookPrivileges
+	{
+		"\1\b[0]\s[20]... You have already completed your ritual for today. There isn't anything more for me to help you with. \n\n%(hoo)\1\s[110]If that's all, I will return to my studies now. Good reading to you."
+		"\1\b[0]\s[20]... You've already completed your ritual for the day. You should use it to your advantage before the day is out; ask for some books, learn what you can. \n\n%(hoo)\1\s[10]I should get back to my studying now. Good reading to you."
+		"\1\b[0]\s[20]... I can see that you've already completed your ritual. There is nothing more to help you with, for today. \n\n%(hoo)\1\s[110]You should use it to your advantage while you can. Tomorrow you'll have to do a new ritual all over again. \n\n%(hoo)\1\s[20]I have to get back to my work now. Good reading to you."
+	}
+	elseif phase == "Ask for book"
+	{
+		"\1\b[0]\s[20]Have you informed Alba what book you want, yet? \s[120]You'll need to do that first, before starting your ritual. \n\n%(hoo)\1\s[110]Get back to me after you've made a request, and I'll help you."
+		"\1\b[0]\s[20]You have to request a book first, before beginning your ritual. That's how Alba does things. \n\n%(hoo)\1\s[110]Try requesting a book, then we'll talk."
+		"\1\b[0]\s[20]I can, but first you need to request a book from Alba. That is the first step before the ritual begins. \n\n%(hoo)\1\s[110]Get back to me once you've done that, and then we'll see what I can help with."
+	}
+	elseif ARRAYSIZE(HintsGiven) >= 3
+	{
+		"\1\b[0]\s[20]I've given you all the advice I can give. Remember, you only need to complete %(em)three tasks%(emoff) correctly to succeed at your ritual. \n\n%(hoo)\1\s[16]You know what they are already, so it's time to go and perform them. \s[20]I can't help you with that part, you have to perform the ritual yourself. \n\n%(hoo)\1\s[110]Anyway, I should get back to my studying. Good luck to you."
+		"\1\b[0]\s[120]I've already told you the %(em)three tasks%(emoff) that make up your ritual today. There are only three in total, so you should know all the steps you need to take. All that's left is for you to go and perform them. \n\n%(hoo)\1\s[110]I can't help you with that part, you have to perform each task yourself. The rest is up to you now. Good luck."
+		"\1\b[0]\s[20]I've told you everything I can. We've figured out your %(em)three tasks%(emoff) for the day, so now it's time for you to go and perform them. I cannot help you with that part, Alba requires that we each perform our own rituals. \n\n%(hoo)\1\s[110]Good luck with it. I have to get back to my studying now."
+	}
+	else
+	{
+		if HintReady == 1
+		{
+			HintReady = 0
+			
+			hintdialogue
+		}
+		else
+		{
+			HintReady = -1
+			
+			"\0\b[0]%(usertalk)\1\b[0]\s[17]Look, I'm not here for you to pester endlessly about your ritual. \s[16]If I do nothing but hold your hand, you'll never figure it out for yourself. \s[142]And it's taking time away from my research... \s[141]Research which I have to get back to, now.%(patronleave) %(hoo)Maybe I should try waiting a while before I ask again... \n\n%(hoo)\0Or I could try asking her about something else? A change in topic now and then may keep her from becoming aggravated..."
+			"\0\b[0]%(usertalk)\1\b[0]\s[27]I'm not just here to spoon feed you, you know. \s[17]It's not like I'm getting anything in exchange for helping you, either. \s[142]I have to get back to my work.%(patronleave) %(hoo)\0Maybe I should let her be for a while... \n\n%(hoo)\0Or maybe she'd feel more appreciated if I asked her about what she's working on?"
+			"\0\b[0]%(usertalk)\1\b[0]\s[27]Not right now, I've got better things to be doing than holding your hand. \s[17]Things that I've got to get back to, I'm quite busy.%(patronleave) %(hoo)\0Well, that didn't go as planned... maybe if I give her some space, she'll be more friendly later? \n\n%(hoo)\0Or I could try asking her about something else... It may make her less frustrated if I take some interest in her work and not just my own."
+		}
+	}
+	--
+	" %(patronleave)\e TalkingToPatron"
+}
+
+hintdialogue : nonoverlap
+{
+	_hintgiven = RequiredActions[ARRAYSIZE(HintsGiven)]
+	HintsGiven ,= _hintgiven
+	
+	
+	_hint = ""
+	_hinting = ""
+	if _hintgiven == "Present my library card"
+	{
+		_hint = "present your library card"
+		_hinting = "presenting your library card"
+	}
+	elseif _hintgiven == "Ask nicely"
+	{
+		_hint = "ask him nicely"
+		_hinting = "asking him nicely"
+	}
+	elseif _hintgiven == "Wait patiently"
+	{
+		_hint = "wait patiently for a little while"
+		_hinting = "waiting patiently for a little while"
+	}
+	elseif _hintgiven == "Bow politely"
+	{
+		_hint = "bow politely to Alba"
+		_hinting = "bowing politely to Alba"
+	}
+	elseif _hintgiven == "Donate to the library"
+	{
+		_hint = "donate some funds to the library"
+		_hinting = "donating some funds to the library"
+	}
+	elseif _hintgiven == "Bribe him with food"
+	{
+		_hint = "bribe him with food"
+		_hinting = "bribing him with food"
+	}
+	elseif _hintgiven == "Compliment his collection"
+	{
+		_hint = "compliment Alba's collection of books"
+		_hinting = "complimenting Alba's collection of books"
+	}
+	elseif _hintgiven == "Pick up clutter"
+	{
+		_hint = "pick up some clutter from around the library"
+		_hinting = "picking up some clutter from around the library"
+	}
+	elseif _hintgiven == "Dust the bookshelves"
+	{
+		_hint = "dust some of the bookshelves"
+		_hinting = "dusting some of the bookshelves"
+	}
+	elseif _hintgiven == "Say my name"
+	{
+		_hint = "say your own name out loud"
+		_hinting = "saying your own name out loud"
+	}
+	elseif _hintgiven == "Say his name 3 times"
+	{
+		_hint = "say Alba's name 3 times"
+		_hinting = "saying Alba's name 3 times"
+	}
+	elseif _hintgiven == "Say the magic words"
+	{
+		_hint = "say today's magic words"
+		_hinting = "saying today's magic words"
+	}
+	elseif _hintgiven == "Spin in a circle"
+	{
+		_hint = "spin in a circle"
+		_hinting = "spinning in a circle"
+	}
+	elseif _hintgiven == "Lay on the floor"
+	{
+		_hint = "lay on the floor"
+		_hinting = "laying on the floor"
+	}
+	elseif _hintgiven == "Stare directly into his eyes"
+	{
+		_hint = "stare directly into his eyes"
+		_hinting = "staring directly into his eyes"
+	}
+	else
+	{
+		_hint = "test some dialogue"
+		_hinting = "testing some dialogue"
+	}
+	
+	_caphint = em + Capitalize(_hint) + emoff
+	_hint = em + _hint + emoff
+	_hinting = em + _hinting + emoff
+	
+	"\1\b[0]\s[110]Hm. Well, if your ritual is anything like mine was today, then you may need to %(_hint). \s[116]Sometimes Alba picks the same tasks for us to do... \n\n%(hoo)\1\s[110]Try it and see how it goes. I'll be around later, I'm sure."
+	"\1\b[0]\s[116]If I had to take a guess, given %(taskreason) and %(taskreason)...\w8\w8\n\n%(hoo)\1I think you should try %(_hinting). \1\s[120]It might just do the trick. \n\n%(hoo)\1\s[10]Anyway, I have notes to make. Good luck with it."
+	"\1\b[0]\s[20]Hmm... You have a certain energy about you today. \s[127]Yes... I think perhaps you should try%(br)%(_hinting). \n\n%(hoo)\1\s[116]Yes, yes that's it... He would read it the way I do...%(patronleave)\0\b[0]%(usertalk)She's wandered off without really explaining..."
+	
+	{
+		"\0\b[0]%(usertalk)\1\b[0]\s[120]\![raise,OnKnowStarSign]You're a %(starsign), aren't you? \s[140]And today is %(todaysdate)... \n\n%(hoo)\1\s[142]Hmm... \s[20]You should %(_hint). I'm certain of it. \n\n"
+		--
+		if KnowsStarSign; "\0I'm still not sure how she figured out I'm a %(starsign)... "
+		else; "\0How did she know I'm a %(starsign)...? "
+		--
+		"\n\n\1\s[10]I've got to get back to my work now, good luck."
+	}
+	
+	"\1\b[0]\s[10]Try %(_hinting). That worked for me today, it might work for you as well. \n\n%(hoo)\1\s[110]Let me know how it goes."
+	"\1\b[0]\s[123]You're a little difficult. \s[120]But when I look at you, the feeling I get is that you should %(_hint). \s[10]It's worth a try anyway. \n\n%(hoo)\1I have to get going, but I hope that works for you."
+	"\1\b[0]\s[20]%(_caphint). It's what I'd do in your situation. \s[10]Try it and get back to me, I've got to go for now."
+	"\1\b[0]\s[20]Giving you trouble, is it? \s[120]Hm... What would Alba be thinking for you... \n\n%(hoo)\1\s[142]Hmm... %(_hint). \s[140]Yes, that sounds right. \s[120]Try that. I have to go for now, but I hope it helps."
+	"\1\b[0]\s[142]Let's see, your ritual... ritual... \n\n%(hoo)\1\s[20]Maybe you should try %(_hinting)? That seems right for you. \n\n%(hoo)\1\s[10]I have to go back to my work. Good luck with it."
+	"\1\b[0]\s[125]Isn't it obvious? You need to %(_hint). \s[115]I'm certain of it, this one was an easy read. \n\n%(hoo)\1\s[15]Anyway, I've got to get back to my studies now. See you."
+}
+
+OnKnowStarSign
+{
+	KnowsStarSign = 1
+}
+
+OnReTutorial : all
+{
+	"\0\b[0]%(usertalk)"
+	"\1\b[0]\s[14]... \s[20]Please pay close attention this time. Alba, the librarian, is %(italic)very%(italicoff) particular about how he gives out books, and to whom.\n\n "
+	"\0I remember that...\n\n "
+	"\1\s[120]You need to perform a ritual of %(em)three tasks%(emoff) to gain his approval. \s[110]Tasks range from saying the correct words, to performing certain specific actions, to helping with library maintenance. \s[120]What tasks you will have to do on a given day change, and will not be specified. It will take some trial and error to figure out your ritual for the day.\n\n "
+	"\0Right, and if I need help figuring out what tasks to do, I might be able to ask her while she's around...\n\n "
+	"\1\s[27]Whatever you do, do not damage or alter the books in any way. And do not remove them from the library. \s[16]Play by the rules and we all benefit.\n\n "
+	
+	if HasReadABook; "\0But the books are unreadable anyways...! "
+	else; "\0Fairly standard library rules... "
+	
+	"\1\s[10]Now then, I have studying to get back to. Good luck to you.%(patronleave)"
+	"\e TalkingToPatron"
+}
+
+OnConversation.WhoAreYou : all
+{
+	"\0\b[0]%(usertalk)"
+	// if !LearnedPatronName
+	// {
+		LearnedPatronName = 1
+		
+		"\1\b[0]\s[20]Does it matter? I am a patron of the Strigiformes Library, the same as you. \n\n"
+		"%(hoo)"
+		// "\0I suppose not, but it's nice to know what to call someone...\n\n "
+		"\1\b[0]\s[114]If you must, call me Oriole. "
+	// }
+	// else
+	// {
+		// "\1\b[0]\s[110]You can call me Oriole. "
+	// }
+	"I'm here researching advanced magic topics."
+	
+	"\0\_q"
+	
+	"\![*]\__q[OnConversation.NiceToMeetYou]It's nice to meet you.\__q\n"
+	"\![*]\__q[OnConversation.WhyOriole]Why are you called Oriole?\__q\n"
+	"\e TalkingToPatron"
+}
+
+	OnConversation.NiceToMeetYou : all
+	{
+		"\0\b[0]%(usertalk)"
+		"\1\b[0]\s[10]Yes, charmed. \n\n"
+		"%(hoo)"
+		"\1\s[110]I have work to be doing, so you'll have to forgive me if I don't have time for small talk. I'll see you around.%(patronleave)"
+		"\e TalkingToPatron"
+	}
+
+	OnConversation.WhyOriole : all
+	{
+		HintNotReady
+		
+		"\0\b[0]%(usertalk)"
+		"\1\b[0]\s[27]Because it's what I go by? Don't waste my time with frivolous questions.%(patronleave)"
+		"%(hoo)"
+		"\e TalkingToPatron"
+	}
+
+OnConversation.StarSign : all
+{	
+	"\0\b[0]%(usertalk)"
+	"\1\b[0]\s[23]Why do you want to know? That's kind of a personal thing to ask someone that you hardly know, isn't it...? \n\n"
+	"%(hoo)"
+	"\0\_q"
+	if KnowsStarSign; "\![*]\__q[OnConversation.YouKnewStarSign]But you knew that I'm a %(starsign)!\__q\n"
+	"\![*]\__q[OnConversation.CuriousStarSign]I'm just curious.\_w[] What could it hurt?\__q\n"
+	"\![*]\__q[OnConversation.FairStarSign]That's fair,\_w[] I suppose.\__q\n"
+	"\e TalkingToPatron"
+}
+
+	OnConversation.YouKnewStarSign : all
+	{
+		"\0\b[0]%(usertalk)"
+		"\1\b[0]\s[110]That was relevant to helping you learn your ritual for the day. \s[120]And it's rather obvious, just from looking at you. \n\n"
+		"%(hoo)"
+		
+		"\0\_q"
+		"\![*]\__q[OnConversation.ItWasObvious]How is it obvious?\__q\n"
+		"\![*]\__q[OnConversation.DressThePart]I do like to dress the part...\__q\n"
+		"\![*]\__q[OnConversation.ItWasRude]Well,\_w[] it was a bit rude.\__q\n"
+		"\e TalkingToPatron"
+	}
+	
+		OnConversation.ItWasObvious : all
+		{
+			HintReady = 1
+	
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[20]You have %(starsign) energy about you, you wear it openly for all the world to see. \s[10]Or at least, for me to see. I'm quite good at reading that sort of thing, it comes from the magic I practice and the research I've done. \n\n"
+			"%(hoo)"
+			"\0\_q"
+			"\![*]\__q[OnConversation.TeachMeToReadStarSigns]Can you teach me how to read that sort of energy?\__q\n"
+			"\![*]\__q[OnConversation.ThatsInvasive]That sounds a bit invasive...\__q\n"
+			"\e TalkingToPatron"
+		}
+		
+			OnConversation.TeachMeToReadStarSigns : all
+			{
+				HintReady = 1
+				
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[10]No, I cannot. I do not have time, such a skill takes constant practice and a long time to master. \n\n"
+				"%(hoo)"
+				"\1\s[20]If you really want to learn the skill, I would recommend taking up an apprenticeship with someone who has mastered it. It's how I got started. \n\n"
+				"%(hoo)"
+				"\1\s[110]Anyway, I have to be getting back to my research now. Good luck to you.%(patronleave)"
+				"\e TalkingToPatron"
+			}
+			
+			OnConversation.ThatsInvasive : all
+			{
+				HintNotReady
+				
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[16]Hmph. If you are concerned about privacy in such matters, you should look into ways of protecting yourself. \s[27]There are those out there who could actually do you harm with this information. \n\n"
+				"%(hoo)"
+				"\1\s[16]My use of it is benign. If anything, the fact that there are readers like me helps to keep everyone else from becoming complacent. \n\n"
+				"%(hoo)"
+				"\1\s[140]Anyway, I have better things to be doing than arguing about this.%(patronleave)"
+				"\e TalkingToPatron"
+			}
+		
+		OnConversation.DressThePart : all
+		{
+			HintReady = 1
+	
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[10]So I've noticed. \s[20]You wear your heart on your sleeve... both literally and metaphorically. \n\n"
+			"%(hoo)"
+			"\1\s[140]Much as I'd love to discuss fashion with you, I have work to be doing. Good luck with yours.%(patronleave)"
+			"\e TalkingToPatron"
+		}
+		
+		OnConversation.ItWasRude : all
+		{
+			HintReady = 1
+	
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[23]Ah, I suppose it was a little rude. \s[16]My apologies for being so blasé about it. \n\n"
+			"%(hoo)"
+			"\1\s[20]Social graces aside, I will not apologize for my abilities. They keep us from becoming complacent about such things. \s[113]If no one knew how to do what I do, then we wouldn't know how to defend ourselves from those who would use it to do us harm, either. \n\n"
+			"%(hoo)"
+			"\1\s[116]Anyway. \s[20]This all has been interesting, but I must be going now. I'll see you around.%(patronleave)"
+			"\e TalkingToPatron"
+		}
+	
+	OnConversation.CuriousStarSign : all
+	{
+		"\0\b[0]%(usertalk)"
+		"\1\b[0]\s[27]If you're asking that question, then you clearly are not aware of the potential ways such information can be used against you. \s[16]I will remind you again that this is fae territory.\w8\w8\n\n"
+		"%(hoo)"
+		"\1\s[140]As far as I know, Alba is not interested in using such information in a harmful way. \s[27]But there are definitely other fae out there that use such things as a snare. \n\n"
+		
+		"\0\_q"
+		if KnowsStarSign; "\![*]\__q[OnConversation.YouSaidMine]But you said my star sign in front of Alba!\__q\n"
+		"\![*]\__q[OnConversation.WouldntDoAnything]I wouldn't do anything with the information.\__q\n"
+		"\![*]\__q[OnConversation.GuessThatMakesSense]I guess that makes sense.\__q\n"
+		"\e TalkingToPatron"
+	}
+	
+		OnConversation.YouSaidMine : all
+		{
+			HintReady = 1
+			
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[112]Ah, well-- \n\n"
+			"%(hoo)"
+			"\1\s[121]... Perhaps I shouldn't have. \s[14]My mistake. \s[11]But in my defense, you make it quite obvious... I think Alba already knew. \n\n"
+			"%(hoo)"
+			"\1\s[111]Anyway, I've got to go now.%(patronleave)"
+			"\e TalkingToPatron"
+		}
+		
+		OnConversation.WouldntDoAnything : all
+		{
+			HintNotReady
+			
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[27]You're not paying attention, are you? \s[16]I don't really know you. For all I know, you could also be a fae, trying to steal my soul away. \n\n"
+			"%(hoo)"
+			"\1\s[27]Well, it won't work. Away demon, I have research to get back to.%(patronleave)"
+			"\e TalkingToPatron"
+		}
+		
+		OnConversation.GuessThatMakesSense : all
+		{
+			HintReady = 1
+			
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[16]Good, I am glad you understand. \s[20]You should look into safeguarding yourself in the future, there are ways you can make yourself harder to read. It would be a wise use of your time. \n\n"
+			"%(hoo)"
+			"\1\s[10]But enough of that. I have my work to get back to, and so do you, I'm sure. \s[110]Until next time.%(patronleave)"
+			"\e TalkingToPatron"
+		}
+	
+	OnConversation.FairStarSign : all
+	{
+		"\0\b[0]%(usertalk)"
+		"\1\b[0]\s[16]Thank you for understanding. \s[110]One can never be too cautious with personal details, especially while in fae territory. \n\n"
+		"%(hoo)"
+		
+		"\0\_q"
+		"\![*]\__q[OnConversation.WhatAboutNames]But what about our names?\_w[] Those are personal details too.\__q\n"
+		"\![*]\__q[OnConversation.WhyIsThat]Why is that?\__q\n"
+		"\![*]\__q[OnConversation.SorryForAsking]That's true,\_w[] sorry for asking.\__q\n"
+		"\e TalkingToPatron"
+	}
+	
+		OnConversation.WhatAboutNames : all
+		{
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[20]Indeed, names are the exact type of personal detail you should be extremely cautious about sharing with fae and other such creatures. \n\n"
+			"%(hoo)"
+			"\1\s[16]Giving away your name is somewhat like giving away the key to your soul... \n\n"
+			
+			"\0\_q"
+			"\![*]\__q[OnConversation.ToldMeYourName]But...\_w[] you told me your name.\__q\n"
+			"\![*]\__q[OnConversation.NamesInRituals]But isn't saying our names a part of the rituals sometimes?\__q\n"
+			"\![*]\__q[OnConversation.KeepNameQuiet]Right.\_w[] I suppose I should keep mine quiet,\_w[] then.\__q\n"
+			"\e TalkingToPatron"
+		}
+		
+			OnConversation.ToldMeYourName : all
+			{
+				HintReady = 1
+				
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[25]You assume that I told you my real name and not an alias. \s[125]No, I'm far too wary for that. \n\n"
+				"%(hoo)"
+				"\1\s[15]If you don't have an alias, I would recommend choosing one. It is always a good idea to safeguard yourself against potential curses. \n\n"
+				"%(hoo)"
+				"\1\s[25]I should be getting back to my work now. Take care.%(patronleave)"
+				"\e TalkingToPatron"
+			}
+			
+			OnConversation.NamesInRituals : all
+			{
+				HintReady = 1
+				
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[20]Indeed we do. \s[10]I consider it a part of the price I'm paying for the knowledge I seek. \s[110]It is a risk, but a calculated one. \n\n"
+				"%(hoo)"
+				"\1\s[142]True, maybe it will turn out that Alba is malevolent after all, and by giving up my name I have sealed myself into a terrible fate. \s[125]But maybe not. Maybe it will all be fine. \s[115]For the secrets I'm learning here, I'm willing to roll those dice. \n\n"
+				"%(hoo)"
+				"\1\s[25]Besides, it's far too late to back out now, for either of us, so there's no point in worrying about it is there? \n\n"
+				"%(hoo)"
+				"\1\s[15]I must get back to my notes. \s[25]Good luck to you, and lets hope we get to keep our souls.%(patronleave)"
+				"\e TalkingToPatron"
+			}
+			
+			OnConversation.KeepNameQuiet : all
+			{
+				HintReady = 1
+				
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[25]Good, I'm glad you understand. And I won't ask you for it, either. \s[15]For all you know, I could also be fae. You never really know. \n\n"
+				"%(hoo)"
+				"\1\s[26]Haha, I'm just joking with you. \s[128]I'm not a fae, although I don't expect you to believe that without proof. One can never be too careful. \n\n"
+				"%(hoo)"
+				"\1\s[15]I have to get back to this, now. Thanks for talking.%(patronleave)"
+				"\e TalkingToPatron"
+			}
+		
+		OnConversation.WhyIsThat : all
+		{
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[20]Fae use those sorts of details to trap you within curses. \s[16]Things such as your name, birthday, star sign, age... they can be used to weave the magic that binds you to their will. \s[110]The more they know, the tighter they can weave their magic, and the stronger that binding will be. \n\n"
+			"%(hoo)"
+			"\1\s[114]That's how you get tales of people who went out one day and simply never returned. They cross paths with a fae, they give their name and some other detail, and it's enough for them to be coaxed away from home never to return. \s[113]And a case like that is accidental; it's usually worse if someone knowingly exchanges their personal details in return for some kind of favor. \n\n"
+			
+			"\0\_q"
+			"\![*]\__q[OnConversation.FaeWorse]Worse...?\__q\n"
+			"\![*]\__q[OnConversation.FaeUnderstand]I understand now.\__q\n"
+			"\e TalkingToPatron"
+		}
+		
+			OnConversation.FaeWorse : all
+			{
+				HintReady = 1
+				
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[14]I won't repeat the tales I've heard. Not here, not now. \n\n"
+				"%(hoo)"
+				"\1\s[13]... Maybe not ever, honestly. \s[23]It can be quite horrific. Sometimes victims are used for labor. Sometimes for sport, or for food. \s[114]Sometimes, they're traded away to more powerful fae in exchange for something else. \s[23]But most often, the motives aren't even clear. \n\n"
+				"%(hoo)"
+				"\1\s[14]It's better not to think about it unless you have reason to know the specifics. \s[23]Just take care out there, ok?%(patronleave)"
+				"\e TalkingToPatron"
+			}
+			
+			OnConversation.FaeUnderstand : all
+			{
+				HintReady = 1
+				
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[128]Yes, so you see why I am not eager to share with you. You really can't be too careful. \n\n"
+				"%(hoo)"
+				"\1\s[18]... I should take my leave now. \s[28]Good luck with what you're working on.%(patronleave)"
+				"\e TalkingToPatron"
+			}
+		
+		OnConversation.SorryForAsking : all
+		{
+			HintReady = 1
+			
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[20]I'll let it go. Just be a bit more mindful in the future, yes? \n\n"
+			"%(hoo)"
+			"\1\s[110]I have to get back to my studying now. Good luck to you.%(patronleave)"
+			"\e TalkingToPatron"
+		}
+
+OnConversation.MagesGuild : all
+{
+	"\0\b[0]%(usertalk)"
+	"\1\b[0]\s[17]No, I am not. Not everyone agrees with their tyrannical practices, you know. \n\n"
+	"%(hoo)"
+	"\1\s[16]The Mages Guild is run by a bunch of old has-beens who think that stagnation is ok if it means fewer casualties. \s[27]As though their own achievements were enough for all time, and nobody else should even try. \n\n"
+	
+	"\0\_q"
+	"\![*]\__q[OnConversation.HoldAGrudge]You seem to hold a grudge.\__q\n"
+	"\![*]\__q[OnConversation.ImpossibleToGetAnythingDone]Yeah,\_w[] they make it impossible to get anything done.\__q\n"
+	"\![*]\__q[OnConversation.SafetyIsImportant]Safety is important.\__q\n"
+	"\e TalkingToPatron"
+}
+
+	OnConversation.HoldAGrudge : all
+	{
+		"\0\b[0]%(usertalk)"
+		"\1\b[0]\s[16]Indeed I do. \s[116]I studied the basics of magic with the Mages Guild, you see. \s[142]I took on a few apprenticeships, and after honing my craft for a while, I began my own research. \s[20]I published several papers and my work was generally well received. I was making somewhat of a name for myself. \n\n"
+		"%(hoo)"
+		"\1\s[117]But eventually, I started to question if the common ""wisdom"" they spout is actually correct. \s[127]I dared to start pushing the bounds of what they consider to be safe. It was then that I discovered their true nature. \n\n"
+		"%(hoo)"
+		"\1\s[16]Any new papers I wrote were rejected. I was turned down when I requested more sensitive research materials. \s[17]They began scrubbing my name from their records, so that my work would no longer have any reach. \s[27]I dared to break the mold and share new ideas that don't fit in their paradigm, so they erased me. \n\n"
+		
+		"\0\_q"
+		"\![*]\__q[OnConversation.ThatsTerrible]That's terrible!\_w[] How can they do something like that?\__q\n"
+		"\![*]\__q[OnConversation.WorkAlone]So now you work alone?\__q\n"
+		"\![*]\__q[OnConversation.EncouragingDangerous]It sounds like you were encouraging something dangerous...\__q\n"
+		"\e TalkingToPatron"
+	}
+	
+		OnConversation.ThatsTerrible : all
+		{
+			HintReady = 1
+	
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[16]It's quite simple really. It's the downside of the greatest benefit to having a Mages Guild. \s[20]With many minds working together, they can promote discoveries and make resources much more readily available. It has been a great boon for magical literacy the world over. \n\n"
+			"%(hoo)"
+			"\1\s[16]Unfortunately, that also means that if they don't like you for some reason, you become cut off from those benefits. \s[116]It makes them, for most practical purposes, the arbiter of who can and cannot practice. \s[142]It's a truly tragic state of affairs... \n\n"
+			"%(hoo)"
+			"\1\s[14]... Well. \s[110]I have to get back to my work now. \s[120]Without their support, I have to work a lot harder to have a hope of meeting my goals. Good luck to you, and I hope your interactions with the Mages Guild are few and far between."
+			"\e TalkingToPatron"
+		}
+		
+		OnConversation.WorkAlone : all
+		{
+			HintReady = 1
+	
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[18]I do, and I'm much happier this way. \s[28]I get to learn about the true nature of magic now, not a perspective that was handed to me. It's%(br)been very rewarding research. \n\n"
+			"%(hoo)"
+			"\1\s[13]It's entirely possible that my work will never be seen in the end, now that I don't have their backing. \s[18]I'll probably never change enough minds to get the system to change. But I have to try. \n\n"
+			"%(hoo)"
+			"\1\s[28]I'd better get back to it. These notes won't write themselves.%(patronleave)"
+			"\e TalkingToPatron"
+		}
+		
+		OnConversation.EncouragingDangerous : all
+		{
+			HintNotReady
+	
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[27]What do you know, you haven't seen my work. \n\n"
+			"%(hoo)"
+			"\1\s[17]If you're in league with them, then you can get lost. \s[16]I have nothing to say to anyone that associates with the Mages Guild.%(patronleave)"
+			"\e TalkingToPatron"
+		}
+	
+	OnConversation.ImpossibleToGetAnythingDone : all
+	{
+		"\0\b[0]%(usertalk)"
+		"\1\b[0]\s[20]You've struggled with their overbearing system too, I take it? \s[14]My sympathies. \n\n"
+		
+		"\0\_q\![set,autoscroll,disable]"
+		"\![*]\__q[OnConversation.NoDetails]I don't really want to talk about the details.\__q\n"
+		"\![*]\__q[OnConversation.WhyWereHere]I suppose this is why we're both here,\_w[] isn't it?\__q\n"
+		"\![*]\__q[OnConversation.TheNerve]The nerve of those people,\_w[] seriously.\_w[] You blow up a decanter full of a volatile mixture of beetle souls and magically purified goat's milk %(italicoff)one time%(italic) and suddenly they won't even talk to you!\__q\n"
+		"\e TalkingToPatron"
+	}
+	
+		OnConversation.NoDetails : all
+		{
+			HintReady = 1
+	
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[16]Very fair, I don't blame you. \s[20]I won't pry, then. I should really be getting back to my studies anyhow. Good talking to you.%(patronleave)"
+			"%(hoo)"
+			"\e TalkingToPatron"
+		}
+		
+		OnConversation.WhyWereHere : all
+		{
+			HintReady = 1
+	
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[15]So it is. \s[25]Much as they may wish they were the all-encompassing authority on magical knowledge, there are still other sources out there that rival or even surpass their own. \n\n"
+			"%(hoo)"
+			"\1\s[115]Sure, it may come with a cost attached... \s[125]But I believe it will be worth it in the end. \s[115]I really should get back to it now, though. Good talking with you.%(patronleave)"
+			"\e TalkingToPatron"
+		}
+	
+		OnConversation.TheNerve : all
+		{
+			HintReady = 1
+	
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[20].\w8.\w8. \w8\w8\s[25]Ha. That must have been quite the sight to see. \s[128]Don't tell me this was one of those certified perfect samples they keep locked up in the Capital City Magic Library? \n\n"
+			
+			"\0\_q"
+			"\![*]\__q[OnConversation.Well]Well...\__q\n"
+			"\e TalkingToPatron"
+		}
+		
+			OnConversation.Well : all
+			{
+				HintReady = 1
+				
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[126]Haha, that's incredible. \s[28]The trouble it caused you notwithstanding, of course. \s[26]I think they deserve a little setback once in a while. \n\n"
+				"%(hoo)"
+				"\1\s[28]I'm sorry that they've ended up treating you poorly as a result. It's unfortunate that things have to be this way. But I hope that you find what you're looking for without them. \n\n"
+				"%(hoo)"
+				"\1\s[15]I should take my leave now. I'll see you around.%(patronleave)"
+				"\e TalkingToPatron"
+			}
+	
+	OnConversation.SafetyIsImportant : all
+	{
+		"\0\b[0]%(usertalk)"
+		"\1\b[0]\s[27]Stagnation is not safety. \s[142]In fact, stagnation brings great danger. We're not the only ones studying magic, you know. \s[17]Magic is an ever-changing thing, and there are other creatures and cultures in the world continuing to develop it. \s[27]If we remain stagnant, we become vulnerable. \n\n"
+		
+		"\0\_q"
+		"\![*]\__q[OnConversation.MeetAnyChallenge]Relax.\_w[] We have more than enough magical knowledge to meet any challenge.\__q\n"
+		"\![*]\__q[OnConversation.DefensiveSystems]I'm sure they're still working on defensive systems.\__q\n"
+		"\![*]\__q[OnConversation.StagnationMakesSense]I suppose that makes sense...\__q\n"
+		"\e TalkingToPatron"
+	}
+	
+		OnConversation.MeetAnyChallenge : all
+		{
+			HintNotReady
+	
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[27]If you think that, then you're a fool. \s[17]As I said, magic is ever changing. Just because they have secure defenses against magical threats now doesn't mean those same defenses will work in 5 years time, let alone 10 or 20. \s[142]With no one learning the more intricate nuances of magic, and no real innovation being made in the field... \s[140]Things will eventually be very grim indeed. \n\n"
+			"%(hoo)"
+			"\1\s[27]But fine, relax all you want. I hope it comes back to bite you, the same as the rest of them.%(patronleave)"
+			"\e TalkingToPatron"
+		}
+		
+		OnConversation.DefensiveSystems : all
+		{
+			HintNotReady
+	
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[27]Don't be so sure unless you've seen it with your own eyes. \s[142]I've seen for myself that they're sitting on their hands, I know how much of an issue this is. \n\n"
+			"%(hoo)"
+			"\1\s[17]But far be it from me to try to change your mind about the things you %(italic)think%(italicoff) that someone else must %(italic)surely%(italicoff) be thinking about. I have research to be doing anyway.%(patronleave)"
+			"\e TalkingToPatron"
+		}
+		
+		OnConversation.StagnationMakesSense : all
+		{
+			HintReady = 1
+	
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[16]Hmph, so you have some sense after all. \s[116]I would advise trying to exercise it more often. \s[142]Now then, I have studying to get back to, if you'll excuse me.%(patronleave)"
+			"%(hoo)"
+			"\e TalkingToPatron"
+		}
+
+OnConversation.WhatStudying : all
+{
+	"\0\b[0]%(usertalk)"
+	"\1\b[0]\s[110]I'm studying complex interactions between different fields of magic, and how they may be woven together. \s[20]There are many forms magic may take, and while some%(br)combinations have been mastered, there are others which are still quite... \s[16]volatile.\n\n "
+	"%(hoo)"
+	
+	"\0\_q"
+	"\![*]\__q[OnConversation.MageToo]Intriguing.\_w[] I'm a mage too,\_w[] actually.\__q\n"
+	"\![*]\__q[OnConversation.GiveExample]Can you give me an example?\__q\n"
+	"\![*]\__q[OnConversation.HaveYouMadeProgress]Have you made much progress?\__q\n"
+	"\e TalkingToPatron"
+}
+
+	OnConversation.MageToo : all
+	{
+		"\0\b[0]%(usertalk)"
+		if UserIsMage
+		{
+			"\1\b[0]\s[20]Yes, you've mentioned."
+		}
+		else
+		{
+			UserIsMage = 1
+			"\1\b[0]\s[23]Are you? \s[10]I wouldn't have guessed. \s[16]I suppose I should not assume."
+		}
+		"\n\n%(hoo)"
+		"\1\s[10]You should know, then, how fickle magic can be and how vast of a field it is. \s[120]Once you begin combining various types of magic, the scope of possibilities is incomprehensibly large.\n\n "
+		
+		"\0\_q"
+		"\![*]\__q[OnConversation.UsuallyWarn]Don't they usually warn against combining different magic types?\__q\n"
+		"\![*]\__q[OnConversation.HaventLookedIntoCombinations]I haven't really looked into combination magic before.\__q\n"
+		"\![*]\__q[OnConversation.MakeHeadSpin]This sounds like it would make my head spin...\__q\n"
+		"\e TalkingToPatron"
+	}
+
+		OnConversation.UsuallyWarn : all
+		{
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[16]Indeed they do. \s[27]Because they are cowards.\n\n "
+			"%(hoo)"
+			"\1\s[116]And, admittedly, because it would be dangerous for a beginner to experiment with. \s[20]But there is no reason for an experienced mage to refuse to explore combination magic other than cowardice."
+			
+			"\0\_q"
+			"\![*]\__q[OnConversation.HaveAHandle]You seem like you have a handle on things.\__q\n"
+			"\![*]\__q[OnConversation.ConsiderMeCoward]Well,\_w[] consider me a coward then.\__q\n"
+			"\e TalkingToPatron"
+		}
+
+			OnConversation.HaveAHandle : all
+			{
+				HintReady = 1
+				
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[116]Indeed I do. I have been studying this kind of magic for a very long time, and I am no coward. \s[20]But I must return to my research; I'll make no progress if I stand around and talk all day. Farewell.%(patronleave)\n\n "
+				"%(hoo)"
+				"\e TalkingToPatron"
+			}
+
+			OnConversation.ConsiderMeCoward : all
+			{
+				HintNotReady
+				
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[20]I might've known. \s[10]A pity, that. \w8\w8\s[140]Anyway, you'll%(br)have to excuse me. I have research to attend to.%(patronleave)\n\n "
+				"%(hoo)"
+				"\e TalkingToPatron"
+			}
+
+		OnConversation.HaventLookedIntoCombinations : all
+		{
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[110]Yes, most have not. Combination magic can be extremely volatile, after all, so most mages choose to play it safe.\n\n "
+			"%(hoo)"
+			"\1\s[120]It's also simply a more stable career to specialize in a known field of magic. \s[16]To explore new combinations is to explore the unknown, and there is no guarantee that you'll ever make a breakthrough."
+			
+			"\0\_q"
+			"\![*]\__q[OnConversation.WhyPursue]Why do you pursue it?\__q\n"
+			"\![*]\__q[OnConversation.NotForMe]It sounds interesting,\_w[] but it's not for me.\__q\n"
+			"\![*]\__q[OnConversation.SafetyFirst]Safety comes first.\__q\n"
+			"\e TalkingToPatron"
+		}
+		
+			OnConversation.WhyPursue : all
+			{
+				HintReady = 1
+				
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[20]The unknown calls to me. \s[141]There are so many possibilities yet to be discovered, and yet, we have become complacent in our understanding of the world. \s[142]The purest forms of magic were sought out and honed, and then they decided that was enough, that their understanding was now complete. \s[17]I won't stand for it.\n\n "
+				"%(hoo)"
+				"\1\s[27]There are many incredible things that we are missing out on because few bother to delve into what could be. \s[10]I hope one day to find some of those things, so I can change the minds of others around me. \s[18]What I have seen so far is already fascinating, and I have only scratched the surface...\n\n "
+				"%(hoo)"
+				"\1\s[20]... I must return to my research now. Good luck with yours.%(patronleave)"
+				"\e TalkingToPatron"
+			}
+
+			OnConversation.NotForMe : all
+			{
+				HintReady = 1
+				
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[10]I understand. You have a life to attend to, no doubt. \s[20]Responsibilities, a family to support, friends to keep in touch with, hm?\n\n "
+				"%(hoo)"
+				"\s[110]Well, I should not waste your time, then. You have your own research to be working on. \s[120]Good luck to you.%(patronleave)"
+				"\e TalkingToPatron"
+			}
+
+			OnConversation.SafetyFirst : all
+			{
+				HintReady = 1
+				
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[27]Safety first is a rule made by cowards who have never made a serious advancement in their lives. \s[17]If we only value safety, then we should be happy to live inside our homes forever, and never explore beyond.\n\n "
+				"%(hoo)"
+				"\1\s[28]But you don't really believe that, do you? After all, you're here. In fae territory. I'm sure you know that fae are often quite dangerous.\n\n "
+				"%(hoo)"
+				"\1\s[26]... Although, I'll admit it's a bit hard to believe that when Alba just stands here and hoots. \s[25]In any case, I must return to my research now. I'll see you around.%(patronleave)"
+				"\e TalkingToPatron"
+			}
+		
+		OnConversation.MakeHeadSpin : all
+		{
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[16]Yes, it is quite a complicated subject. \s[110]It takes years of practice with the fundamentals before you can begin exploring known combination magics, \s[20]and several years of study after that before you can really start exploring new combinations without simply frying yourself.\n\n "
+			//"%(hoo)"
+			
+			"\0\_q"
+			"\![*]\__q[OnConversation.CanYouTeachMe]Can you teach me more about it?\__q\n"
+			"\![*]\__q[OnConversation.NotForMe]It sounds interesting,\_w[] but it's not for me.\__q\n"
+			"\e TalkingToPatron"
+		}
+		
+			OnConversation.CanYouTeachMe : all
+			{
+				HintReady = 1
+				
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[16]No, I cannot.\n\n "
+				"%(hoo)"
+				"\1\s[20]My apologies. Much as I would enjoy sharing my explorations with someone, I am simply much too busy. \s[110]But please do look into it on your own time."
+				"%(hoo)"
+				"\1\s[10]Speaking of the time, I must get back to my notes. We can talk again later.%(patronleave)"
+				"\e TalkingToPatron"
+			}
+	
+	OnConversation.GiveExample : all
+	{
+		"\0\b[0]%(usertalk)"
+		"\1\b[0]\s[10]One of the most well known and easy examples is to change water magic into ice. Combine water with a little aether, and it comes out cold enough to be solid. \s[116]You may need to adjust it based on how cold you want it to be, but it's not terribly finicky, despite what they'd have you believe.\n\n "
+		"%(hoo)"
+		"\1\s[120]Something more esoteric would be to combine aether magic with fire. If you're not familiar with combining magic types, it sounds counter-intuitive, \s[16]but the results are really quite fascinating."
+		
+		"\0\_q"
+		"\![*]\__q[OnConversation.CreateExplosion]Wouldn't that just create an explosion?\__q\n"
+		"\![*]\__q[OnConversation.CombineAetherFire]How can you combine aether with fire,\_w[] aren't they almost opposites?\__q\n"
+		"\e TalkingToPatron"
+	}
+	
+		OnConversation.CreateExplosion : all
+		{
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[125]Is there something wrong with creating an explosion?\n\n "
+			"%(hoo)"
+			"\1\s[16]Beyond that, though, magic is not neatly sortable into boxes like they'd have you think. \s[20]There are ways to weave the two together without causing explosive effects, and %(italic)that\f[italic,default] is what interests me. \s[110]The things they are too afraid to explore because they're deemed volatile and unsafe... that's where there are discoveries to be made.\n\n "
+			
+			"\0\_q"
+			"\![*]\__q[OnConversation.SoundsTerrifying]That all sounds...\_w[] terrifying.\__q\n"
+			"\![*]\__q[OnConversation.IntriguedByExplosions]I'm intrigued...\__q\n"
+			"\e TalkingToPatron"
+		}
+		
+			OnConversation.SoundsTerrifying : all
+			{
+				HintNotReady
+				
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[142]Hmph, unfortunate. \w8\s[20]You shouldn't let your fear of the unknown control you. \s[141]Someone has to be the one to study the unknown and tame it.\n\n "
+				"%(hoo)"
+				"\1\s[10]Anyway, I have research to be conducting. We can talk again later.%(patronleave)"
+				"\e TalkingToPatron"
+			}
+			
+			OnConversation.IntriguedByExplosions : all
+			{
+				HintReady = 1
+				
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[130]It's exciting, isn't it? There's so much to learn about, so much power, so many unique possibilities, much of it still completely unexplored...\n\n "
+				"%(hoo)"
+				"\1\s[14]Ah, but I have to get back to it if I want to make progress. \s[25]It was nice talking with you.%(patronleave)"
+				"\e TalkingToPatron"
+			}
+		
+		OnConversation.CombineAetherFire : all
+		{
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[141]Only if you are stuck in the teaching of the Mages Guild. They put a simple, approachable face on magic, and it's believable enough that many skilled mages have never questioned it.\n\n "
+			"%(hoo)"
+			"\1\s[142]The truth is, magic doesn't have neatly defined boundaries. Just because you %(italic)can%(italicoff) manifest a certain type of magical energy into a physical flame does not mean that you%(br)%(italic)have%(italicoff) to. \s[20]The Mages Guild guides you to do so because the way they've learned to manifest a flame is safe and repeatable, and they don't need to fear that beginners will turn the town inside out.\n\n "
+			"%(hoo)"
+			"\1\s[10]If you stray outside their ""pure"" fundamentals,%(br)then you'll find it's possible to combine every type of magic in some way. It just tends to require a more delicate touch, and isn't adviseable for beginners."
+			
+			"\0\_q"
+			"\![*]\__q[OnConversation.ItsAllDangerous]So it's all extremely dangerous?\__q\n"
+			"\![*]\__q[OnConversation.WhatDoesCombiningDo]And what does combining them give you?\__q\n"
+			"\e TalkingToPatron"
+		}
+		
+			OnConversation.ItsAllDangerous : all
+			{
+				HintReady = 1
+				
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[17]Only if you're foolish with it.\n\n "
+				"%(hoo)"
+				"\1\s[128]... Well, I can't deny that it is more dangerous than the common forms of magic. \s[126]But what's life without a little excitement, hm?\n\n "
+				"%(hoo)"
+				"\1\s[15]Anyway, I must return to my research. \s[25]Good luck with yours.%(patronleave)"
+				"\e TalkingToPatron"
+			}
+			
+			OnConversation.WhatDoesCombiningDo : all
+			{
+				HintReady = 1
+				
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[111]Well, not much. Yet.\n\n "
+				"%(hoo)"
+				"\1\s[128]I'm still figuring that part out, it's a work in progress. "
+				"%(hoo)"
+				"\1\s[13]I should get back to it, I have much to do. \s[20]Perhaps I'll be able to share more another time. Farewell for now.%(patronleave)"
+				"\e TalkingToPatron"
+			}
+	
+	OnConversation.HaveYouMadeProgress : all
+	{
+		"\0\b[0]%(usertalk)"
+		"\1\b[0]\s[120]I have, yes. \s[116]The tomes kept here have been invaluable to me, they contain all sorts of knowledge that is shunned in the world outside these walls.\n\n "
+		"%(hoo)"
+		"\1\s[10]I still have a lot to learn, but I've come so much further here than I thought I would.\n\n "
+		
+		"\0\_q"
+		
+		if HasReadABook
+		{
+			if TotalBooksRead > 3; "\![*]\__q[OnConversation.KeepGettingBadBooks]How can that be,\_w[] all the books I've gotten have been unreadable!\__q\n"
+			else
+			{
+				_text = "My books so far have been unreadable..."
+				if TotalBooksRead == 1; _text = "The book I got was unreadable..."
+				"\![*]\__q[OnConversation.GotABadBook]%(_text)\__q\n"
+			}
+			"\![*]\__q[OnConversation.HopefulAboutBooks]I hope I'll find what I'm looking for at some point...\_w[] I've made no progress at all yet.\__q\n"
+		}
+		else
+		{
+			"\![*]\__q[OnConversation.NoBooksYet]I'm excited to see what I'll find...\_w[] this place sounds too good to be true.\__q\n"
+		}
+		"\e TalkingToPatron"
+	}
+	
+		OnConversation.KeepGettingBadBooks : all
+		{
+			HintNotReady
+			
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[12]"
+			"%(hoo)"
+			"\1\s[27]Watch your tongue, or you very well may lose it. If the books are here, they have some sort of value to Alba.\n\n "
+			"%(hoo)"
+			"\1\s[142]Perhaps you've simply had bad luck so far finding anything that is readable to you. \s[17]I cannot help you in this matter; you'll just have to keep trying.%(patronleave)"
+			"\e TalkingToPatron"
+		}
+		
+		OnConversation.GotABadBook : all
+		{
+			HintReady = 1
+			
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[23]Hm. Bad luck, perhaps? \s[10]I suppose you will have to keep trying. There is a vast amount of untold knowledge here, though not all of it is human readable.\n\n "
+			"%(hoo)"
+			"\1\s[20]Anyway, I cannot help you find more books on the subject that you need, only Alba can do that. So talk to him if you need something more. Good luck.%(patronleave)"
+			"\e TalkingToPatron"
+		}
+		
+		OnConversation.NoBooksYet : all
+		{
+			HintReady = 1
+			
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[125]Well, I am certain that what you're looking for is here somewhere.\n\n "
+			"%(hoo)"
+			"\1\s[15]I must be going now, this book will not research itself. \s[25]Good luck to you.%(patronleave)"
+			"\e TalkingToPatron"
+		}
+		
+		OnConversation.HopefulAboutBooks : all
+		{
+			HintReady = 1
+			
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[128]I hope so as well. If you're here in this place to research it, it must be something very interesting indeed...\n\n "
+			"%(hoo)"
+			"\1\s[15]I would be interested to hear about it sometime, but for now I must return to my notes. \s[25]I'll see you around.%(patronleave)"
+			"\e TalkingToPatron"
+		}
+
+OnConversation.HereLong : all
+{
+	"\0\b[0]%(usertalk)"
+	"\1\b[0]\s[116]Hm,\w4 perhaps %(PatronStudyTime), or so? \s[118]The days have a way of blurring together when you're engrossed in research.\n\n "
+	"%(hoo)"
+	
+	"\0\_q"
+	"\![*]\__q[OnConversation.MonthHasPassed]I know what you mean,\_w[] sometimes I get lost in books and then I blink and a month has passed...\__q\n"
+	if TotalBooksRead > 3; "\![*]\__q[OnConversation.HowPutUpWith]How have you put up with this place for all that time?\_w[] I can't make heads or tails of it!\__q\n"
+	"\![*]\__q[OnConversation.SkilledAtRituals]No wonder you're so skilled at the rituals,\_w[] then.\__q\n"
+	"\e TalkingToPatron"
+}
+
+	OnConversation.MonthHasPassed : all
+	{
+		"\0\b[0]%(usertalk)"
+		"\1\b[0]\s[18]Yes, that's exactly it. Books can be so captivating, and it's so easy to lose track of time...\n\n "
+		"%(hoo)"
+		"\1\s[125]Do you think Alba gets something from allowing us to read here? At times I've wondered if it's a trap of some sort, and one day I simply won't re-emerge from this place...\n\n "
+		
+		"\0\_q"
+		"\![*]\__q[OnConversation.KnownToBeDangerous]Well...\_w[] fae %(italicoff)are%(italic) known to be dangerous and unpredictable\__q\n"
+		"\![*]\__q[OnConversation.FarFetched]That seems a little far-fetched.\_w[] He's just an owl,\_w[] how dangerous can he be?\__q\n"
+		"\![*]\__q[OnConversation.RunWhileWeHaveTheChance]Gods above,\_w[] do you think?\_w[] Perhaps we should run while we have the chance...\__q\n"
+		"\e TalkingToPatron"
+	}
+	
+		OnConversation.KnownToBeDangerous : all
+		{
+			HintReady = 1
+			
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[18]Ha, I can't deny that. \s[28]But the knowledge on these shelves is simply too valuable to pass up. \s[118]If it is my fate to read in this library forever, so be it.\n\n "
+			"%(hoo)"
+			"\1\s[28]I should get back to it, and so should you. Good luck with your research.%(patronleave)"
+			"\e TalkingToPatron"
+		}
+		
+		OnConversation.FarFetched : all
+		{
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[27]Never underestimate a fae.\n\n "
+			"%(hoo)"
+			"\1\s[16]It's the kind of mistake you're only able to make once. \s[20]Although he has been benevolent towards us so far, don't ever think that he could not harm you if he wished to. He almost certainly can, in ways you haven't even thought of."
+			"%(hoo)"
+			"\0\_q"
+			"\![*]\__q[OnConversation.HaventThoughtOf]Ways I haven't thought of...?\__q\n"
+			"\![*]\__q[OnConversation.EnoughSaid]Enough said.\__q\n"
+			"\e TalkingToPatron"
+		}
+		
+			OnConversation.HaventThoughtOf : all
+			{
+				HintNotReady
+				
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[12]...\n\n "
+				"%(hoo)"
+				"\1\s[142]I'm not going to answer that. I'm sure you can come up with a dozen gruesome deaths or fates worse than death on your own.\n\n "
+				"%(hoo)"
+				"\1\s[27]I have research to be conducting.%(patronleave)"
+				"\e TalkingToPatron"
+			}
+			
+			OnConversation.EnoughSaid : all
+			{
+				HintReady = 1
+				
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[16]Good, I am glad you understand. \s[10]Now then, my research is waiting. We can speak again another time.%(patronleave)\n\n "
+				"%(hoo)"
+				"\e TalkingToPatron"
+			}
+		
+		OnConversation.RunWhileWeHaveTheChance : all
+		{
+			HintReady = 1
+			
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[126]Ha, don't listen too much to me. \s[18]I may need to get some fresh air soon, this place has a tendency to get to me after a while.\n\n "
+			"%(hoo)"
+			"\1\s[15]In fact, I think I'll go do that now. \s[25]I'll see you later, I'm sure.%(patronleave)\n\n "
+			"%(hoo)"
+			"\e TalkingToPatron"
+		}
+	
+	OnConversation.HowPutUpWith : all
+	{
+		"\0\b[0]%(usertalk)"
+		"\1\b[0]\s[117]I'm determined to find the information I am seeking. \s[120]It's really as simple as that.\n\n "
+		"%(hoo)"
+		"\1\s[10]If you need this place badly enough, you'll get the hang of it eventually. \s[20]Otherwise, I suppose you're just out of luck. "
+		
+		"\0\_q"
+		"\![*]\__q[OnConversation.HowGetUsableBooks]How is it that you get so many books with useable information in them?\_w[] Is there a trick to it?\__q\n"
+		"\![*]\__q[OnConversation.KeepGettingBadBooks]Every book I've gotten so far has been unreadable!\__q\n"
+		"\![*]\__q[OnConversation.INeedTheInfo]I do need the information here,\_w[] but...\__q\n"
+		"\e TalkingToPatron"
+	}
+	
+		OnConversation.HowGetUsableBooks : all
+		{
+			HintReady = 1
+			
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[20]I ask, and Alba provides. That's all there is to it. \s[10]It works rather well, really.\n\n "
+			"%(hoo)"
+			"\1\s[110]Anyway, I have research to attend to. \s[120]Good luck finding what you're after.%(patronleave)"
+			"\e TalkingToPatron"
+		}
+		
+		OnConversation.INeedTheInfo : all
+		{
+			HintReady = 1
+			
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[16]Then, keep trying. \s[120]And I would advise against complaining, if you want to have Alba's favor.\n\n "
+			"%(hoo)"
+			"\1\s[16]I have to get back to my notes now. Good luck in your search.%(patronleave)"
+			"\e TalkingToPatron"
+		}
+	
+	OnConversation.SkilledAtRituals : all
+	{
+		"\0\b[0]%(usertalk)"
+		"\1\b[0]\s[110]Yes, I've become rather accustomed to them.\w8\w8%(br)\s[120]I'm sure you will as well, with time.\n\n "
+		"%(hoo)"
+		"\1\s[16]Once you know Alba's rules, it's really quite simple."
+		
+		"\0\_q"
+		"\![*]\__q[OnConversation.GetUsedToIt]I suppose I'll get used to it.\__q\n"
+		"\![*]\__q[OnConversation.SimplerIfTold]I feel like it would be simpler if I was told what I had to do...\__q\n"
+		"\![*]\__q[OnConversation.HowLongDidItTakeYou]How long did it take you to figure it out?\__q\n"
+		"\e TalkingToPatron"
+	}
+	
+		OnConversation.GetUsedToIt : all
+		{
+			HintReady = 1
+			
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[10]Indeed you will.\n\n "
+			"%(hoo)"
+			"\1\s[20]I suppose I'll leave you to that, then. \s[16]My research is waiting for me.%(patronleave)"
+			"\e TalkingToPatron"
+		}
+		
+		OnConversation.SimplerIfTold : all
+		{
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[16]That would make the rituals pointless.\n\n "
+			"%(hoo)"
+			"\1\s[20]Alba can't just allow free access to his collection, these tasks sort the worthy from the unworthy. "
+			
+			"\0\_q"
+			"\![*]\__q[OnConversation.IGetIt]Alright,\_w[] alright,\_w[] I get it.\__q\n"
+			"\![*]\__q[OnConversation.SeemsSilly]It all seems a bit silly to me...\__q\n"
+			"\e TalkingToPatron"
+		}
+		
+			OnConversation.IGetIt : all
+			{
+				HintReady = 1
+				
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[10]Good. \s[20]I'll leave you to it then, I have notes to be making.%(patronleave)\n\n "
+				"%(hoo)"
+				"\e TalkingToPatron"
+			}
+			
+			OnConversation.SeemsSilly : all
+			{
+				HintNotReady
+				
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[27]I would recommend holding your tongue. If you want the rituals to be easier, it is unwise to insult the one who is asking you to perform them.\n\n "
+				"%(hoo)"
+				"\1\s[142]Enough, I have research to be working on.%(patronleave)"
+				"\e TalkingToPatron"
+			}
+		
+		OnConversation.HowLongDidItTakeYou : all
+		{
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[110]Hm... Maybe a week or so? \s[120]You'll get there.\n\n "
+			"%(hoo)"
+			
+			"\0\_q"
+			if TotalBoots > 7
+			{
+				"\![*]\__q[OnConversation.ItsBeenAWeek]It's taken me longer than a week already...!\__q\n"
+			}
+			"\![*]\__q[OnConversation.IGetIt]I'll keep trying,\_w[] I suppose...\__q\n"
+			"\e TalkingToPatron"
+		}
+		
+			OnConversation.ItsBeenAWeek : all
+			{
+				HintReady = 1
+				
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[10]I can't really help you with that. \s[20]Perhaps you have less aptitude for it? \s[16]It's hard to say.\n\n "
+				"%(hoo)"
+				"\1\s[116]Either way, I have things to do, so I can't dawdle here too long. \s[10]Good luck with it.%(patronleave)"
+				"\e TalkingToPatron"
+			}
+			
+OnConversation.AboutTheLibrary : all
+{
+	"\0\b[0]%(usertalk)"
+	"\1\b[0]\s[120]Hm, there's a lot I could say about the library. Is there something in particular you were wondering about? \n\n"
+	
+	"\0\_q"
+	"\![*]\__q[OnConversation.NoOtherPatrons]How come I've never seen any other patrons?\__q\n"
+	"\![*]\__q[OnConversation.ShelvesSoStrange]Why are the shelves so strange?\_w[] They stretch so far upward...\_w[] and they seem to form an impossible shape.\__q\n"
+	"\![*]\__q[OnConversation.HowBigCollection]How big is Alba's collection of books?\_w[] The shelves look like they go on forever...\__q\n"
+	"\e TalkingToPatron"
+}
+
+	OnConversation.NoOtherPatrons : all
+	{
+		"\0\b[0]%(usertalk)"
+		"\1\b[0]\s[110]I've seen other patrons, deeper in the library. \s[20]Strangely, I never see them come back to the entrance here... \s[28]I think perhaps they have been here for a long time. You and I may be the only more recent patrons, though I can't say for sure how long ""recent"" is... \n\n"
+		
+		"\0\_q"
+		"\![*]\__q[OnConversation.HereLongTime]Here for a long time?\_w[] What do you mean by that?\__q\n"
+		"\![*]\__q[OnConversation.DontTheyPerformRituals]Don't they ever have to perform rituals?\_w[] They would have to come here for that,\_w[] right?\__q\n"
+		"\![*]\__q[OnConversation.OutOfTheWay]I suppose with this place being so far out of the way,\_w[] and with such esoteric requirements,\_w[] it's no wonder that people don't flock to it...\__q\n"
+		"\e TalkingToPatron"
+	}
+	
+		OnConversation.HereLongTime : all
+		{
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[18]I mean that I don't think they ever leave. \s[118]They may have been here a few years, or perhaps hundreds. I truly don't know. \n\n"
+			"%(hoo)"
+			"\1\s[113]What I do know is that none of them have ever spoken with me, even if I tried to ask them a question. \s[13]It makes me think there is something supernatural compelling them to stay, keeping them in a stupor, wandering the shelves of the library for perhaps eternity..."
+			
+			"\0\_q"
+			"\![*]\__q[OnConversation.ThatsDisturbing]That's disturbing.\__q\n"
+			"\![*]\__q[OnConversation.ThinkWellJoinThem]Do you think we'll join them one day...?\__q\n"
+			"\![*]\__q[OnConversation.LeaveWhileWeCan]Maybe we should leave while we have the chance.\__q\n"
+			"\e TalkingToPatron"
+		}
+		
+			OnConversation.ThatsDisturbing : all
+			{
+				HintReady = 1
+	
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[23]It is, I try not to think about it too much. \s[13]I don't think there's anything we could do to help them. \s[113]Somehow, I think they wouldn't even want help... \n\n"
+				"%(hoo)"
+				"\1\s[114]... I should go, I have to get back to my work.%(patronleave)"
+				"\e TalkingToPatron"
+			}
+			
+			OnConversation.ThinkWellJoinThem : all
+			{
+				HintReady = 1
+	
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[23].\w8.\w8.\w8 \w8\w8\s[13]I don't know. \s[113]I keep telling myself that if it's a fae snare of some kind, then there will be some kind of catalyst. Some moment where I choose my fate. \s[14]So long as I am vigilant and watch for that moment, I can leave before the point of no return, right...? \n\n"
+				"%(hoo)"
+				"\1... \s[113]I should go now, I have work to be doing.%(patronleave)"
+				"\e TalkingToPatron"
+			}
+			
+			OnConversation.LeaveWhileWeCan : all
+			{
+				HintReady = 1
+	
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[13]... I've thought about it a few times. \s[23]But the research I'm doing is too important, and I won't find what I need anywhere else. I have to take the risk."
+				"%(hoo)"
+				"\1\s[28]Perhaps that's how the others felt, too. Perhaps that's why they're still here. And perhaps that makes you and I destined to meet the same fate... \s[18]I'll admit, sometimes I find myself wondering if staying here forever, slowly consuming all of the knowledge within these walls, would even be that bad of a fate. There are worse things than that... \n\n"
+				"%(hoo)"
+				"\1\s[13]... I should go now.%(patronleave)"
+				"\e TalkingToPatron"
+			}
+		
+		OnConversation.DontTheyPerformRituals : all
+		{
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[23]I don't think they do. I certainly have never seen any of them do so. \n\n"
+			"%(hoo)"
+			"\1\s[113]My theory at the moment is that they have entered some form of special agreement where they never have to perform rituals, but they also cannot leave. \s[23]I don't know if that's true, though. And if it is true, I don't know what the details of such an agreement would be. \n\n"
+			
+			"\0\_q"
+			"\![*]\__q[OnConversation.WhatDoesAlbaGet]What do you think Alba would get from an agreement like that?\__q\n"
+			"\![*]\__q[OnConversation.SeemsSketchy]Seems sketchy.\__q\n"
+			"\![*]\__q[OnConversation.SoundsAppealing]Not having to perform rituals sounds appealing...\__q\n"
+			"\e TalkingToPatron"
+		}
+		
+			OnConversation.WhatDoesAlbaGet : all
+			{
+				HintReady = 1
+	
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[113]It's hard to say. \s[123]Who can know the ways of the fae? \s[116]It could be that he draws some sort of life force from them. Or, perhaps he is able to make use of their minds to further add to and process his collection of knowledge? \n\n"
+				"%(hoo)"
+				"\1\s[14]It could be anything, really. The machinations%(br)of the fae are often incomprehensible to mortal beings. \n\n"
+				"%(hoo)"
+				"\1... \s[13]I should be going now.%(patronleave)"
+				"\e TalkingToPatron"
+			}
+			
+			OnConversation.SeemsSketchy : all
+			{
+				HintReady = 1
+	
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[23]Indeed, although that is not really surprising when fae are involved. Truly benevolent fae are rare, if they exist at all. \n\n"
+				"%(hoo)"
+				"\1\s[16]Fae always have their own goals. Sometimes their interests align with those of the mortals around them, sometimes they don't. \s[10]Sometimes their interests align for a time, then shift. \s[20]It is unwise to ever think that a fae will be a loyal ally. \n\n"
+				"%(hoo)"
+				"\1\s[10]... Well. I should get back to my work now. \s[20]If you're offered a deal of any sort, be wary.%(patronleave)"
+				"\e TalkingToPatron"
+			}
+			
+			OnConversation.SoundsAppealing : all
+			{
+				HintReady = 1
+	
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[20]... You shouldn't joke about such things. \s[141]And if you are not joking, then I would urge you to reconsider. \s[142]The rituals may be time consuming, but would you really give up your freedom so easily...?%(patronleave)"
+				"%(hoo)"
+				"\e TalkingToPatron"
+			}
+		
+		OnConversation.OutOfTheWay : all
+		{
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[10]Hm, perhaps. \s[110]It almost makes one wonder if this place is designed to trap the desperate... \s[116]Those who seek knowledge that is forbidden elsewhere, and would do anything to get it. \n\n"
+			
+			"\0\_q"
+			"\![*]\__q[OnConversation.ReallyThinkSo]Do you really think so?\__q\n"
+			"\![*]\__q[OnConversation.BitOminous]That's a bit ominous...\__q\n"
+			"\![*]\__q[OnConversation.ItsWorking]I guess it's working.\__q\n"
+			"\e TalkingToPatron"
+		}
+		
+			OnConversation.ReallyThinkSo : all
+			{
+				HintReady = 1
+				
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[20]... \s[10]I'm not sure. \s[110]It would make sense, but I can't claim to know what Alba's goals are. \n\n"
+				"%(hoo)"
+				"\1\s[13]Whatever the case may be, I do indeed need the materials here. \s[20]I should get back to it now. Good luck to you.%(patronleave)"
+				"\e TalkingToPatron"
+			}
+			
+			OnConversation.BitOminous : all
+			{
+				HintReady = 1
+				
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[10]Hm. Don't let my musings worry you too much. \s[20]It's all entirely speculation for the moment. \n\n"
+				"%(hoo)"
+				"\1\s[25]But you're like me, aren't you? You know there are risks involved, yet here you are anyways. You're willing to accept that there may be consequences in return for the knowledge you seek. It's worth it to you. \n\n"
+				"%(hoo)"
+				"\1... \s[13]I should be going now. Good luck finding what you're after.%(patronleave)"
+				"\e TalkingToPatron"
+			}
+			
+			OnConversation.ItsWorking : all
+			{
+				HintReady = 1
+				
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[28]That it is. He's caught us hook, line, and sinker.\n\n"
+				"%(hoo)"
+				"\1\s[18]I try not to think too much on it. I have work I should be doing. \s[28]I'll see you around.%(patronleave)"
+				"\e TalkingToPatron"
+			}
+
+	OnConversation.ShelvesSoStrange : all
+	{
+		"\0\b[0]%(usertalk)"
+		"\1\b[0]\s[20]I've told you this is fae territory, haven't I? Is it really that surprising? \n\n"
+		
+		"\0\_q"
+		"\![*]\__q[OnConversation.HowReachBooks]But how can anyone reach the books up there?\__q\n"
+		"\![*]\__q[OnConversation.BooksCouldFallOut]It's unnerving,\_w[] it looks like the books could fall out at any moment with how they're angled.\__q\n"
+		"\![*]\__q[OnConversation.DifficultToWrapMindAround]I guess not,\_w[] but it's difficult to wrap my mind around.\__q\n"
+		"\e TalkingToPatron"
+	}
+
+		OnConversation.HowReachBooks : all
+		{
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[10]They don't. Alba fetches them, he has wings. \n\n"
+			"%(hoo)"
+			"\1\s[20]Although, I think he also brings some of them down with his magic, as well. At times I've caught glimpses of what I thought were books soaring down of their own accord. No doubt Alba's doing. \n\n"
+			
+			"\0\_q"
+			"\![*]\__q[OnConversation.Soaring]Soaring?\__q\n"
+			"\![*]\__q[OnConversation.AlbasMagic]His magic?\__q\n"
+			"\![*]\__q[OnConversation.WouldntItBeEasier]Wouldn't it be easier if the shelves were accessible for everyone to fetch books themselves?\__q\n"
+			"\e TalkingToPatron"
+		}
+		
+			OnConversation.Soaring : all
+			{
+				HintReady = 1
+		
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[20]Yes, soaring. I think it's better for the pages than flapping their covers. \n\n"
+				"%(hoo)"
+				"\1\s[120]You'll see it for yourself if you spend enough time here, I'm sure. \s[110]I'll leave you to it, I've got to get back to this now.%(patronleave)"
+				"\e TalkingToPatron"
+			}
+			
+			OnConversation.AlbasMagic : all
+			{
+				HintReady = 1
+		
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[20]Yes, this whole library is constructed with his magic. It is not surprising that he can also command the books within it. \n\n"
+				"%(hoo)"
+				"\1\s[10]It is far from the strangest display of his magic that you will see here. \s[110]It's all the subtle things that seem unnatural, against the normal laws of the univernse. \s[20]It's really quite fascinating. If I had the time, I would enjoy studying it. \n\n"
+				"%(hoo)"
+				"\1\s[140]Alas, my time is short. I need to get back to work on this. Let's see...%(patronleave)"
+				"\e TalkingToPatron"
+			}
+			
+			OnConversation.WouldntItBeEasier : all
+			{
+				HintReady = 1
+		
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[142]Easier for mortals, perhaps. But this library isn't necessarily made for mortal benefit. This is Alba's collection, arranged in Alba's way. \n\n"
+				"%(hoo)"
+				"\1\s[20]I'm sure it also serves as a way for him to be able to filter what he wants each patron to see. \s[120]I suspect that our rituals reveal something about us to him, and he decides from there what he is willing to share. \s[116]If we could choose all of the books for ourselves, he would have less control."
+				"%(hoo)"
+				"\1\s[110]Whatever the case may be, I need to get back to my studies now. Good luck to you.%(patronleave)"
+				"\e TalkingToPatron"
+			}
+		
+		OnConversation.BooksCouldFallOut : all
+		{
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[20]It's by design, I think. Alba is unbothered by it, but here you are fussing. \s[23]Shouldn't that make you wonder...? \n\n"
+			
+			"\0\_q"
+			"\![*]\__q[OnConversation.WonderWhat]Make me wonder what?\__q\n"
+			"\![*]\__q[OnConversation.YouHaveAPoint]I guess you have a point.\__q\n"
+			"\![*]\__q[OnConversation.MaybeItShould]Maybe it should,\_w[] but it's not.\__q\n"
+			"\e TalkingToPatron"
+		}
+		
+			OnConversation.WonderWhat : all
+			{
+				HintReady = 1
+		
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[141]Alba's true motives, mainly. Nothing here is by chance, everything here is designed in a particular way. \s[142]If you don't see the ways that you're being led around, then you risk falling for a trick. \n\n"
+				"%(hoo)"
+				"\1\s[10]Of course, if you believe that you see the trick and that you're safe, then you're more likely to fall into a worse one... \s[20]Stay on your guard while you're here. \n\n"
+				"%(hoo)"
+				"\1\s[110]I have to get back to my work. Stay safe.%(patronleave)"
+				"\e TalkingToPatron"
+			}
+			
+			OnConversation.YouHaveAPoint : all
+			{
+				HintReady = 1
+		
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[20]I'm glad you understand. Keep your wits about you here; nothing Alba does is without reason. \s[142]If you can't determine the reason, then it may be detrimental to your health, so you should exercise caution. \n\n"
+				"%(hoo)"
+				"\1\s[10]... Anyway. I should return to my research now. Good luck with yours.%(patronleave)"
+				"\e TalkingToPatron"
+			}
+			
+			OnConversation.MaybeItShould : all
+			{
+				HintReady = 1
+		
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[20]... \s[25]Ha. Funny. \w8\s[15]I can't help you with that. Good luck.%(patronleave)"
+				"%(hoo)"
+				"\e TalkingToPatron"
+			}
+		
+		OnConversation.DifficultToWrapMindAround : all
+		{
+			HintReady = 1
+			
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[16]It's best not to think about it. \s[20]You'll tire your mind and lower your defenses. \n\n"
+			"%(hoo)"
+			"\1\s[16]Just accept that things are strange here and don't necessarily follow the laws of the world outside. Anything more than that, you shouldn't concern yourself with. \n\n"
+			"%(hoo)"
+			"\1\s[110]I must return to my studying now. \s[120]Take care.%(patronleave)"
+			"\e TalkingToPatron"
+		}
+
+	OnConversation.HowBigCollection : all
+	{
+		"\0\b[0]%(usertalk)"
+		"\1\b[0]\s[116]Truthfully, I'm not sure. \s[114]I haven't explored that deeply into the library, but it is rather expansive... \s[140]If I had to guess, I think that everything here represents Alba's accumulated knowledge. \s[20]I'm not sure how long Alba has lived for, but fae are known for having long lifespans. It would not be unreasonable to assume that this library holds hundreds, or even thousands of years of knowledge. \n\n"
+		
+		"\0\_q"
+		"\![*]\__q[OnConversation.LotOfKnowledge]That's a lot of knowledge...\__q\n"
+		"\![*]\__q[OnConversation.WhyHaventExplored]Why haven't you explored further?\__q\n"
+		if TotalBooksRead > 3; "\![*]\__q[OnConversation.IsThatWhyUnreadable]Is that why some of the books are unreadable?\_w[] Is it because there are just so many to care for?\__q\n"
+		"\e TalkingToPatron"
+	}
+	
+		OnConversation.LotOfKnowledge : all
+		{
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[125]Indeed it is. It really makes you feel small, doesn't it? \s[128]All our mortal struggles and achievements, the things we think we know... \s[115]It can all seem inconsequential when you stand in the midst of these shelves. \s[125]Surrounded by physical proof of how little experience we actually have. \n\n"
+			
+			"\0\_q"
+			"\![*]\__q[OnConversation.YeahIFeelSmall]Yeah...\__q\n"
+			"\![*]\__q[OnConversation.DustyOldBooks]I don't know about that,\_w[] a bunch of dusty old books don't invalidate my existence.\__q\n"
+			"\![*]\__q[OnConversation.OneFire]And yet,\_w[] all it would take is one out-of-control fire to wipe the slate clean...\__q\n"
+			"\e TalkingToPatron"
+		}
+		
+			OnConversation.YeahIFeelSmall : all
+			{
+				HintReady = 1
+	
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[18]It's a strange feeling... \s[28]I would give you advice on how to deal with it, but I'm not quite sure how to myself. \n\n"
+				"%(hoo)"
+				"\1\s[18]Well, I should get back to my work. \s[28]It may help to get my mind off the feelings of insignificance. Good luck in doing the same.%(patronleave)"
+				"\e TalkingToPatron"
+			}
+			
+			OnConversation.DustyOldBooks : all
+			{
+				HintReady = 1
+	
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[20]... I didn't say that they invalidated your existence. \s[16]Even ants have reason to exist, after all. \n\n"
+				"%(hoo)"
+				"\1\s[110]I simply think that we have a tendency to inflate our own value. \s[20]There are many who think the world revolves around them, they never see even a glimpse of the bigger picture. \n\n"
+				"%(hoo)"
+				"\1\s[16]Perhaps it is for the best, though. ""Ignorance is bliss"" is a saying for a reason. \w8\w8... \s[10]Anyway. I should return to my reading now. I'll see you later.%(patronleave)"
+				"\e TalkingToPatron"
+			}
+			
+			OnConversation.OneFire : all
+			{
+				HintNotReady
+	
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[27]Don't even think it. The amount of value here is untold. \s[142]Destroying this vast wealth of knowledge would rob the whole world of a precious resource, and such a loss would never be recovered from. \n\n"
+				"%(hoo)"
+				"\1\s[10]Besides, I have a feeling that a normal fire could not harm this library. \s[20]Alba defends his collection fiercely, I doubt he would risk letting flame destroy it. \s[120]I also doubt it would have lasted this long if it were vulnerable that way... \n\n"
+				"%(hoo)"
+				"\1\s[127]Anyway, don't do anything stupid. I have no doubts you would regret such an action if you pursued it.%(patronleave)"
+				"\e TalkingToPatron"
+			}
+		
+		OnConversation.WhyHaventExplored : all
+		{
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[12]Ah, w-well-- \n\n"
+			"%(hoo)"
+			"\1\s[11]Truthfully... \s[21]I'm simply afraid that I'll get lost in there, unable to find my way out. That's understandable, isn't it...? \n\n"
+			
+			"\0\_q"
+			"\![*]\__q[OnConversation.AvoidExploringToo]Very understandable.\_w[] I think I'll also avoid exploring,\_w[] now that you mention it...\__q\n"
+			"\![*]\__q[OnConversation.BookMarks]Maybe you could use books to mark your way?\__q\n"
+			"\![*]\__q[OnConversation.Coward]Coward.\__q\n"
+			"\e TalkingToPatron"
+		}
+		
+			OnConversation.AvoidExploringToo : all
+			{
+				HintReady = 1
+	
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[23]Yes... \s[13]I think that's probably for the best. \n\n"
+				"%(hoo)"
+				"\1\s[14]... \w8\w8I should get back to work.%(patronleave)"
+				"\e TalkingToPatron"
+			}
+			
+			OnConversation.BookMarks : all
+			{
+				HintReady = 1
+				
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[113]In a normal library, it wouldn't be a bad idea. \s[123]However, I know that these books are able to move on their own at times. I cannot guarantee that such markings would not simply erase themselves behind me, leaving me stranded. \n\n"
+				"%(hoo)"
+				"\1\s[14]No, much as I long to see what lies deeper in, it is not a risk I am willing to take. Not when I already have all that I need here. \n\n"
+				"%(hoo)"
+				"\1\s[23]I don't recommend that you try it either, but it's your own life to risk. \s[13]... I have to get back to my work now. Farewell.%(patronleave)"
+				"\e TalkingToPatron"
+			}
+			
+			OnConversation.Coward : all
+			{
+				HintNotReady
+				
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[27]Well why don't %(italic)you%(italicoff) try it then, if you're so brave? \s[17]Don't expect me to come for you if you can't find your way back, though. You're on your own.%(patronleave)"
+				"%(hoo)"
+				"\e TalkingToPatron"
+			}
+		
+		OnConversation.IsThatWhyUnreadable : all
+		{
+			"\0\b[0]%(usertalk)"
+			"\1\b[0]\s[141]I don't believe so, no. To my knowledge, Alba doesn't keep anything here that is not of some sort of value to him. \s[142]It's entirely possible that just because a book is not readable to us, does not mean that it is not readable to him... \n\n"
+			"%(hoo)"
+			
+			"\0\_q"
+			"\![*]\__q[OnConversation.StillReadable]How could it still be readable?\__q\n"
+			"\![*]\__q[OnConversation.HowCanThereBeValue]I don't see how there can be value in a book that is damaged beyond repair...\__q\n"
+			"\![*]\__q[OnConversation.HoardingProblem]Sounds like a hoarding problem.\__q\n"
+			"\e TalkingToPatron"
+		}
+		
+			OnConversation.StillReadable : all
+			{
+				HintReady = 1
+	
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[20]It's entirely possible that the information in the book is not in written form. \s[120]There could be knowledge hidden in a magical seal that only those with proper training can discern the meaning of. In such a case, the state of the book itself is rather irrelevant. \n\n"
+				"%(hoo)"
+				"\1\s[142]There's also the possibility that some books are in a cipher, or in a language that is long lost to time, but still readable by Alba. Just because we cannot ourselves read the knowledge doesn't mean it is not there. \s[20]All I know for certain is that Alba would not keep something that is entirely without worth. If what you are receiving is not comprehensible to you, then you may need to look harder, or it could simply be above your skill level.\n\n"
+				"%(hoo)"
+				"\1\s[10]Anyway, I should leave you to it. I have to get back to my studies now.%(patronleave)"
+				"\e TalkingToPatron"
+			}
+			
+			OnConversation.HowCanThereBeValue : all
+			{
+				HintReady = 1
+	
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[141]Just because the value is not apparent to your mortal eyes does not mean that it is of no value to a fae, or other such creatures that perceive what we cannot. \n\n"
+				"%(hoo)"
+				"\1\s[140]I also would not say that any of these books are necessarily beyond repair. I would not be surprised if the damage is only on the surface level, and Alba can reverse it if he so chooses. \s[20]Very likely, he keeps some books difficult to read on the surface to prevent valuable knowledge from being stolen and used without care. \n\n"
+				"%(hoo)"
+				"\1\s[110]Or, perhaps it simply amuses him to see you struggle. It's hard to say. \s[10]Either way, I should be going now. Good luck with it.%(patronleave)"
+				"\e TalkingToPatron"
+			}
+			
+			OnConversation.HoardingProblem : all
+			{
+				HintNotReady
+	
+				"\0\b[0]%(usertalk)"
+				"\1\b[0]\s[27]His ""hoarding problem"" is also the only shot you have at finding the knowledge you're after. Have you never heard of archives before? \n\n"
+				"%(hoo)"
+				"\1\s[142]Enough, I have work to be doing.%(patronleave)"
+				"\e TalkingToPatron"
+			}

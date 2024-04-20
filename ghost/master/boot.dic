@@ -1,0 +1,221 @@
+OnFirstBoot
+{
+	stroke = 0
+	LastTalk = ""
+	
+	GenerateRequiredActions
+	ActionsTaken = IARRAY
+	phase = "Ask for book"
+	DesiredBook = IARRAY
+	BookRead = 0
+	BookPrivileges = 0
+	BookName = "NULL"
+	AuthorName = "NULL"
+	DamageType = "Other"
+	OwlBalloonAlign = "Mixed"
+	OwlBalloonTail = "Mixed"
+	OwlBalloonAmount = "Multiple"
+	PatronBalloonTail = "Side"
+	FirstBook = 1
+	TodaysMagicWords = (MagicWords,MagicWords,MagicWords)
+	TutorialComplete = 0
+	LearnedPatronName = 0
+	InsultedTheFae = 0
+	UserIsMage = 0
+	TotalBooksObtained = 0
+	TotalPermissionsEarned = 0
+	TotalBooksRead = 0
+	TotalBoots = 1
+	HintReady = 1
+	NaturalRandomtalks = 0
+	KnowsStarSign = 0
+	BookPassage = ""
+	
+	"\1\s[-1]\0\s[0]\t"
+	--
+	FixPositions
+	--
+	AlignOwlBalloons
+	--
+	"\0%(usertalk)I've finally made it... All of my work, my research, hours spent making notes, talking to experts, testing out in the field—there's just one more mystery to solve. One missing piece before my magnum opus is complete. One more secret to uncover. And there's only one place in the entire world that might hold the answers.\x"
+	--
+	"\0%(usertalk)The Library of Strigiformes.\x"
+	--
+	"\0%(usertalk)It took me years to even learn the name of this place, and to track it down to this remote location, but now I'm finally here. The end of my journey is in sight!\x"
+	--
+	"\0%(usertalk)But I didn't expect the librarian to be... like this. %(hoo)\0\x"
+	--
+	"\0%(usertalk)Perhaps this owl is... a wizard in disguise...? \w8\w8\n\n%(hoo)\0I should treat him with respect, he is the only chance I have of completing my masterwork. \w8\w8\n\n%(hoo)\0I suppose I should ask him where the tomes I need may be located... This is my chance."
+	//--
+	//"%(timebuffer)"
+}
+
+OnInitialize
+{
+	if reference0 != "reload"
+	{
+		LastTalk = ""
+		
+		GenerateRequiredActions
+		ActionsTaken = IARRAY
+		phase = "Ask for book"
+		DesiredBook = ""
+		BookRead = 0
+		BookPrivileges = 0
+		BookName = "NULL"
+		AuthorName = "NULL"
+		TodaysMagicWords = (MagicWords,MagicWords,MagicWords)
+		InsultedTheFae = 0
+		TotalBoots++
+		HintReady = 1
+		NaturalRandomtalks = 0
+		BookPassage = ""
+	}
+}
+
+OnBoot : pool
+{
+	FixPositions
+	--
+	AlignOwlBalloons
+	--
+	"\0\b[0]\s[0]%(usertalk)"
+	--
+	if !(TutorialComplete || HasReadABook)
+	{
+		"\1\s[-1]\0Here I am... again. \n\n%(hoo)\0I suppose I should ask him where I can find the book I need..."
+	}
+	else
+	{
+		"\1\s[-1]\0Here I am... again. \n\n%(hoo)\0Maybe I'll have better luck today..."
+		"\1\s[10]Thank you, Alba. \s[20]... Oh, you've returned. Here for more research? \n\n%(hoo)\1\s[16]Good luck to you.%(patronleave)"
+		"\1\s[140]I think this will do... \s[120]Ah. I see you've come to browse the library again. \n\n%(hoo)\1\s[140]I'll leave you to it, I have a lot of notes to make.%(patronleave)"
+		"\1\s[-1]\0Back at this place again... \n\n%(hoo)\0Will I find anything of value today, I wonder...? %(hoo)"
+		"\1\s[116]I see... I'll keep this in mind for-- \s[112]ah. \n\n%(hoo)\1\s[121]How long have you been standing there? \n\n%(hoo)\1\s[16]Well, no matter. \s[10]I've got what I need for now, I'm sure I'll see you around.%(patronleave)"
+		"\1\s[120]I thought you'd show up today. \n\n%(hoo)\1\s[116]And Alba didn't believe me... \n\n\0\s[2]%(hoo('!'))\1\s[125]I'll see you around, %(username).%(patronleave)%(hoo('...'))"
+		"\1\s[-1]\0Well, I'm here again. \n\n%(hoo)\0What mysteries will I uncover on these vast shelves today...?"
+		"\1\s[142]Hmm, it doesn't make sense... \n\n%(hoo)\1\s[120]Ah? \s[125]Oh,\w4 it's just you, %(username). \s[115]Welcome back. \n\n%(hoo)\1\s[10]I need to go start some notes, but I'll be around, I'm sure.%(patronleave)"
+		
+		if TotalBoots >= 3
+		{
+			"\1\s[-1]\0I've returned. \n\n%(hoo)\0Why am I putting myself through this...? \n\n%(hoo)\0Because there's no other way. I'd better get to it."
+			"\1\s[-1]\0The Library of Strigiformes... I've been here %(TotalBoots) times now, and I still haven't found the information I'm looking for. \n\n%(hoo)\0I'm growing weary of this place, but it's the only way to find what I need. If I could just get a bit of luck...! %(hoo)"
+		}
+	}
+}
+
+OnClose
+{
+	"\0\b[0]\s[0]%(usertalk)"
+	--
+	if !(TutorialComplete || HasReadABook)
+	{
+		"On second thought, this is too weird, I'll try again another day... %(hoo)"
+	}
+	else
+	{
+		"I think it's about time I wrap up... \n\n%(hoo)\0I'll have to try again another day."
+		"I'm tired from all this. \n\n%(hoo)\0Yes, yes, hoo. I'll come back another time to try again..."
+		"This is exhausting. I think I will take a break for now... Maybe go for a walk outside, where things make sense... \n\n%(hoo)\0"
+		"%(hoo)\0I'm getting nowhere. I'll come back another time, once I've had a chance to rest and recharge..."
+		"Enough. I can't take this place any longer. I'll come back another time, perhaps, when I'm feeling a little more put together..."
+		"I can't take this any longer, I need to go and rest. \n\n%(hoo)\0Maybe I'll have better luck another day..."
+		"Argghhhh, I'm getting nowhere! \n\n%(hoo)\0I need to go and do something else for a while. I'll come back to this..."
+		
+		if TotalBoots >= 3
+		{
+			"Another day, another bunch of nothing... \n\n%(hoo)\0I wish I could see what value Alba sees in these unreadable books... maybe if I spend enough time here I will."
+			"Nothing. No matter how many times I come here, I just turn up nothing. If this library contains the secrets I need, it is not willing to give them up... \n\n%(hoo)\0But I can't just abandon this. I'll be back..."
+			"This place has left me weary once again. \n\n%(hoo)\0I'll... come back another time, perhaps. I need to take a break..."
+		}
+	}
+	--
+	"\w8\w8\-"
+}
+
+OnFirstTutorial : all
+{
+	"\t\*\0%(usertalk)"
+	"\1\s[-1]"
+	"%(hoo)"
+	"\0An introduction can't hurt. I'll start with that.\n\n "
+	"%(hoo)"
+	"\0I don't think he's listening at all...\n\n "
+	"\1\b[0]\s[110]Alba,\w4 do you have the second tome in this series? The part I'm looking for is--\w8 \s[121]Ah. Pardon me, I didn't see you there. \n\w8\w8\w8\s[20]... You look a little lost, is this your first time here?\n\n "
+	"\0Another patron...?\n\n "
+	"\1\s[23]I see. \s[10]Well, I suppose since you're new to this,%(br)I'll inform you of the way things work in this library. "
+	
+	"\0\_q\![*]\__q[OnTutorial.WhoAreYou]Who are you?\__q\n"
+	"\![*]\__q[OnTutorial.TheWayThingsWork]The way things work?\__q"
+}
+
+OnTutorial.WhoAreYou : all
+{
+	LearnedPatronName = 1
+	
+	"\t\*\0%(usertalk)"
+	"\1\b[0]\s[20]Does it matter? I am a patron of the Strigiformes Library, the same as you.\n\n "
+	"%(hoo)"
+	"\0I suppose not, but it's nice to know what to call someone...\n\n "
+	"\1\b[0]\s[114]If you must, call me Oriole. \s[20]But this is all rather beside the point. It is more important that you know how this library functions, if you hope to make any use of it.\n\n "
+	
+	"\0\_q\![*]\__q[OnTutorial.TheWayThingsWork]How this library functions?\__q\n"
+}
+
+OnTutorial.TheWayThingsWork : all
+{
+	"\t\*\0%(usertalk)"
+	"\1\b[0]\s[20]Yes. This is no ordinary library. \s[16]The books you will find within these walls contain secrets that can't be found anywhere else; but they are managed by the librarian Alba, here. \s[27]Alba is %(italic)very%(italicoff) particular about how he gives out books, and to whom.\n\n "
+	"\0Uh oh...\n\n "
+	"\1\s[16]You've entered fae territory, so make sure you follow instructions to the letter.\n\n "
+	
+	"\0\_q\![*]\__q[OnTutorial.FaeTerritory]Fae territory?\__q\n"
+	"\![*]\__q[OnTutorial.GotIt]Got it,\_w[] I'm listening\__q"
+}
+
+OnTutorial.FaeTerritory : all
+{
+	"\t\*\0%(usertalk)"
+	"\1\b[0]\s[27]Did you think you were speaking with an ordinary owl? Alba, the owl. He's fae. This is his library you're standing in.\n\n "
+	"%(hoo)"
+	"\0\_q\![*]\__q[OnTutorial.GotIt]Got it,\_w[] I'm listening\__q\n"
+}
+
+OnTutorial.GotIt : all
+{
+	"\t\*\0%(usertalk)"
+	"\1\b[0]\s[10]All books must stay within the library, you mustn't leave with them.\n\n "
+	"%(hoo)"
+	"\0Easy enough...\n\n "
+	"\1\s[17]You must take care to preserve them as they are, do not damage them, mark them, fold the pages, or any other such alterations.\n\n "
+	"\0Yes, yes, standard library rules...\n\n "
+	"\1\s[16]You must also earn your right to borrow the books.\n\n "
+	"\0Earn...!?\n\n "
+	"%(hoo)"
+	"\1\s[16]Alba requires that you perform a ritual of %(em)three tasks%(emoff). \s[110]Tasks range from saying the correct words, to performing certain specific actions, to helping with library maintenance. \s[120]What tasks you will have to do on a given day change, and will not be specified. It will take some trial and error to figure out your ritual for the day.\n\n "
+	
+	"\0\_q\![*]\__q[OnTutorial.HelpMe]Can you help me figure out what to do?\__q\n"
+	"\![*]\__q[OnTutorial.Understood]Understood\__q"
+	
+}
+
+OnTutorial.HelpMe : all
+{
+	"\t\*\0%(usertalk)"
+	"\1\b[0]\s[27]I'm quite busy with my own research, I don't have time to coddle you. \s[114]But... \s[123] I suppose I could pass along some information I've learned now and then. \s[10]You will have to ask me while I am nearby, though. My research notes are elsewhere in the library, I can't be wasting all of my time here helping you.\n\n "
+	
+	"\0\_q\![*]\__q[OnTutorial.Understood]Understood\__q\n"
+}
+
+OnTutorial.Understood : all
+{
+	TutorialComplete = 1
+	
+	"\t\*\0%(usertalk)"
+	"\1\b[0]\s[10]Good. Perhaps I will see you around, then. \s[20]I hope you find what you're looking for.\n\n%(patronleave)"
+	"\0So that's how it is...\n\n "
+	"%(hoo)"
+	"\0I suppose I'll have to start by telling him which book I want. Then I can try to figure out what this ""ritual"" entails..."
+	"%(hoo)\0"
+	"%(timebuffer)"
+}

@@ -1,0 +1,2320 @@
+patronbook
+{
+	"advanced %(magictype) magic"
+	"%(magictype) fundamentals"
+	"the nature of %(magictype) magic"
+	"the side effects of combining %(magictype) magic and %(magictype) magic"
+	"determining the effects of %(magictype) magic resonance on %(magicitem)"
+	"the harmonic frequencies of %(magictype) magic"
+	"the complexities of %(magictype) magic in an enchantment context"
+	"how to harness kinetic energy to augment %(magictype) magic"
+	"how to maintain a steady flow of mana while using %(magictype) magic around %(magicitem)"
+	"considerations when combining %(magictype) and %(magictype) magic"
+	"the explosive effects of %(magictype) and %(magictype) magic when combined"
+	"manipulation of %(magictype) magic"
+	"escaping the bounds of %(magictype) magic"
+	"exploring the depths of %(magictype) magic"
+	"unlocking the next level of %(magictype) magic"
+	"forbidden %(magictype) magic techniques"
+	"the best spellcasting focus for finessing %(magictype) magic"
+}
+
+magictype : nonoverlap
+{
+	"fire"
+	"aether"
+	"water"
+	"void"
+	"earth"
+	"binding"
+	"summoning"
+	"scrying"
+}
+
+magicitem
+{
+	"enchanted objects"
+	"%(magictype) crystals"
+	"old river stones"
+	"attunement spheres"
+	"magic inlays"
+	"vampire wards"
+	"items with inherent luck"
+	"ancient relics"
+	"imbued arrows"
+	"rune stones"
+}
+
+snacks
+{
+	"pretzel bites"
+	"chips"
+	"celery sticks"
+	"cheese cubes"
+	"kettle corn"
+	"peppermints"
+	"shrimp"
+	"cotton candy"
+	"lukewarm yogurt"
+	"trail mix with extra candy pieces"
+	"marshmallows"
+}
+
+instrument
+{
+	"the Kazoo"
+	"a Set of Glasses Filled with Water"
+	"the Wind"
+	"an Upturned Trash Can"
+	"an Empty Tin Can"
+	"the Voice"
+	"Jello"
+	"a Laser Pointer"
+	"a Box of Half-Used Crayons"
+	"a Box of Rice"
+}
+
+weather
+{
+	"sunny"
+	"raining"
+	"snowing"
+	"breezy"
+	"humid"
+	"clear"
+	"muggy"
+	"windy"
+}
+
+hoot
+{
+	"Hoo"
+	"Hoot"
+	"Hoo-hoo"
+}
+
+
+
+PossibleActions : array
+{
+	"Present my library card"
+	"Ask nicely"
+	"Wait patiently"
+	"Bow politely"
+	"Donate to the library"
+	"Bribe him with food"
+	"Compliment his collection"
+	"Pick up clutter"
+	"Dust the bookshelves"
+	"Say my name"
+	"Say his name 3 times"
+	"Say the magic words"
+	"Spin in a circle"
+	"Lay on the floor"
+	"Stare directly into his eyes"
+}
+
+MagicWords : nonoverlap
+{
+	"Apple"
+	"Apron"
+	"Autumn"
+	"Bark"
+	"Bogey"
+	"Bond"
+	"Bubble"
+	"Celestial"
+	"Cheep"
+	"Crown"
+	"Desert"
+	"Dredge"
+	"Earth"
+	"Echo"
+	"Emperor"
+	"Fast"
+	"Feather"
+	"Flake"
+	"Fledge"
+	"Flight"
+	"Forest"
+	"Fountain"
+	"Fringe"
+	"Froth"
+	"Gelatin"
+	"Glitter"
+	"Heather"
+	"Jest"
+	"Jump"
+	"Jupiter"
+	"King"
+	"Kitten"
+	"Leek"
+	"Libre"
+	"Link"
+	"Lope"
+	"Luna"
+	"Mars"
+	"Mercury"
+	"Mountain"
+	"Orange"
+	"Oscar"
+	"Peanut"
+	"Pear"
+	"Plague"
+	"Plant"
+	"Pluto"
+	"Pool"
+	"Quagmire"
+	"Quaint"
+	"Queen"
+	"Rat"
+	"Rattle"
+	"Red"
+	"Reed"
+	"Regal"
+	"Regulate"
+	"Resonance"
+	"Roll"
+	"Ruddy"
+	"Season"
+	"Sol"
+	"Sparkle"
+	"Sparkle"
+	"Spoon"
+	"Spring"
+	"Squeak"
+	"Starry"
+	"Stick"
+	"Stream"
+	"Summer"
+	"Swamp"
+	"Swing"
+	"Swirl"
+	"Tingle"
+	"Tire"
+	"Trick"
+	"Twang"
+	"Valley"
+	"Venus"
+	"Well"
+	"Whiff"
+	"Whisker"
+	"Winter"
+	"Zenith"
+	"Zesty"
+	"Zing"
+}
+
+/*
+OwlNames
+{
+	//"Hooty"
+	// "Owlington"
+	// "Mr.\_w[] Owl"
+	// "Sir Owl"
+	// "Sir Hootsalot"
+	// "Owly"
+	"Alba"
+	// "Owlison"
+}
+*/
+
+
+AuthorNames
+{
+	_g = ANY("m,f,n")
+	if _argv[0] != ""; _g = _argv[0]
+	
+	_author = Author.First(_g)
+	if RAND(10) >= 1
+	{
+		_middle = Author.First(_g)
+		while _middle == _author
+		{
+			_middle = Author.First(_g)
+		}
+		_last = Author.Last
+		while _last == _author || _last == _middle
+		{
+			_last = Author.Last
+		}
+		
+		_rand = RAND(10)
+		if _rand >= 8; _author += " " + _middle
+		elseif _rand >= 6; _author += " " + Author.Middle
+		
+		_author += " " + _last
+	}
+	if RAND(10) >= 8; _author += " " + Author.Suffix
+	if RAND(10) >= 6; _author = Author.Title(_g) + " " + _author
+	_author
+	
+	// "%(Author.First(_g)) %(Author.Last)"
+	// "%(Author.Title(_g)) %(Author.First(_g)) %(Author.Last)"
+	// "%(Author.Title(_g)) %(Author.First(_g)) %(Author.Last) %(Author.Suffix)"
+	// "%(Author.Title(_g)) %(Author.Last) %(Author.Suffix)"
+	// "%(Author.Title(_g)) %(Author.Last)"
+	// "%(Author.Title(_g)) %(Author.First(_g))"
+	// "%(Author.First(_g))"
+	// "%(Author.First(_g)) %(Author.Suffix)"
+}
+
+Author.Middle
+{
+	"A"
+	"B"
+	"C"
+	"D"
+	"E"
+	"F"
+	"G"
+	"H"
+	"I"
+	"J"
+	"K"
+	"L"
+	"M"
+	"N"
+	"O"
+	"P"
+	"Q"
+	"R"
+	"S"
+	"T"
+	"U"
+	"V"
+	"W"
+	"X"
+	"Y"
+	"Z"
+	--
+	".\_w[]"
+}
+
+Author.First
+{
+	if _argv[0] == "m"
+	{
+		"Aaron"
+		"Abraham"
+		"Abram"
+		"Adam"
+		"Alexander"
+		"Alfonso"
+		"Andre"
+		"Andrew"
+		"Anthony"
+		"Antonio"
+		"Arnie"
+		"Arthur"
+		"Austin"
+		"Barry"
+		"Benjamin"
+		"Bob"
+		"Brandon"
+		"Brett"
+		"Cesar"
+		"Chad"
+		"Charles"
+		"Christian"
+		"Christopher"
+		"Chuck"
+		"Cody"
+		"Cyrus"
+		"Dan"
+		"Daniel"
+		"Darrell"
+		"Darren"
+		"Daryll"
+		"Dean"
+		"Dexter"
+		"Doug"
+		"Douglas"
+		"Drake"
+		"Dre"
+		"Drew"
+		"Ed"
+		"Edward"
+		"Eli"
+		"Elijah"
+		"Evan"
+		"Ezekiel"
+		"Ezra"
+		"Felix"
+		"Frank"
+		"Fred"
+		"Gabriel"
+		"Garett"
+		"Gary"
+		"George"
+		"Grant"
+		"Greg"
+		"Gregory"
+		"Hardy"
+		"Harold"
+		"Harry"
+		"Harvey"
+		"Henry"
+		"Hogan"
+		"Hugh"
+		"Hunter"
+		"Isaac"
+		"Isaiah"
+		"Ivo"
+		"Jack"
+		"Jacques"
+		"James"
+		"Jan"
+		"Jason"
+		"Jeff"
+		"Jessie"
+		"Jim"
+		"Joe"
+		"Joel"
+		"Joseph"
+		"Jules"
+		"Julian"
+		"Justin"
+		"Kevin"
+		"Larry"
+		"Lawrence"
+		"Leonard"
+		"Levi"
+		"Liam"
+		"Lloyd"
+		"Logan"
+		"Luke"
+		"Mack"
+		"Marcus"
+		"Mark"
+		"Markus"
+		"Matt"
+		"Matthew"
+		"Max"
+		"Maximus"
+		"Maxwell"
+		"Michael"
+		"Mike"
+		"Morris"
+		"Nathan"
+		"Nathaniel"
+		"Nicholas"
+		"Nick"
+		"Nigel"
+		"Oleander"
+		"Oli"
+		"Olly"
+		"Payton"
+		"Phillip"
+		"Pierce"
+		"Pierre"
+		"Preston"
+		"Quency"
+		"Quentin"
+		"Quinton"
+		"Randy"
+		"Rich"
+		"Richard"
+		"Robert"
+		"Rod"
+		"Rodger"
+		"Ron"
+		"Ronald"
+		"Rory"
+		"Rudy"
+		"Samuel"
+		"Silas"
+		"Simon"
+		"Sirius"
+		"Stephen"
+		"Steven"
+		"Tanner"
+		"Terrance"
+		"Terry"
+		"Thomas"
+		"Tim"
+		"Timothy"
+		"Tod"
+		"Todd"
+		"Tom"
+		"Tony"
+		"Travis"
+		"Trent"
+		"Trey"
+		"Uriel"
+		"Vin"
+		"Vinny"
+		"Wade"
+		"Wallace"
+		"Wally"
+		"Warner"
+		"Wes"
+		"Wesley"
+		"Will"
+		"William"
+		"Wilson"
+		"Xavier"
+		"Yanis"
+		"Zach"
+		"Zacharie"
+		"Zachary"
+		"Zack"
+		"Zeke"
+	}
+	elseif _argv[0] == "f"
+	{
+		"Alexa"
+		"Ali"
+		"Allison"
+		"Amanda"
+		"Amelia"
+		"Anette"
+		"Angie"
+		"Annie"
+		"Astrid"
+		"Auris"
+		"Ava"
+		"Beatrice"
+		"Beth"
+		"Bethany"
+		"Betty"
+		"Carrie"
+		"Cecelia"
+		"Celeste"
+		"Charity"
+		"Christina"
+		"Cris"
+		"Dani"
+		"Danielle"
+		"Daphne"
+		"Denise"
+		"Diedre"
+		"Dolly"
+		"Doris"
+		"Dorothy"
+		"Désirée"
+		"Elizabeth"
+		"Emilee"
+		"Emilia"
+		"Emily"
+		"Emma"
+		"Erin"
+		"Erma"
+		"Esmeralda"
+		"Eve"
+		"Francine"
+		"Frankie"
+		"Gabriella"
+		"Glenda"
+		"Grace"
+		"Gracie"
+		"Gwen"
+		"Hanna"
+		"Hannah"
+		"Harriet"
+		"Helen"
+		"Henrica"
+		"Hope"
+		"Iris"
+		"Jane"
+		"Jenny"
+		"Jill"
+		"Jo"
+		"Jo-Ann"
+		"Joy"
+		"Juliet"
+		"Juniper"
+		"Justine"
+		"Kat"
+		"Katie"
+		"Kaylee"
+		"Kayleigh"
+		"Kelly"
+		"Kiara"
+		"Kisa"
+		"Kylee"
+		"Kyrah"
+		"Lacey"
+		"Lara"
+		"Laura"
+		"Leah"
+		"Lee-Ann"
+		"Leslie"
+		"Lexi"
+		"Lily"
+		"Linda"
+		"Lucille"
+		"Lucy"
+		"Lynn"
+		"Mackayla"
+		"Makayla"
+		"Mandy"
+		"Marie"
+		"Mary"
+		"Mary-Jane"
+		"Maxine"
+		"Melinda"
+		"Melissa"
+		"Michelle"
+		"Nancy"
+		"Naomi"
+		"Natalie"
+		"Nellie"
+		"Nichole"
+		"Nicole"
+		"Nikki"
+		"Ofelia"
+		"Patty"
+		"Phyllis"
+		"Querida"
+		"Rachel"
+		"Renee"
+		"Renée"
+		"Ruth"
+		"Samantha"
+		"Sara"
+		"Sarah"
+		"Simone"
+		"Sofie"
+		"Sophie"
+		"Stefanie"
+		"Stephanie"
+		"Tiffany"
+		"Tonilia"
+		"Tori"
+		"Trinity"
+		"Vera"
+		"Vicky"
+		"Victoria"
+		"Violet"
+		"Wanda"
+		"Wilma"
+		"Winnie"
+		"Winona"
+		"Xanthe"
+		"Yvette"
+		"Yvonne"
+		"Zoe"
+		"Zoey"
+	}
+	
+	"Ace"
+	"Addison"
+	"Aiden"
+	"Alexis"
+	"Alva"
+	"Ash"
+	"Ashton"
+	"Avery"
+	"Benji"
+	"Billie"
+	"Billy"
+	"Birch"
+	"Blaine"
+	"Blair"
+	"Blaise"
+	"Blake"
+	"Bri"
+	"Brook"
+	"Cam"
+	"Cameron"
+	"Carter"
+	"Cedar"
+	"Charlie"
+	"Chris"
+	"Clay"
+	"Clem"
+	"Cleo"
+	"Cody"
+	"Colby"
+	"Curtis"
+	"Dakota"
+	"Danni"
+	"Danny"
+	"Echo"
+	"Eddie"
+	"Eddy"
+	"Elliot"
+	"Ellis"
+	"Ember"
+	"Finn"
+	"Gabby"
+	"Gabe"
+	"Gale"
+	"Gray"
+	"Harper"
+	"Jax"
+	"Jay"
+	"Jess"
+	"Jo"
+	"Jordan"
+	"Joss"
+	"Justice"
+	"Kai"
+	"Kit"
+	"Kyle"
+	"Lark"
+	"Lee"
+	"Marty"
+	"Mel"
+	"Morgan"
+	"Nova"
+	"Onyx"
+	"Orion"
+	"Paige"
+	"Quinn"
+	"Raleigh"
+	"Ralph"
+	"Ray"
+	"Reese"
+	"Rei"
+	"Remy"
+	"Ridge"
+	"Riley"
+	"Ripley"
+	"River"
+	"Robbie"
+	"Robin"
+	"Rory"
+	"Ryder"
+	"Sage"
+	"Sam"
+	"Shay"
+	"Sidney"
+	"Skye"
+	"Sloane"
+	"Steve"
+	"Stevie"
+	"Summer"
+	"Taylor"
+	"Terry"
+	"Tory"
+	"Trace"
+	"Tracy"
+	"Val"
+	"Vic"
+	"Wren"
+	"Wynn"
+}
+
+Author.Last
+{
+	"Allen"
+	"Allister"
+	"Anders"
+	"Anderson"
+	"Baker"
+	"Banks"
+	"Bell"
+	"Bennett"
+	"Bishop"
+	"Bobson"
+	"Bookish"
+	"Booth"
+	"Boyd"
+	"Bradley"
+	"Brannan"
+	"Bremner"
+	"Brent"
+	"Brewer"
+	"Brown"
+	"Browning"
+	"Bryant"
+	"Burton"
+	"Campbell"
+	"Carlson"
+	"Carpenter"
+	"Carter"
+	"Castro"
+	"Chen"
+	"Christiansen"
+	"Clark"
+	"Clemens"
+	"Cole"
+	"Coleman"
+	"Collins"
+	"Cook"
+	"Cooper"
+	"Cox"
+	"Cruise"
+	"Cruz"
+	"Daniels"
+	"Day"
+	"Diaz"
+	"Dixon"
+	"Douglas"
+	"Duncan"
+	"Dunn"
+	"Elliott"
+	"Estrada"
+	"Evans"
+	"Fairweather"
+	"Ferguson"
+	"Fernandez"
+	"Fishcatcher"
+	"Fisher"
+	"Fletcher"
+	"Ford"
+	"Fowler"
+	"Fox"
+	"Francis"
+	"Franklin"
+	"Freeman"
+	"Fuller"
+	"Garcia"
+	"Gardner"
+	"Gilbert"
+	"Gordan"
+	"Grant"
+	"Gray"
+	"Grayson"
+	"Green"
+	"Greene"
+	"Gripp"
+	"Halferty"
+	"Hamilton"
+	"Hansen"
+	"Harris"
+	"Harrison"
+	"Hart"
+	"Hawfinger"
+	"Hawk"
+	"Hawkins"
+	"Hayes"
+	"Hernandez"
+	"Hill"
+	"Hipple"
+	"Hodgekins"
+	"Hoffman"
+	"Hoffmann"
+	"Holmes"
+	"Hopkins"
+	"Horvitz"
+	"Howard"
+	"Hunson"
+	"Hunter"
+	"Jackson"
+	"Jagger"
+	"Jameson"
+	"Jefferson"
+	"Jenkins"
+	"Jensen"
+	"Joel"
+	"Jones"
+	"Jordan"
+	"Justice"
+	"Kelly"
+	"Kennedy"
+	"Kim"
+	"Kline"
+	"Knight"
+	"Knowles"
+	"Lane"
+	"Lawrence"
+	"Lee"
+	"Lewis"
+	"Little"
+	"Long"
+	"Lopez"
+	"Marshall"
+	"Martin"
+	"Martinez"
+	"Mason"
+	"Masterson"
+	"May"
+	"McCoy"
+	"McDonnell"
+	"McDougal"
+	"Michaels"
+	"Miller"
+	"Moore"
+	"Morales"
+	"Morrison"
+	"Murphy"
+	"Murry"
+	"Myers"
+	"Nichols"
+	"O'Brien"
+	"O'Neal "
+	"Owens"
+	"Owenson"
+	"Palmer"
+	"Parker"
+	"Parton"
+	"Payne"
+	"Perez"
+	"Perkins"
+	"Peters"
+	"Peterson"
+	"Pierce"
+	"Porter"
+	"Powell"
+	"Pryce"
+	"Ramos"
+	"Ray"
+	"Reed"
+	"Reynolds"
+	"Rivera"
+	"Roberts"
+	"Robinson"
+	"Rodgers"
+	"Rose"
+	"Rossman"
+	"Rush"
+	"Russell"
+	"Santos"
+	"Scott"
+	"Shapiro"
+	"Sharp"
+	"Simmons"
+	"Smith"
+	"Snowfall"
+	"Spencer"
+	"Sterling"
+	"Stevens"
+	"Stewart"
+	"Strongheart"
+	"Stunning"
+	"Sullivan"
+	"Thatcher"
+	"Thompson"
+	"Torres"
+	"Truck"
+	"Tucker"
+	"Tyson"
+	"Valentine"
+	"Wagner"
+	"Walker"
+	"Warren"
+	"Washington"
+	"Waters"
+	"Watkins"
+	"Watt"
+	"Webb"
+	"Welch"
+	"West"
+	"White"
+	"Wilkes"
+	"Wilson"
+	"Winters"
+	"Wood"
+	"Woods"
+	"Young"
+	"Ziffel"
+}
+
+Author.Title : pool
+{
+	if _argv[0] == "m"
+	{
+		"Sir"
+		"Mr.\_w[]"
+		"Lord"
+	}
+	elseif _argv[0] == "f"
+	{
+		"Lady"
+		"Madam"
+		"Miss"
+		"Ms.\_w[]"
+		"Mrs.\_w[]"
+	}
+	elseif _argv[0] == "n"
+	{
+		"Mx.\_w[]"
+	}
+	"Dr.\_w[]"
+	"General"
+	"Professor"
+}
+
+Author.Suffix
+{
+	{
+		"I"
+		"II"
+		"III"
+		"IV"
+		"V"
+		"VI"
+		"VII"
+		"VIII"
+		"IX"
+		"X"
+		"XI"
+		"XII"
+		"XIII"
+	}
+	{
+		"\c[char,1],\_w[] "
+		--
+		"MD"
+		"RN"
+		"PhD"
+		"PA-C"
+		"DO"
+	}
+	{
+		"esq.\_w[]"
+		"Jr.\_w[]"
+		"Sr.\_w[]"
+	}
+}
+
+BookCase
+{
+	_output = ""
+	_name = SPLIT(_argv[0]," ")
+	_first = 1
+	foreach _name; _n
+	{
+		if _first
+		{
+			_first = 0
+			_output += TOUPPER(SUBSTR(_n,0,1)) + ERASE(_n,0,1)
+			continue
+		}
+		else
+		{
+			_output += " "
+		}
+		
+		case TOLOWER(_n)
+		{
+			when "a", "and", "as", "at", "but", "by", "for", "from", "if", "in", "into", "nor", "of", "off", "on", "or", "so", "than", "that", "the", "to", "when", "with", "yet"
+			{
+				_output += TOLOWER(_n)
+			}
+			others
+			{
+				_output += TOUPPER(SUBSTR(_n,0,1)) + ERASE(_n,0,1)
+			}
+		}
+	}
+	_output
+}
+
+BookNames : nonoverlap_pool
+{
+	_categories = DesiredBook
+	_categories[0] = IARRAY
+	_last = _categories[ARRAYSIZE(_categories) - 1]
+	_overallcategory = _categories[0]
+	_majorcategory = _categories[1]
+	_minorcategory = _categories[2]
+	_isother = 0
+	if _last == "Other";
+	{
+		_isother = 1
+		_last = _minorcategory
+	}
+	if _last == "Other" || _last == ""; _last = _majorcategory
+	if _last == "Other" || _last == ""; _last = _overallcategory
+	
+	/*
+	
+	overall category: arts
+	major category: writing
+	minor category: prose
+	
+	*/
+	
+	
+	"%(RAND(100) + 10) Things to Know About %(_last)"
+	"%(_last) 101"
+	"All About %(_last)"
+	"%(_last) Made Easy"
+	"Understanding %(_last)"
+	"The Mysteries of %(_last)"
+	"%(_last) and You"
+	"%(_last) for Beginners"
+	"%(_last):\_w[] The Manual"
+	"The Everyday Reader's Guide to %(_last)"
+	"On %(_last)"
+	"An Introduction to %(_last)"
+	"Things Everyone Should Know About %(_last)"
+	"The Ultimate Guide to %(_last)"
+	
+	if InArray("Animals",DesiredBook)
+	{
+		"Taking Care of %(_last)"
+		"Where to Find %(_last)"
+		"Tips and Tricks for Pet %(_last)"
+		"Habitats of %(_last)"
+		"Watch Out for %(_last)!"
+	}
+	
+	if InArray("Arts",DesiredBook)
+	{
+		"The Under-Appreciation of %(_last)"
+		"Hidden Truths in %(_last)"
+		"Techniques for %(_last)"
+		
+		if InArray("Illustration",DesiredBook)
+		{
+			"How to work with %(_last)"
+			"Portraits in %(_last)"
+			"Styles for %(_last)"
+			"Using %(_last) for Landscapes"
+			
+			if _isother
+			{
+				"How to Draw Manga"
+				"Connect the Dots %(RAND(5) + 1)"
+				"Things Beginner Artists Should Know"
+				"Don't Compare Yourself! The Intermediate Artist's Guide to Self Worth"
+				"Pencil to Paper:\_w[] Getting Your Ideas Out of Your Head"
+			}
+		}
+		
+		if InArray("Music",DesiredBook)
+		{
+			if !(_last == "Composition" || _last == "Lyrics" || _last == "Singing" || _last == "Music")
+			{
+				"How to Play the %(_last)"
+				"%(_last) Performance"
+				"Practice Pieces for the %(_last)"
+			}
+			
+			if _isother
+			{
+				"Classical Music Reborn"
+				"A Collection of Beethtoven's Symphonies"
+				"Is %(instrument) an Intrument? An Exploration"
+				"Let's Rock 'n Roll"
+				"Anything Can be Music!"
+			}
+		}
+	}
+	
+	if InArray("Home skills",DesiredBook)
+	{
+		"Homemaker's Guide:\_w[] %(_last)"
+		"Stuck at Home? Let's Try %(_last)!"
+		"How to Get Good at %(_last)"
+		"How to Have Fun %(_last)"
+		
+		if _isother
+		{
+			"The Handyman's Bible"
+			"Homemaker's Guide"
+			"Stuff to Do Around the Home"
+		}
+	}
+	
+	if InArray("Science",DesiredBook)
+	{
+		"%(_last) I"
+		"%(_last) II"
+		"%(_last) III"
+		
+		if _isother
+		{
+			"Exploring the Sciences"
+			"Science:\_w[] Which Field to Specialize In?"
+			"Fun Science Experiments for Kids"
+		}
+	}
+	
+	if InArray("Self help",DesiredBook)
+	{
+		"%(_last) is the Last Thing Anyone Wants to Do, But it's Worth It"
+		"%(_last) and How to Get Good at It"
+		"You Can Do It:\_w[] %(_last)"
+		"Exercising Mental Muscles:\_w[] %(_last)"
+		
+		if _isother
+		{
+			"Help Yourself!"
+			"Retraining Your Brain"
+			"How to Get Better at Getting Better"
+			"Learn to Love Learning"
+			"Investing in Yourself"
+		}
+	}
+	
+	if InArray("The outdoors",DesiredBook)
+	{
+		"%(_minorcategory) for Everyone"
+		"Considerations while %(_minorcategory)"
+		"How to Have Fun %(_minorcategory)"
+		
+		if InArray("Survival",DesiredBook)
+		{
+			"Don't Get Got"
+			"Navigating Without a Compass"
+			"Don't Touch That! A Handbook on Poisonous Plants"
+		}
+		
+		if _isother
+		{
+			if InArray("Camping",DesiredBook)
+			{
+				"So You're Stuck in a Tent for a Week"
+				"50 Jokes to Keep Your Camping Trip Lively"
+				"The Forager's Guide to Edible Plants"
+			}
+			
+			if InArray("Fishing",DesiredBook)
+			{
+				"How to Bait a Hook"
+				"What Tackle is Best?"
+				"Waiting for a Bite"
+				"On the Lake"
+				"Gone Fishin'"
+			}
+			
+			if InArray("Hiking",DesiredBook)
+			{
+				"Not All Who Wander are Lost"
+				"Pack Light! A Guide to Packing for Long Trips"
+				"Bring Extra Socks:\_w[] Tales as Warning to Fellow Hikers"
+			}
+			
+			if InArray("Swimming",DesiredBook)
+			{
+				"New Swimming Techniques to Try at the Pool This Summer"
+				"Beach Days"
+				"Finding a Good Inner Tube"
+			}
+		}
+	}
+}
+
+BookWords : nonoverlap_pool
+{
+	"before you"
+	"think about"
+	"for all intents and purposes"
+	"experience with"
+	"important to note"
+	"justification for"
+	"there's an important"
+	"some would say"
+	
+	if InArray("Animals",DesiredBook)
+	{
+		"texture"
+		"spotted"
+		"never been seen outside"
+		"its habitat"
+		"considered endangered"
+		"unique species"
+		"tracks"
+		"diurnal"
+		"nocturnal"
+		"considered an invasive species"
+		
+		if InArray("Amphibians",DesiredBook)
+		{
+			"exhibit biofluorescence"
+			"nearly all frogs"
+			"no claws"
+			"larger than the fore legs"
+			"broad toe pads, with adhesive for climbing"
+			"climb trees"
+			"metamorphosis"
+			"go through a cycle of"
+			"do not resemble adults"
+			"typically herbivorous"
+		}
+		
+		if InArray("Birds",DesiredBook)
+		{
+			"feathered friends"
+			"colorful displays"
+			"soaring through the air"
+			"known to dive down and catch fish"
+			"fiercely guard their eggs"
+			"long lived, and can remember the faces of"
+			"very curious, and will explore with their beaks and talons"
+			"may want to get a blanket to put over"
+			"the shrieking calls of the"
+			"taken to the vet every"
+			"plenty of toys and perches in"
+		}
+		
+		if InArray("Bugs",DesiredBook)
+		{
+			"six legs to be considered a"
+			"creepy crawlies"
+			"hiding under the porch"
+			"if you tip over a rock you may see"
+			"like humid areas with standing water"
+			"a valuable part of every ecosystem"
+			"confused by lights"
+			"carry diseases such as"
+			"delicate wings that are"
+			"burrow into the ground"
+			"causing damage to various crops"
+			"take flight as they mature into adults"
+		}
+		
+		if InArray("Cats",DesiredBook)
+		{
+			"soft and fluffy"
+			"claws and teeth"
+			"cardboard boxes make for great beds"
+			"if you have a patch of sunlight in your home, you may soon find it occupied with your new furry friend"
+			"keep fragile items away from the edges of tables and countertops where they may be pushed"
+			"eyes may glow in the darkness"
+			"actually lactose intolerant"
+			"good at keeping themselves clean"
+			"different styles of purrs"
+			"some cats are more talkative than others, as you'll soon find"
+			"a litter box for every cat in the house, plus one extra"
+			"change their water daily"
+		}
+		
+		if InArray("Dogs",DesiredBook)
+		{
+			"dogs are known for their"
+			"a wagging tail is a sign of friendliness"
+			"love to be brushed"
+			"known to have issues such as"
+			"digging holes"
+			"make sure to stow your shoes somewhere that your new furry friend cannot reach"
+			"excessive barking can be"
+			"make sure to trim your dog's nails every"
+			"frequent walks are a must"
+			"pay attention to leash law"
+			"be a good neighbor, pick up"
+			"what is your dog trying to tell you"
+			"must never be given chocolate"
+		}
+		
+		if InArray("Fish",DesiredBook)
+		{
+			"larger tank than you may expect"
+			"water must be changed every"
+			"fish flakes will do fine"
+			"swim in schools"
+			"found in freshwater rivers"
+			"found deep in the ocean"
+			"divers beware: the spines of"
+			"rivals the crabs that are found in"
+			"always a bigger fish"
+			"swims peacefully"
+			"never stops swimming"
+			"feed on plankton"
+		}
+		
+		if InArray("Reptiles",DesiredBook)
+		{
+			"scales that"
+			"bask in the sun"
+			"sheds its skin"
+			"three or four chambered hearts"
+			"over 10,000 species"
+			"cold-blooded"
+			"smell using their tongues"
+			"are incapable of sweating"
+			"most lay eggs"
+			"tortoises live the longest of"
+		}
+		
+		if InArray("Other",DesiredBook)
+		{
+			"only found in"
+			"endangered"
+			"known to be"
+			"should not be approached"
+			"take caution if you see tracks"
+		}
+	}
+	
+	if InArray("Arts",DesiredBook)
+	{
+		"passion"
+		"know your audience"
+		"make money"
+		"creative blocks"
+		"under-appreciated"
+		"build up the skill with practice"
+		
+		if InArray("Illustration",DesiredBook)
+		{
+			"paper choice"
+			"blotting"
+			"oils from your fingers can"
+			"museum"
+			"archival quality"
+			"may peel"
+			"painter's tape"
+		}
+		
+		if InArray("Music",DesiredBook)
+		{
+			"tuning"
+			"concert"
+			"watch the conductor"
+			"the piccolos"
+			"when the flutes come in"
+			"the soloist will"
+			"practicing every day is key to"
+			"the harmony will nicely compliment the"
+			"melody"
+			"rests"
+		}
+		
+		if InArray("Performance",DesiredBook)
+		{
+			"stage fright"
+			"show must go on"
+			"when the lights are on"
+			"costume design is"
+			"the crowd will roar"
+			"thrill of the applause of a packed theater"
+			"dazzling"
+			"spectacle"
+			"until the curtain falls and you can finally relax"
+			"let your gaze skim the crowd without lingering"
+		}
+		
+		if InArray("Writing",DesiredBook)
+		{
+			"blank page syndrome"
+			"editing"
+			"a good beta reader"
+			"pacing is critical"
+			"avoid repeating words"
+			"often taken for granted"
+			"critically important to the success of"
+			"not be taken lightly"
+			"difficult, but worthwhile"
+			"may find that a pen and paper is preferable to a keyboard, or vice versa"
+			"write in a variety of different styles to expand your"
+			"technical writing is a valuable way to"
+		}
+	}
+	
+	if InArray("Home skills",DesiredBook)
+	{
+		"store brand is fine"
+		"don't be swayed by"
+		"don't be tempted to"
+		"take it step by step"
+		"a little goes a long way"
+		"don't forget step 2"
+		
+		if InArray("Cleaning",DesiredBook)
+		{
+			"vinegar is useful for a lot of"
+			"always have extra paper towels on hand"
+			"have a replacement sponge in your cabinet"
+			"a bit of elbow grease will bring it right out"
+			"have an apron for cleaning specifically"
+			"rug stains can be"
+			"stains should be taken care of before they have a chance to"
+			"make small circles to avoid leaving streaks"
+			"it should squeak by the time you're finished with it"
+			"open up the windows and let it air out"
+		}
+		
+		if InArray("Cooking",DesiredBook)
+		{
+			"make sure to set a timer for"
+			"4 cups flour"
+			"2 tablespoons sugar"
+			"3 large eggs"
+			"combine until they are just mixed"
+			"blend until smooth with no chunks left"
+			"fold the egg in and"
+			"chill in the fridge overnight"
+			"preheat your oven to 375°F (190°C)"
+			"bring the water to a rolling boil"
+		}
+		
+		if InArray("Finance",DesiredBook)
+		{
+			"checking account"
+			"savings account"
+			"retirement account"
+			"IRA"
+			"401(k)"
+			"5% match"
+			"investing is important to ensure your financial future"
+			"credit card"
+			"emergency fund"
+			"withdrawal"
+		}
+		
+		if InArray("Repairs",DesiredBook)
+		{
+			"make sure your toolbox contains"
+			"screwdrivers"
+			"hammer"
+			"mallet"
+			"duct tape"
+			"plaster"
+			"keep the extra paint around in case you need to patch"
+			"expect nail pops in the first year"
+			"a crack can indicate"
+			"musty smells should be investigated in case of water damage"
+		}
+	}
+	
+	if InArray("Science",DesiredBook)
+	{
+		"scientific method is"
+		"the key to"
+		"experimentation"
+		"test this theory by"
+		"by observing the"
+		"making observations, we can determine"
+		
+		if InArray("Alchemy",DesiredBook)
+		{
+			"purified iron"
+			"clean the bones to prepare them for"
+			"many sources can be used to acquire plastic"
+			"let the excess boil off"
+			"prepare the matrix for"
+			"always keep extra chalk on hand"
+			"bring the shape together with"
+			"the pattern will"
+			"bring it up to temperature"
+			"work the clay until it is soft and malleable"
+		}
+		
+		if InArray("Biology",DesiredBook)
+		{
+			"genes"
+			"organisms"
+			"diverse"
+			"nutrients"
+			"molecular"
+			"chemical elements"
+			"synthesis"
+			"photosynthesis"
+			"habitability"
+			"organic compounds"
+		}
+		
+		if InArray("Chemistry",DesiredBook)
+		{
+			"molecules"
+			"beaker"
+			"metals"
+			"atomic structure"
+			"matter"
+			"periodic table of the elements"
+			"chemical compounds"
+			"phase"
+			"form chemical bonds"
+			"produce energy"
+		}
+		
+		if InArray("Entomology",DesiredBook)
+		{
+			"insect"
+			"bug"
+			"beekeeping"
+			"compound eyes"
+			"exoskeleton"
+			"shed"
+			"husk"
+			"emerging every"
+			"avoiding predators by"
+			"study their habitats"
+		}
+		
+		if InArray("Magic",DesiredBook)
+		{
+			"vial of"
+			"beetle soul"
+			"unpasteurized goat's milk"
+			"rabbit's foot"
+			"feather from a hawk"
+			"eye of newt"
+			"incantation"
+			"summoning circle"
+			"runes"
+			"a simple enchantment"
+		}
+		
+		if InArray("Physics",DesiredBook)
+		{
+			"quantum mechanics"
+			"speed of light"
+			"oscillation of"
+			"on a very large scale"
+			"particle detectors"
+			"simulation"
+			"parabola"
+			"quantitative results show that"
+			"universal regularities"
+			"the reaction between the"
+		}
+		
+		if InArray("Zoology",DesiredBook)
+		{
+			"animals"
+			"distribution"
+			"cell biology"
+			"habitats"
+			"species"
+			"offspring"
+			"physiology"
+			"genetic"
+			"domestication"
+			"wildlife"
+		}
+	}
+	
+	if InArray("Self help",DesiredBook)
+	{
+		"attitude"
+		"you can"
+		"take a deep breath"
+		"changing your mindset"
+		"let go of"
+		"seek help for"
+		"support network"
+		"talking with a therapist can"
+		"take the stress off"
+		"you would be surprised how much a small action can improve"
+		"builds up to a greater"
+		"the payoff is worth"
+		"don't rush"
+		"make sure to"
+		"if you thought"
+		"simple"
+		"helpful mnemonic"
+		"this book"
+		"you may be wondering"
+		"put it this way"
+		"if you noticed"
+		"and that's just the beginning"
+		"may surprise you with how"
+		"The first"
+	}
+	
+	if InArray("The outdoors",DesiredBook)
+	{
+		"protection against"
+		"adequate supplies"
+		"fresh water"
+		"nature"
+		"the wonders of"
+		"ready to explore"
+		"don't forget"
+		
+		if InArray("Camping",DesiredBook)
+		{
+			"tent"
+			"off the ground"
+			"hammock"
+			"waterproof matches"
+			"flint"
+			"bring flares"
+			"gather kindling from the surrounding"
+			"marshmallows"
+			"can opener"
+			"clean water"
+			"drive the stakes in so that"
+			"keep food secured"
+			"do not feed wild animals"
+		}
+		
+		if InArray("Fishing",DesiredBook)
+		{
+			"fish"
+			"hook"
+			"worms"
+			"good boat"
+			"prepare your rod"
+			"when it's raining"
+			"bring a drink"
+			"floating on the water"
+			"bobber"
+			"sinker"
+			"bait your hook"
+		}
+		
+		if InArray("Hiking",DesiredBook)
+		{
+			"good pair of boots"
+			"plan your route in advance"
+			"walking stick will help to"
+			"markers to blaze a trail"
+			"trail mix is a good thing to have on"
+			"bring plenty of fluids"
+			"wear sunscreen if you're not under tree cover"
+			"wear a hat"
+			"make sure to check yourself for ticks"
+			"bring a trash bag in case you find litter"
+		}
+		
+		if InArray("Swimming",DesiredBook)
+		{
+			"a good set of goggles"
+			"diving"
+			"jumping in is the best way to get the cold part over with"
+			"peaceful lake"
+			"rip tides"
+			"backstroke"
+			"doggy paddle"
+			"floating"
+			"tread water"
+			"swim suit"
+		}
+	}
+}
+
+DamageTypes : nonoverlap
+{
+	"Ink is blurred"
+	"Water damage"
+	"Pages are blank"
+	"Pages are torn out"
+	"Unreadable language"
+	"Burned"
+	"Gibberish"
+}
+
+QBookWords
+{
+	"""\![embed,OnBookWords]"""
+}
+
+OnBookWords
+{
+	BookWords
+}
+
+ReadBook
+{
+	if DamageType == "Ink is blurred"
+	{
+		"The ink is smeared down the pages, making it nearly impossible to read anything. \n\n %(QBookWords)... \n\n %(QBookWords)... \n\nI think this is giving me a headache."
+		"The ink of this book has run everywhere, all the words are blurred together. I think I can make out a few... \n\n %(QBookWords)... \n\n %(QBookWords)... \n\n %(QBookWords)...? \n\n It's impossible to get any real information out of this."
+		"The ink has run down the pages, the words bleeding together into an unreadable blob of text. I can make out a few words here and there... \n\n%(QBookWords)... \n\n %(QBookWords)... \n\n ... But nothing of substance."
+		"The ink has drifted down these pages and coalesced at the bottom... It's all one unreadable blob of ink at the bottom of the page. And all of the pages are like this..."
+		"The ink of this book is so blurred that it just looks like smudges on the page... I can make out a few words. \n\n%(QBookWords)... \n\n %(QBookWords)... \n\n... I don't think it's worth the effort to keep squinting at this."
+	}
+	elseif DamageType == "Water damage"
+	{
+		"The pages of this book have been completely ruined by water. The text that remains is distorted, and only available in small chunks. \n\n %(QBookWords)... \n\n %(QBookWords)... \n\n There isn't enough left to get anything meaningful out of this tome."
+		"This book has been damaged by water, it's discolored and warped, and the pages inside are torn or sticking together with no hope of being separated. I can make out just a few words... \n\n %(QBookWords)... \n\n %(QBookWords)... \n\n ... Not enough to get the information I need, though."
+		"This book has obviously seen better, and drier, days. All the pages are warped and ruined by water damage... It's torn in several places. I can make out a few words and phrases, but not enough to know what it's trying to tell me. \n\n %(QBookWords)... \n\n %(QBookWords)... \n\n I don't think I'll get anything of value out of this."
+		"Eugh... the water damage on this book is extensive. It's gross to the touch, and most of the pages are sticking together, or tearing apart... I can make out some of the text, but not enough to get the full picture."
+		"This is a pretty sorry excuse of a book... the whole thing must have been immersed in water at some point to be in this bad of shape. I can make out a few words here and there that aren't too badly distorted. \n\n%(QBookWords)... \n\n%(QBookWords)... \n\n %(QBookWords)... \n\n... That's about it."
+	}
+	elseif DamageType == "Pages are blank"
+	{
+		"There is nothing at all on these pages. Even if I turn them to try and catch the light, there's nothing."
+		"There's nothing to see in this book, every page is blank."
+		"There's nothing here... Maybe if I keep flipping through pages...? No, they're all blank."
+		"These pages are... completely blank. There's nothing, no matter how many I flip through. Maybe it's invisible ink...? Maybe if I breathe on it, the words will appear... \n\n... \n\nThat did nothing. I don't think there's anything here at all."
+		"There's... nothing. Nothing at all. This book is completely blank. Did they forget to print on it?"
+	}
+	elseif DamageType == "Pages are torn out"
+	{
+		"Several pages are torn out... I can only make out a few words here and there that survived near the spine. \n\n %(QBookWords)... \n\n %(QBookWords)..."
+		"Pages have been ripped from this book... Many of them. Even if the information I need is here, it is almost certainly incomplete."
+		"Several dozen pages have been torn out, leaving only scraps behind... I can make out a few words here at the bottom, where part of this page is left... \n\n %(QBookWords)... \n\n %(QBookWords)... \n\n The information I need might have been here, but it is gone now."
+		"There used to be pages here, at one point. I assume, anyways. Most of them have been completely torn out, quite violently. I can make out a few words on some pages towards the back that are partially intact... \n\n%(QBookWords)... \n\n%(QBookWords)... \n\nIf the information I needed was here, it isn't any longer."
+		"These pages are all torn in half... I can read bits and pieces, but the full message is entirely lost. Who would do such a thing...?"
+	}
+	elseif DamageType == "Unreadable language"
+	{
+		"I have never seen the language in this book before... I can't even begin to read it."
+		"This book is full of some kind of runes... Perhaps a language of the ancients? I don't know of anyone who could translate it."
+		"The book is full of a mysterious set of squiggles... It is like no language I've ever seen before."
+		"These runes... they look ancient. I've never seen them before... I don't know of anyone who could translate this."
+		"This is... written in a dense script that I can't even make out. I've never seen a language like this. I have no idea if anyone could even translate such a thing..."
+	}
+	elseif DamageType == "Burned"
+	{
+		"The pages inside this book have been burned away... There's nothing left in here that is readable."
+		"This book appears to have been in a fire at some point... The pages are blackened and falling apart. I see a few words here and there, but I can't really make anything out..."
+		"The inside of this book is blackened and burned... It must have been in a fire at some point. There's no use trying to read it."
+		"These pages have all been damaged by fire... most of them are gone, although a few scraps remain. \n\n%(QBookWords)... \n\n%(QBookWords)... \n\nThe pages are falling apart as I try to turn them."
+		"This book has apparently been the victim of a fire, who knows how long ago... Flakes of charred paper fell out when I opened it, and more drift down every time I turn a page. There's nothing left to read here."
+	}
+	else //Gibberish / catch-all
+	{
+		"The book is full of complete gibberish...!? These aren't words, it's just clusters of random letters."
+		"The book is... entirely incomprehensible!? Are these even words? Maybe it's a cipher...? ... It doesn't look like any cipher I know."
+		"This book... I don't think these are even real words... It's complete nonsense."
+		"There are words here... but they're strung together in an order that doesn't make any sense. \n\n""%(MagicWords) %(TOLOWER(MagicWords)) the %(TOLOWER(MagicWords)) %(TOLOWER(MagicWords)) %(TOLOWER(MagicWords))""..."
+		"This is... just a bunch of word salad. \n\n""%(MagicWords) and %(TOLOWER(MagicWords)) the %(TOLOWER(MagicWords)) %(TOLOWER(MagicWords)) %(TOLOWER(MagicWords)), for %(TOLOWER(MagicWords)) %(TOLOWER(MagicWords))""... \n\nThis book is complete and utter nonsense."
+	}
+}
+
+
+
+
+
+
+
+
+
+
+Books : array
+{
+	"Non-fiction"
+	"Fiction"
+}
+
+Books.Non_fiction : array
+{
+	"Animals"
+	"Arts"
+	"Home skills"
+	"Science"
+	"Self help"
+	"The outdoors"
+}
+
+	Books.Non_fiction.Animals : array
+	{
+		"Amphibians"
+		"Birds"
+		"Bugs"
+		"Cats"
+		"Dogs"
+		"Fish"
+		"Reptiles"
+		"Other"
+	}
+	
+		Books.Non_fiction.Animals.Amphibians : array
+		{
+			"Caecilians"
+			"Frogs"
+			"Salamanders"
+			"Toads"
+			"Other"
+		}
+		
+		Books.Non_fiction.Animals.Birds : array
+		{
+			"Bluejays"
+			"Budgies"
+			"Canaries"
+			"Cardinals"
+			"Chickadees"
+			"Chickens"
+			"Cockatiels"
+			"Ducks"
+			"Eagles"
+			"Falcons"
+			"Finches"
+			"Geese"
+			"Hawks"
+			"Owls"
+			"Peacocks"
+			"Robins"
+			"Turkeys"
+			"Wrens"
+			"Other"
+		}
+		
+		Books.Non_fiction.Animals.Bugs : array
+		{
+			"Ants"
+			"Beeds"
+			"Butterflies"
+			"Dragonflies"
+			"Earthworms"
+			"Fireflies"
+			"Hornets"
+			"House Flies"
+			"Inchworms"
+			"Locusts"
+			"Moths"
+			"Pill Bugs"
+			"Spiders"
+			"Stink Bugs"
+			"Wasps"
+			"Other"
+		}
+		
+		Books.Non_fiction.Animals.Cats : array
+		{
+			"Abyssinian"
+			"American Curls"
+			"American Shorthairs"
+			"Bengals"
+			"British Longhairs"
+			"British Shorthairs"
+			"Cornish Rexes"
+			"LaPerms"
+			"Maine Coons"
+			"Persians"
+			"Ragdoll"
+			"Russian Blue"
+			"Scottish Fold"
+			"Siamese"
+			"Moggies"
+		}
+		
+		Books.Non_fiction.Animals.Dogs : array
+		{
+			"Akita Inu"
+			"Basset Hounds"
+			"Beagles"
+			"Chihuahuas"
+			"Dachshunds"
+			"German Shepherds"
+			"Golden Retrievers"
+			"Great Danes"
+			"Greyhounds"
+			"Mastiffs"
+			"Pugs"
+			"Shiba Inu"
+			"Shih Tzus"
+			"Weimaraners"
+			"Mutts"
+		}
+		
+		Books.Non_fiction.Animals.Fish : array
+		{
+			"Anchovies"
+			"Bass"
+			"Catfish"
+			"Clown Fish"
+			"Cod"
+			"Dace"
+			"Goldfish"
+			"Guppies"
+			"Haddock"
+			"Mackerel"
+			"Minnows"
+			"Neon Tetras"
+			"Northern Red Snapper"
+			"Pike"
+			"Pufferfish"
+			"Salmon"
+			"Sword Fish"
+			"Trout"
+			"Tuna"
+			"Other"
+		}
+		
+		Books.Non_fiction.Animals.Reptiles : array
+		{
+			"Alligators"
+			"Crocodiles"
+			"Lizards"
+			"Snakes"
+			"Tortoises"
+			"Turtles"
+			"Other"
+		}
+		
+		Books.Non_fiction.Animals.Other : array
+		{
+			"Badgers"
+			"Bears"
+			"Crabs"
+			"Elephants"
+			"Foxes"
+			"Giraffes"
+			"Hyenas"
+			"Koalas"
+			"Lions"
+			"Mammoths"
+			"Octopuses"
+			"Platypuses"
+			"Seals"
+			"Squid"
+			"Tigers"
+			"Wolves"
+			"Other"
+		}
+	
+	Books.Non_fiction.Arts : array
+	{
+		"Illustration"
+		"Music"
+		"Performance"
+		"Writing"
+		"Other"
+	}
+	
+		Books.Non_fiction.Arts.Illustration : array
+		{
+			"Acrylic Paints"
+			"Ballpoint Pens"
+			"Charcoal"
+			"Colored Pencils"
+			"Crayons"
+			"Graphite"
+			"Guache"
+			"Markers"
+			"Oil Paints"
+			"Pastels"
+			"Watercolors"
+			"Other"
+		}
+		
+		Books.Non_fiction.Arts.Music : array
+		{
+			"Acoustic Guitar"
+			"Bass"
+			"Cello"
+			"Composition"
+			"Drums"
+			"Electric Guitar"
+			"Flute"
+			"Lyrics"
+			"Oboe"
+			"Piano"
+			"Singing"
+			"Steel Drum"
+			"Triangle"
+			"Trumpet"
+			"Viola"
+			"Violin"
+			"Other"
+		}
+		
+		Books.Non_fiction.Arts.Performance : array
+		{
+			"Film"
+			"Opera"
+			"Television"
+			"Theater"
+			"Other"
+		}
+		
+		Books.Non_fiction.Arts.Writing : array
+		{
+			"Poetry"
+			"Prose"
+			"Other"
+		}
+	
+	Books.Non_fiction.Home_skills : array
+	{
+		"Cleaning"
+		"Cooking"
+		"Finance"
+		"Repairs"
+		"Other"
+	}
+	
+		Books.Non_fiction.Home_skills.Cleaning : array
+		{
+			"Cleaning with chemicals"
+			"Decluttering"
+			"Degreasing"
+			"Dusting"
+			"Pressure washing"
+			"Rug cleaning"
+			"Stain removal"
+			"Window washing"
+			"Other"
+		}
+		
+		Books.Non_fiction.Home_skills.Cooking : array
+		{
+			"Air frying"
+			"Baking"
+			"Canning"
+			"Deep frying"
+			"Dehydrating"
+			"Pan frying"
+			"Pasta making"
+			"Pizza making"
+			"Salad tossing"
+			"Slow cooker meals"
+			"Soup making"
+			"Other"
+		}
+		
+		Books.Non_fiction.Home_skills.Finance : array
+		{
+			"Balancing a checkbook"
+			"Budgeting"
+			"Down Payments"
+			"Getting out of debt"
+			"Investing"
+			"Leasing"
+			"Loans"
+			"Planning for retirement"
+			"Saving"
+			"Other"
+		}
+		
+		Books.Non_fiction.Home_skills.Repairs : array
+		{
+			"Buffing"
+			"Darning"
+			"Painting"
+			"Polishing"
+			"Sanding"
+			"Sewing"
+			"Varnishing"
+			"Welding"
+			"Wood staining"
+			"Woodworking"
+			"Other"
+		}
+		
+		Books.Non_fiction.Home_skills.Other : array
+		{
+			"Arranging furniture"
+			"Crocheting"
+			"Decorating"
+			"Gardening"
+			"Mowing the lawn"
+			"Other"
+		}
+	
+	Books.Non_fiction.Science : array
+	{
+		"Alchemy"
+		"Biology"
+		"Chemistry"
+		"Entomology"
+		"Magic"
+		"Physics"
+		"Zoology"
+		"Other"
+	}
+	
+	Books.Non_fiction.Self_help : array
+	{
+		"Communicating"
+		"Confidence"
+		"Happiness"
+		"Organizing"
+		"Maintaining Relationships"
+		"Stress management"
+		"Other"
+	}
+	
+	Books.Non_fiction.The_outdoors : array
+	{
+		"Birdwatching"
+		"Camping"
+		"Diving"
+		"Fishing"
+		"Hiking"
+		"Mountain climbing"
+		"Skiing"
+		"Snowboarding"
+		"Survival"
+		"Swimming"
+		"Other"
+	}
+	
+		Books.Non_fiction.The_outdoors.Camping : array
+		{
+			"Creating light"
+			"Food supplies"
+			"Making fires"
+			"Sleeping bags"
+			"Tents"
+			"Other"
+		}
+		
+		Books.Non_fiction.The_outdoors.Fishing : array
+		{
+			"Bait"
+			"Boats"
+			"Bodies of water"
+			"Rods"
+			"Other"
+		}
+		
+		Books.Non_fiction.The_outdoors.Hiking : array
+		{
+			"Boots"
+			"Bug spray"
+			"Creating light"
+			"Food supplies"
+			"Scaring away predators"
+			"Trails"
+			"Walking sticks"
+			"Other"
+		}
+		
+		Books.Non_fiction.The_outdoors.Swimming : array
+		{
+			"Bodies of water"
+			"Flippers"
+			"Goggles"
+			"Jump techniques"
+			"Swim suits"
+			"Towels"
+			"Other"
+		}
+	
+	
+
+/*
+Books.Fiction : array
+{
+	"Action and adventure"
+	"Contemporary fiction"
+	"Fantasy"
+	"Historical fiction"
+	"Horror"
+	"Literary fiction"
+	"Mystery"
+	"Romance"
+	"Satire"
+	"Science fiction"
+	"Thriller"
+	"Other"
+}
+*/
+
+PatronStudyTime
+{
+	_month = 2592000
+	_ghost_start_date = GETSECCOUNT(2024,3,3)
+	_time_ghost_has_existed = GETSECCOUNT - _ghost_start_date
+	
+	_since = _time_ghost_has_existed / _month
+	
+	if _since == 1; "a month"
+	elseif _since == 2; "a couple of months"
+	elseif _since == 3; "a few months"
+	elseif _since >=  12
+	{
+		if _since == 12; "a year"
+		elseif _since == 13; "a year and a month"
+		elseif _since < 24; "a year %(_since % 12) month"
+		elseif _since >= 24
+		{
+			if _since % 12 == 1; "%(_since / 12) years and a month"
+			else; "%(_since / 12) years and %(_since % 12) months"
+		}
+		else; _since; "a year and %(_since % 12) months"
+	}
+	else; "around %(_since) months"
+}
+
+
+
+starsign
+{
+	_month = TOINT(SHIORI3FW.UserBirthday[1])
+	_day = TOINT(SHIORI3FW.UserBirthday[2])
+	
+	if (_month == 12 && _day >= 22) || (_month == 1 && _day <= 19)
+	{
+		"Capricorn"
+	}
+	elseif (_month == 1 && _day >= 20) || (_month == 2 && _day <= 18)
+	{
+		"Aquarius"
+	}
+	elseif (_month == 2 && _day >= 19) || (_month == 3 && _day <= 20)
+	{
+		"Pisces"
+	}
+	elseif (_month == 3 && _day >= 21) || (_month == 4 && _day <= 19)
+	{
+		"Aries"
+	}
+	elseif (_month == 4 && _day >= 20) || (_month == 5 && _day <= 20)
+	{
+		"Taurus"
+	}
+	elseif (_month == 5 && _day >= 21) || (_month == 6 && _day <= 20)
+	{
+		"Gemini"
+	}
+	elseif (_month == 6 && _day >= 21) || (_month == 7 && _day <= 22)
+	{
+		"Cancer"
+	}
+	elseif (_month == 7 && _day >= 23) || (_month == 8 && _day <= 22)
+	{
+		"Leo"
+	}
+	elseif (_month == 8 && _day >= 23) || (_month == 9 && _day <= 22)
+	{
+		"Virgo"
+	}
+	elseif (_month == 9 && _day >= 23) || (_month == 10 && _day <= 22)
+	{
+		"Libra"
+	}
+	elseif (_month == 10 && _day >= 23) || (_month == 11 && _day <= 21)
+	{
+		"Scorpio"
+	}
+	elseif (_month == 11 && _day >= 22) || (_month == 12 && _day <= 21)
+	{
+		"Sagittarius"
+	}
+}
+
+taskreason : nonoverlap
+{
+	"the phase of the moon"
+	"how strongly the wind is blowing outside"
+	"the color coordination in your outfit"
+	"the way the door squeaked when you came in"
+	"the intensity of your gaze"
+	"your eye color"
+	"that you seem to be having a bad hair day"
+	"that Orion is above the horizon currently"
+	"that precarious stack of books over there"
+	"that the shadow cast by Alba's perch is at your feet"
+	"what you had for lunch"
+	"the petty curse that seems to be following you around"
+	"the way you've been biting your lip"
+}
+
+todaysdate : all
+{
+	switch month - 1
+	{
+		"January"
+		"February"
+		"March"
+		"April"
+		"May"
+		"June"
+		"July"
+		"August"
+		"September"
+		"October"
+		"November"
+		"December"
+	}
+	" "
+	switch day - 1
+	{
+		"1st"
+		"2nd"
+		"3rd"
+		"4th"
+		"5th"
+		"6th"
+		"7th"
+		"8th"
+		"9th"
+		"10th"
+		"11th"
+		"12th"
+		"13th"
+		"14th"
+		"15th"
+		"16th"
+		"17th"
+		"18th"
+		"19th"
+		"20th"
+		"21st"
+		"22nd"
+		"23rd"
+		"24th"
+		"25th"
+		"26th"
+		"27th"
+		"28th"
+		"29th"
+		"30th"
+		"31st"
+	}
+}

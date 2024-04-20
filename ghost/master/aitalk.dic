@@ -1,0 +1,67 @@
+OnAiTalk
+{
+	AuthorPick
+	
+	if CHAIN.IDName == ""
+	{
+		LastTalk = RandomTalk
+	}
+	else
+	{
+		LastTalk = ChainTalk
+	}
+	LastTalk = "\0\b[0]\s[0]%(usertalk)" + LastTalk + " %(patronleave)"
+	LastTalk
+	
+	if reference0 != "prompt"; NaturalRandomtalks++
+	if NaturalRandomtalks >= 3
+	{
+		NaturalRandomtalks = 0
+		HintReady = 1
+	}
+}
+
+RandomTalk : nonoverlap_pool
+{
+	if !TutorialComplete
+	{
+		"\0\s[0]%(hoo)\0I should probably try asking him for the book I need... %(hoo)"
+		"\0\s[0]%(hoo)\0It's kind of strange to talk to an owl... But I won't get anywhere if I don't ask him for a book."
+		"\0\s[0]%(hoo)\0There are so many books here, and I can't figure out how they're organized... I'll need to ask him where to find the book I need. %(hoo)"
+	}
+	else
+	{	
+		"\1\b[0]\s[10]Alba, are there more books in this series? \s[140]The part I'm looking for isn't in this one. \n\n%(hoo)\1\s[110]Ah, yes, this looks to be it. Thank you. %(hoo)"
+		"\1\b[0]\s[13]I think this book is above my skill level, for now. \s[10]Alba, do you have anything that is more of an introduction to the topic? \n\n%(hoo)\1\s[15]Ah, for beginners, is it... \s[115]This will work, thank you."
+		"\1\b[0]\s[142]This book wasn't as useful as I was hoping it would be... \s[140]Do you have more in this same vein? \n\n%(hoo)\1\s[113]Ah, this isn't quite the right-- \n\n%(hoo)\1\s[110]... I see what you're driving at. Thank you, I'll return with it soon."
+		"\1\b[0]\s[10]Do you have any books on %(patronbook)? \n\n%(hoo)\1\s[140]Hm, I believe I have read this one already... do you have others on this subject? \n\n%(hoo)\1\s[110]Yes, this will do. Thank you."
+		"\1\b[0]\s[140]Alba, do you have any more of these books by %(SomeAuthor)? I'd like to see more of %(their) work... \n\n%(hoo)\1\s[142]I see... so this was the only book %(they) ever published. Unfortunate. \s[140]I'll keep working on this one then, thank you."
+		"\1\b[0]\s[10]Does %(SomeAuthor) have any more books on %(magictype) magic? %(Capitalize(their)) insights on the subject are quite intriguing... \n\n%(hoo)\1\s[115]Ah, perfect. This will do nicely, thank you."
+		"\1\b[0]\s[17]This book on %(magictype) magic is entirely wrong, I don't know what %(SomeAuthor) was thinking when %(they) wrote it. \n\n%(hoo)\1\s[14]Do you have another book by a different author? \n\n%(hoo)\1\s[110]Yes, this looks more promising. Thank you."
+		"\1\b[0]\s[114]I can't make heads or tails of this book on %(patronbook). I think I'll need to come back to this. \n\n%(hoo)\1\s[10]Could I get something on the same subject, please? \n\n%(hoo)\1\s[110]Thank you. I'll try it."
+		"\1\b[0]\s[16]I've finished this book on %(patronbook). \n\n%(hoo)\1\s[10]I would like another by %(SomeAuthor), do you have more? \n\n%(hoo)\1\s[15]Excellent, thank you."
+		"\1\b[0]\s[10]%(SomeAuthor) has a lot of books on %(magictype) magic, %(p('don''t','doesn''t')) %(they)? \n\n%(hoo)\1\s[110]I'd like another one, please. I'm finding %(their) notes to be of great help. \n\n%(hoo)\1\s[116]Thank you."
+		"\1\b[0]\s[140]I'm having trouble locating the-- \s[110]ah. \n\n%(hoo)\1\s[10]Never mind, I've found it."
+		"\1\b[0]\s[10]Alba, there is chanting coming from the west wing again. It is interrupting my studies, please do something about it. %(hoo)"
+		"\1\b[0]\s[110]I may head out for a short while, I need someone to-- \n\n%(hoo('?'))\1... \s[10]Never mind. I think I can do this on my own. %(hoo)"
+		"\1\b[0]\s[110]Do you have more bookmarks I can use? I am running short again. \n\n%(hoo)\1\s[10]Thank you. I'll return them just as soon as I finish cross referencing these books on %(patronbook). %(hoo)"
+		"\1\b[0]\s[113]It seems as though %(SomeAuthor) left this report unfinished... \s[14]This starts me over at square one for the day.\n\n%(hoo('...'))\1\s[110]Maybe I'll come back to this another time, I think I'm going to go and organize my notes for the time being."
+		"\0\s[1]%(hoo('...'))\1\s[10]Did you call me? \n\n\0\s[0]%(hoo('?'))\1\s[113]No...? \s[110]It must have been my imagination, then. \s[116]Perhaps I should take a short break..."
+		"\1\b[0]\s[110]%(SomeAuthor)... The name is familiar to me somehow. Alba, have you lent me other books by %(SomeAuthor) in the past? \n\n%(hoo)\1\s[115]Aha, I suspected as much... I recognized %(their) style, I just couldn't place it. I'll have to make note of this..."
+		"\1\b[0]\s[17]This ""%(SomeAuthor)"" keeps changing %(their) opinions from book to book. Were these written in the same decade? \n\n%(hoo)\1\s[117]This is ridiculous, how is anyone supposed to draw a conclusion if their arguments constantly change...? \s[116]Hmm, this is going to be more difficult than I thought..."
+		"\1\b[0]\s[110]Hm, has the weather outside changed? \n\n%(hoo)\1\s[116]I see, so it's %(weather) now... I'll have to take this into account for my experiments..."
+		"\1\b[0]\s[110]Pardon the interruption. \s[120]Do you have the time? \n\n%(hoo)\1\s[140]I see... I thought perhaps my pocket watch was running fast, but I really have been here for a long time today. \n\n%(hoo)\1\s[20]Thank you."
+		"\1\b[0]\s[117]Is there an older edition of this textbook? The information I need seems to have been removed. \n\n%(hoo)\1\s[10]Thank you, I will check through this one and cross reference them."
+		"\1\b[0]\s[142]I think I'm close to a breakthrough. I'm just missing one key piece of information... \s[140]Do you have any books on %(patronbook)? \n\n%(hoo)\1\s[15]Ah, yes, this should shed some light on it. Thank you."
+		"\1\s[14]My pen is starting to run dry. \s[10]Alba, do you have one I could borrow for now? \n\n\0\s[0]%(hoo('!'))\1\s[16]No, no, it doesn't need to be a feather pen. Ballpoint will do. \n\n\0\s[1]%(hoo('...'))\1\s[10]Thank you. I'll get more from the store tomorrow and return this to you."
+		"\1\b[0]\s[17]Have you seen where my sticky notes went? They disappeared the last time I came over here. They had important notes on them, I need them back. \n\n\0\s[1]%(hoo('...'))\1\s[117]Hmm. I see. Please let me know if you find them, then. \s[142]For now, I guess I'm starting over from scratch..."
+		"\1\b[0]\s[110]I found this scrap of paper tucked under a book, it looks like it's the magic words for yesterday's rituals. \n\n\0\s[2]%(hoo('!'))\1\s[16]I'll leave it here with you."
+		"\1\b[0]\s[115]%(SomeAuthor) has done an excellent job explaining the nuances of %(magictype) magic. \s[110]%(Capitalize(their)) footnotes are particularly enlightening, I'll have to keep an eye out for more of %(their) works. \n\n%(hoo)\1\s[15]%(Capitalize(they)) wrote another volume on the topic, you say...? \n\n%(hoo)\1\s[115]Thank you, I'll start in on it right away. I'm eager to see what more %(they) %(p('have','has')) to say..."
+		"\1\b[0]\s[18]I think I've gone on a wild goose chase. \s[14]I saw an interesting aside in a book and went down a long rabbit hole, but it's led me nowhere. \s[114]I hate to admit defeat, but it may be time to step back and reassess my goals for today... \n\n%(hoo)\1\s[110]Hm, I don't know what I need yet. I'll go and look over my current materials, and come back later if I need something."
+		"\1\b[0]\s[10]I found a pin on the floor. Here. \n\n%(hoo)\1\s[116]You're welcome for the help in reducing your liability. \n\n%(hoo('...?'))"
+		"\1\b[0]\s[16]I think my eyes need a break after focusing for so long. \n\n%(hoo)\1\s[116]Human eyes are weak compared to yours. I'm doing my best. \n\n\0\s[1]%(hoo('...'))"
+		"\1\b[0]\s[110]Remind me next time to go and get another notebook if I haven't yet. \n\n%(hoo)\1\s[142]This one's nearly full, I'll have to write very small to make it last the rest of the day..."
+	}
+}
+
+

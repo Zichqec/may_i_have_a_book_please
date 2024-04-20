@@ -1,0 +1,767 @@
+OnSakuraMenu : all
+{
+	AlignOwlBalloons
+	"\1\s[-1]\![set,alpha,100]\0\s[0]"
+	switch phase == "Earn book"
+	{
+		"\b[0]"
+		"\b[2]"
+	}
+	"\![set,autoscroll,disable]\![no-autopause]\f[anchorvisitedfontcolor,default.anchor]"
+	
+	"\0\_q%(usertalk)"
+	"I'll...\n\n"
+	"\![*]\q[Listen,OnAiTalk,prompt]"
+	if LastTalk != ""; "  \![*]\q[Recall what was said,OnLastTalk]"
+	"\n\n"
+	
+	if phase == "Earn book"
+	{
+		"%(ApplyHighlighting('Present my library card','PresentLibraryCard'))\n"
+		"%(ApplyHighlighting('Ask nicely','AskNicely'))\n"
+		"%(ApplyHighlighting('Wait patiently','WaitPatiently'))\n"
+		"%(ApplyHighlighting('Bow politely','BowPolitely'))\n"
+		"%(ApplyHighlighting('Donate to the library','DonateToLibrary'))\n"
+		"%(ApplyHighlighting('Bribe him with food','BribeWithFood'))\n"
+		"%(ApplyHighlighting('Compliment his collection','ComplimentCollection'))\n"
+		"%(ApplyHighlighting('Pick up clutter','PickUpClutter'))\n"
+		"%(ApplyHighlighting('Dust the bookshelves','DustBookshelves'))\n"
+		"%(ApplyHighlighting('Say my name','SayYourName'))\n"
+		"%(ApplyHighlighting('Say his name 3 times','SayOwlName'))\n"
+		"%(ApplyHighlighting('Say the magic words','SayMagicWords'))\n"
+		"%(ApplyHighlighting('Spin in a circle','SpinInCircle'))\n"
+		"%(ApplyHighlighting('Lay on the floor','LayOnFloor'))\n"
+		"%(ApplyHighlighting('Stare directly into his eyes','StareIntoEyes'))"
+	}
+	elseif phase == "Has book"
+	{
+		if BookRead
+		{
+			"\![*]\__q[OnComplainAboutBook]Complain about the unreadable book\__q\n"
+			"\![*]\__q[OnReadBook]Read the book again\__q\n"
+			"\![*]\__q[OnAskForBook]Request a new book\__q\n"
+		}
+		else
+		{
+			"\![*]\__q[OnReadBook]Read the book\__q\n"
+		}
+	}
+	else //Ask for book
+	{
+		"\![*]\__q[OnAskForBook]Request a book\__q\n"
+	}
+	
+	
+	"\n\n%(usertalkoff)"
+	
+	"\![*]\q[Settings,OnSettingsMenu]  \![*]\q[Cancel,blank]"
+	
+	if SHIORI3FW.DebugMode
+	{
+		"\f[color,disable]\n\n\n\n\q[Cycle modes,OnDebug.CycleModes]"
+		
+		"\n\n%(RequiredActions)\n%(ActionsTaken)\n"
+		"%(DesiredBook) - %(DamageType)"
+	}
+}
+
+OnLastTalk
+{
+	LastTalk
+}
+
+OnAction.PresentLibraryCard : nonoverlap
+{
+	ActionsTaken ,= "Present my library card"
+	
+	"\0%(usertalk)My library card, in pristine condition. \n\n%(hoo)"
+	"\0%(usertalk)My library card... Hasn't he seen this already? \n\n%(hoo)"
+	"\0%(usertalk)I'm not sure why he needs to see it again, but here it is... \n\n%(hoo)"
+	"\0%(usertalk)Here it is. I still have it, and it's in good condition. I'm taking care of it, I promise. \n\n%(hoo)"
+	"\0%(usertalk)Here it is. I'm not sure why he needs to see it again, but... \n\n%(hoo)"
+	--
+	if AllActionsTaken; "\0\t\*\x\![raise,OnBookTest]"
+}
+
+OnAction.AskNicely : nonoverlap
+{
+	ActionsTaken ,= "Ask nicely"
+	
+	"\0%(usertalk)... May I please have the book I requested? \n\n%(hoo)"
+	"\0%(usertalk)... Would you please fetch me the book I need? \n\n%(hoo)"
+	"\0%(usertalk)... Please would you fetch me the book I want? \n\n%(hoo)"
+	"\0%(usertalk)... Would you kindly allow me to borrow the book I requested so that I may read it? \n\n%(hoo)"
+	"\0%(usertalk)... Could I trouble you to fetch the book I asked for? Please? \n\n%(hoo)"
+	--
+	if AllActionsTaken; "\0\t\*\x\![raise,OnBookTest]"
+}
+
+OnAction.WaitPatiently : nonoverlap
+{
+	ActionsTaken ,= "Wait patiently"
+	
+	"\0%(usertalk)............................................................... \n\n%(hoo) \w8\w8\0I hope that's long enough..."
+	"\0%(usertalk)............................................................... \n\n%(hoo) \w8\w8\0This is kind of tiring..."
+	"\0%(usertalk)............................................................... \n\n%(hoo) \w8\w8\0Does that mean I can stop waiting...?"
+	"\0%(usertalk)............................................................... \n\n%(hoo) \w8\w8\0Have I waited long enough...?"
+	"\0%(usertalk)............................................................... \n\n%(hoo) \w8\w8\0I think this is trying my patience, more than anything..."
+	--
+	if AllActionsTaken; "\0\t\*\x\![raise,OnBookTest]"
+}
+
+OnAction.BowPolitely : nonoverlap
+{
+	ActionsTaken ,= "Bow politely"
+	
+	"\0%(usertalk)I'll bow... \n\n%(hoo)"
+	"\0%(usertalk)How deeply should I bow, I wonder...? \n\n%(hoo)"
+	"\0%(usertalk)... \w8\w8Oof, ow, my back. \n\n%(hoo)"
+	"\0%(usertalk)I can't believe I'm bowing to an owl... \n\n%(hoo)"
+	"\0%(usertalk)... This is a bit ridiculous, isn't it... \n\n%(hoo)"
+	--
+	if AllActionsTaken; "\0\t\*\x\![raise,OnBookTest]"
+}
+
+
+OnAction.DonateToLibrary : nonoverlap
+{
+	ActionsTaken ,= "Donate to the library"
+	
+	"\0%(usertalk)Has it really come to this...? Fine. I hope he accepts cash. \n\n%(hoo)"
+	"\0%(usertalk)I'm being extorted. \n\n%(hoo)"
+	"\0%(usertalk)What does he even use money for? Does he use money? That donations box looks suspiciously full... \n\n%(hoo)"
+	"\0%(usertalk)Good thing I brought my wallet, I guess... I can't believe I'm letting myself be robbed this way. \n\n%(hoo)"
+	"\0%(usertalk)What, is this a thing about giving up mortal posessions, or something...? Ugh. \n\n%(hoo)"
+	--
+	if AllActionsTaken; "\0\t\*\x\![raise,OnBookTest]"
+}
+
+OnAction.BribeWithFood : nonoverlap
+{
+	ActionsTaken ,= "Bribe him with food"
+	
+	"\0%(usertalk)They say the way to a person's heart is through their stomach. Does this also apply to owls? \n\n\s[1]%(hoo)"
+	"\0%(usertalk)Good thing I brought some snacks with me... \n\n\s[1]%(hoo)"
+	"\0%(usertalk)Don't most libraries have a rule against bringing food in...? \n\n\s[1]%(hoo)"
+	"\0%(usertalk)I hope he likes %(snacks), because that's what I have. \n\n\s[1]%(hoo)"
+	"\0%(usertalk)I had brought %(snacks) to keep my hunger at bay, but I guess that's not happening now... \n\n\s[1]%(hoo)"
+	--
+	if AllActionsTaken; "\0\t\*\x\![raise,OnBookTest]"
+}
+
+OnAction.ComplimentCollection : nonoverlap
+{
+	ActionsTaken ,= "Compliment his collection"
+	
+	if FirstBook
+	{
+		"\0%(usertalk)It's a very impressive selection of books. I am in awe of how many tomes are assembled here. \n\n%(hoo)"
+		"\0%(usertalk)The sheer amount of books here is awe-inspiring. \n\n%(hoo)"
+		"\0%(usertalk)The amount of knowledge assembled here is simply staggering. \n\n%(hoo)"
+		"\0%(usertalk)It must have taken decades to assemble and organize all of this. It's really quite impressive. \n\n%(hoo)"
+		"\0%(usertalk)I have yet to scratch the surface of what's here. It's enormous! \n\n%(hoo)"
+		
+	}
+	else
+	{
+		"\0%(usertalk)It's a... very impressive selection of books. Give or take a few. \n\n%(hoo)"
+		"\0%(usertalk)I'm... in awe of the sheer amount of books here. Readability aside. \n\n%(hoo)"
+		"\0%(usertalk)The amount of knowledge assembled here is simply staggering... or so I'm told. \n\n%(hoo)"
+		"\0%(usertalk)You know, I'm not sure if these are really... organized. They must be in some manner, right...? It's... certainly impressive, whatever it is. \n\n%(hoo)"
+		"\0%(usertalk)I have yet to scratch the surface of what's here... I hope. If every book is like what I've had so far, then... \n\n%(hoo)"
+	}
+	--
+	if AllActionsTaken; "\0\t\*\x\![raise,OnBookTest]"
+}
+
+OnAction.PickUpClutter : nonoverlap
+{
+	ActionsTaken ,= "Pick up clutter"
+	
+	"\0%(usertalk)What kind of a library is this that expects its patrons to pick up after other patrons...? But, if I must, I must... \n\n%(hoo)"
+	"\0%(usertalk)... Why am I picking up other people's trash? Yuck... \n\n%(hoo)"
+	"\0%(usertalk)I guess someone's got to clean this place up... Gross. \n\n%(hoo)"
+	"\0%(usertalk)Am I being played? Should I really allow this? ... Fine. \n\n%(hoo)"
+	"\0%(usertalk)I shouldn't accept this kind of treatment. I should stand up for myself. ... But, I need the knowledge this place offers... \n\n%(hoo)"
+	--
+	if AllActionsTaken; "\0\t\*\x\![raise,OnBookTest]"
+}
+
+OnAction.DustBookshelves : nonoverlap
+{
+	ActionsTaken ,= "Dust the bookshelves"
+	
+	"\0%(usertalk)I hadn't noticed all the dust around the place. I suppose I can dust off a shelf or two... \n\n%(hoo)"
+	"\0%(usertalk)Good thing I don't have a dust allergy... \n\n%(hoo)"
+	"\0%(usertalk)Someone should really clean up in here. \w8\w8... I guess that someone is me. \n\n%(hoo)"
+	"\0%(usertalk)Why do I have to clean this place up? It's not like I'm employed here! I'm not even a volunteer! \n\n%(hoo)\0Sigh."
+	"\0%(usertalk)I shouldn't be the one dusting, I should be the one scrutinizing this place for being so dusty. I'm a patron, not a worker... \n\n%(hoo)"
+	--
+	if AllActionsTaken; "\0\t\*\x\![raise,OnBookTest]"
+}
+
+OnAction.SayYourName : nonoverlap
+{
+	ActionsTaken ,= "Say my name"
+	
+	"\0%(usertalk)My name... He knows it, but I suppose I can repeat it. \n\n%(hoo)\0... Is there a particular method to this? \n\n%(hoo)"
+	"\0%(usertalk)My name... I wonder if it was a bad idea to give out, but I suppose it's too late now. \n\n%(hoo)"
+	"\0%(usertalk)I wonder why he needs me to state my name again. Well, there it is, anyway... \n\n%(hoo)"
+	"\0%(usertalk)That's my name. Don't wear it out. ... Although I guess I'm the one wearing it out, if anything. \n\n%(hoo)"
+	"\0%(usertalk)If I say my name enough times, will he learn to say it like a parrot? \n\n%(hoo)\0... I'm going to take that as a no. \n\n%(hoo)"
+	--
+	if AllActionsTaken; "\0\t\*\x\![raise,OnBookTest]"
+}
+
+OnAction.SayOwlName : nonoverlap
+{
+	ActionsTaken ,= "Say his name 3 times"
+	
+	"\0%(usertalk)His name... it's Alba, isn't it? Alba. Alba. Alba.\w8\w8\n\n%(hoo) \0... Did I get it right?"
+	"\0%(usertalk)Why three times...? Alba. Alba. Alba. \n\n%(hoo) \0... Is that it?"
+	"\0%(usertalk)He's called Alba, right? Alba. Alba. Alba. \n\n%(hoo) \0That's right, isn't it...?"
+	"\0%(usertalk)I hope this is correct and he doesn't have some sort of secret hidden name that I don't know about... \n\n%(hoo)"
+	"\0%(usertalk)Alba. Alba. Alba. Please give me a book, Alba. \n\n%(hoo)"
+	--
+	if AllActionsTaken; "\0\t\*\x\![raise,OnBookTest]"
+}
+
+OnAction.SayMagicWords : nonoverlap
+{
+	ActionsTaken ,= "Say the magic words"
+	_word0 = TodaysMagicWords[0]
+	_word1 = TodaysMagicWords[1]
+	_word2 = TodaysMagicWords[2]
+	
+	"\0%(usertalk)The magic words... I saw the magic words for the day on a note by the door. Let's see, they were... \n\n %(_word0). %(_word1). %(_word2). \n\n... Is that it? \n\n%(hoo)"
+	"\0%(usertalk)Today's magic words... I remember, they were... \n\n %(_word0). %(_word1). %(_word2). \n\n... Yeah? \n\n%(hoo)"
+	"\0%(usertalk)Right, yes, I remember what the magic words for today were. \n\n %(_word0). %(_word1). %(_word2). \n\n... C'mon, say I'm right. \n\n%(hoo)\0Yeah, I'm right. \n\n%(hoo)"
+	"\0%(usertalk)I wonder if there is a logic to these words he chose... Is he the one choosing them? Let's see, they were... \n\n %(_word0). %(_word1). %(_word2). \n\n%(hoo)\0Well, he seems pleased, at least."
+	"\0%(usertalk)How does he come up with these magic words... I feel a bit silly saying them. \n\n %(_word0). %(_word1). %(_word2). \n\n%(hoo)\0Hopefully that did it..."
+	--
+	if AllActionsTaken; "\0\t\*\x\![raise,OnBookTest]"
+}
+
+OnAction.SpinInCircle : nonoverlap
+{
+	ActionsTaken ,= "Spin in a circle"
+	
+	"\0%(usertalk)Slowly, with perfect form... one complete revolution. \n\n%(hoo)"
+	"\0%(usertalk)You don't have to ask me twice. \n\n%(hoo)\0Wheeeeee...!"
+	"\0%(usertalk)At last, my time has come. It's time to show off my perfect spinning technique...! \n\n%(hoo)\0I think he's impressed."
+	"\0%(usertalk)It's a good thing I've done this so many times before, it comes to me rather easily... \n\n%(hoo)\0Heheh."
+	"\0%(usertalk)I'll admit, this task is rather enjoyable. \n\n%(hoo)\0Next time, can my ritual just be this task 3 times, please?"
+	--
+	if AllActionsTaken; "\0\t\*\x\![raise,OnBookTest]"
+}
+
+OnAction.LayOnFloor : nonoverlap
+{
+	ActionsTaken ,= "Lay on the floor"
+	
+	"\0%(usertalk)I don't... want to lay on the floor. It looks rather dusty. But I suppose I'll do what I must... \n\n%(hoo) \0... Gross."
+	"\0%(usertalk)If I close my eyes, maybe I won't notice how dirty the floor is. \n\n%(hoo) \0... Didn't work. Yuck."
+	"\0%(usertalk)I don't have to %(italicoff)stay%(italic) on the floor right? Maybe I can just do this really fast. \n\n%(hoo) \0Oof, ow. Shouldn't have tried to rush, that hurt."
+	"\0%(usertalk)I hope it's ok that I'm not laying down face first. \n\n%(hoo) \0... Not that it really helps make this any less gross."
+	"\0%(usertalk)Ugh... gross. But I guess I have to do what I have to do... \n\n%(hoo) \0... Oh, hey! There's a penny down here. And a... You know what, never mind."
+	--
+	if AllActionsTaken; "\0\t\*\x\![raise,OnBookTest]"
+}
+
+OnAction.StareIntoEyes : nonoverlap
+{
+	ActionsTaken ,= "Stare directly into his eyes"
+	
+	"\0%(usertalk)If I stare into his eyes I can assert dominance.\w8\w8\n\n%(hoo)\0... I am not dominant here."
+	"\0%(usertalk)Does it count if I stare between his eyes? He can't tell, can he? \n\n%(hoo)\0... He can tell. Damn. Ok, here goes... \n\n%(hoo)\0Ugh..."
+	"\0%(usertalk)I think this is one of those situations where if you stare into the abyss, it stares back at you... \n\n%(hoo)\0... I think that feeling may have been my soul leaving my body just now."
+	"\0%(usertalk)They're so beady... Just stare at his beady eyes, they're just like doll eyes, they're fine, they're not real-- \n\n%(hoo)\0They're real, they're real, they're real, they're%(br)horrible, I'm sorry--"
+	"\0%(usertalk)They say the eyes are the window to the soul... maybe if I peer into his I can snatch his soul and make him do my bidding. \n\n\s[2]%(hoo)\0No! He's got ahold of my soul...!  \n\n\s[0]%(hoo)\0... Never mind, that's just me getting the hiccups."
+	--
+	if AllActionsTaken; "\0\t\*\x\![raise,OnBookTest]"
+}
+
+
+
+
+OnBookTest
+{
+	if AllActionsCorrect; GiveBook("initial")
+	else
+	{
+		"\0\s[0]%(usertalk)... \n\n%(hoo)\0... He's not doing anything. I must have made a mistake in the ritual... \n\n%(hoo)"
+		"\0\s[0]%(usertalk)... \n\n%(hoo)\0... Nothing doing, huh... I guess I messed up the ritual. \n\n%(hoo)"
+		"\0\s[0]%(usertalk)... \n\n%(hoo)\0... I must have made a mistake in the ritual, he's not budging. \n\n%(hoo)"
+		"\0\s[0]%(usertalk)... \n\n%(hoo)\0... I think I did something wrong in the ritual, he's not doing anything... \n\n%(hoo)"
+		"\0\s[0]%(usertalk)... \n\n%(hoo)\0... He's not moving at all... I guess I messed the ritual up. Time to try again... \n\n%(hoo)"
+		--
+		"\0%(timebuffer)"
+	}
+	
+	ActionsTaken = IARRAY
+}
+
+GiveBook : nonoverlap_pool
+{
+	phase = "Has book"
+	BookPrivileges = 1
+	BookName = BookCase(BookNames)
+	AuthorName = AuthorNames
+	DamageType = DamageTypes
+	BookPassage = ReadBook
+	TotalBooksObtained++
+	
+	"\t\0%(usertalk)"
+	--
+	if FirstBook
+	{
+		TotalPermissionsEarned++
+		FirstBook = 0
+		
+		"... \n\n "
+		--
+		"\s[1]%(hoo)"
+		--
+		"\0Does that mean...? \n\n\s[-1]Yes, he's gone to fetch a book...! At last! My masterwork will soon be complete! \n\n\s[0]%(hoo)\0""%(BookName)"", by %(AuthorName). This holds the answers I'm seeking, I'm sure of it! Now just to settle in and read it... \n\n%(hoo)\0Ooh, the anticipation is killing me. Years and years of toiling away at this project, leading up to the moment when I open these pages and it all becomes clear...!"
+	}
+	else
+	{
+		if _argv[0] == "initial"
+		{
+			TotalPermissionsEarned++
+			
+			"... \n\n "
+			--
+			"\s[1]%(hoo)"
+			--
+			"\0Have I passed the test again...? \n\n\s[-1]Yes, he's gone to fetch another book...! Finally! \n\n\s[0]%(hoo)"
+			"\0Does this mean...? \n\n\s[-1]Yes, he's gone to fetch another book! I've passed the ritual again at last! \n\n\s[0]%(hoo)"
+			"\0Was that it...? \n\n\s[-1]Yes, I've passed the ritual again! He's gone to fetch the book I need! \n\n\s[0]%(hoo)"
+			"\0Did I do it...? \n\n\s[-1]Oh, there he goes! Thank goodness, I've managed to pass the ritual again. \n\n\s[0]%(hoo)"
+			"\0Yes...? \n\n\s[-1]Yes! I've passed the ritual again. At long last. \n\n\s[0]%(hoo)"
+		}
+		else
+		{
+			"Please let this work, I need another book, in readable condition!"
+			"I'd like another book, please. I really need one that I can actually read...!"
+			"Please, please accept my request. I really need this...!"
+			"Please, I know I'm asking a lot, but I did complete my ritual already...!"
+			"C'mon, please, I need a book I can actually read...!"
+			--
+			" \n\n\s[0]%(hoo)"
+			--
+			"\0Yes...? \n\n%(hoo)\0\s[-1]Yes, he's gone to fetch another book...! Finally! \n\n\s[0]%(hoo)"
+			"\0Please please please... \n\n%(hoo)\0\s[-1]Oh, there he goes to get it! Praise be. \n\n\s[0]%(hoo)"
+			"\0C'mon... \n\n%(hoo)\0\s[-1]There he goes! I've done it, thank goodness. \n\n\s[0]%(hoo)"
+			"\0Come on, come on... \n\n%(hoo)\0\s[-1]Yes! There he goes! Oh, he's flying very far up there... this must be an important book. \n\n\s[0]%(hoo)"
+			"\0Come on, I'm asking nicely...! \n\n%(hoo)\0\s[-1]Oh! He's gone to fetch it! \w8\w8... It must be quite deep in the library. Maybe that means it's a rare book...? \n\n\s[0]%(hoo)"
+		}
+		--
+		"\0""%(BookName)"", by %(AuthorName)... Could this hold the answers I seek?"
+		"\0""%(BookName)"", by %(AuthorName). Will I find the hard truths I'm after in these pages?"
+		"\0""%(BookName)"", by %(AuthorName). I'm trembling with anticipation... Could this finally be it?"
+		"\0""%(BookName)"", by %(AuthorName). I hope this will have some answers in it..."
+		"\0""%(BookName)"", by %(AuthorName)... It sounds promising."
+	}
+	--
+	"%(timebuffer)\![raise,OnSakuraMenu]"
+}
+
+OnComplainAboutBook : nonoverlap_pool
+{
+	InsultedTheFae = 1
+	"\0%(usertalk)"
+	--
+	"This book is unreadable!"
+	"This book is unusable!"
+	"This book you gave me is worthless!"
+	"What kind of library is this? This book isn't useable!"
+	
+	if DamageType == "Ink is blurred"
+	{
+		"The ink in this book has run everywhere, it can't be read anymore!"
+		"This book is damaged, the ink has run everywhere! I can't use this!"
+	}
+	elseif DamageType == "Water damage"
+	{
+		"This book is water damaged beyond belief, it's ruined!"
+		"How am I supposed to use this? It's been ruined by water!"
+	}
+	elseif DamageType == "Pages are blank"
+	{
+		"The pages of this book are all blank! Is this some kind of trick!?"
+		"There's nothing in this book! Is this some kind of sick joke!?"
+	}
+	elseif DamageType == "Pages are torn out"
+	{
+		"There are several pages torn out of this book, I can't use this!"
+		"This book is missing a bunch of pages! This isn't usable!"
+	}
+	elseif DamageType == "Unreadable language"
+	{
+		"I don't know the language this book is written in, is it even a real language!? Please give me a book I can understand, or provide a translation."
+		"This book is written in some language I can't understand. Please provide a translation, or give me something else!"
+	}
+	elseif DamageType == "Burned"
+	{
+		"This book hsa been burned to a crisp! How am I supposed to get anything from it!?"
+		"The pages of book have been reduced to ash! I can't use this!"
+	}
+	elseif DamageType == "Gibberish" //No need for a catch-all here
+	{
+		"This book is full of utter nonsense! What kind of a library is this!?"
+		"This book is just a bunch of letters crammed together with no rhyme or reason! What kind of a library is this!?"
+	}
+	--
+	"\n\n\_w[2000]"
+	--
+	"%(hoo)\w8\w8\w8"
+	--
+	"\1\b[0]\s[27]Well, that was foolish. Don't you know better than to insult the librarian? \n\n\0Oops... \1\s[16]Hmph. And now you'll have to perform a ritual all over again. \s[17]Don't expect me to help you figure out your new set of tasks."
+	"\1\b[0]\s[27]What are you thinking!? Don't insult the librarian! \n\n\0Uh oh...\1\s[16]Hmph. Looks like you'll have to perform a whole new ritual if you want to be allowed to read the books here again. \s[17]Don't expect me to help you this time, either."
+	"\1\b[0]\s[27]What are you doing!? Have you no sense? \n\n\0Uh...\1\s[16]Good job, now you'll need to perform a whole new ritual. \s[17]And don't expect my help with it this time."
+	--
+	"%(patronleave)\e InsultedTheFae"
+	
+	phase = "Ask for book"
+	BookPrivileges = 0
+	DesiredBook = IARRAY
+	GenerateRequiredActions
+}
+
+OnReadBook
+{
+	"%(BookName)\w8\nby %(AuthorName)\n\n %(usertalk)"
+	--
+	BookPassage
+	--
+	" \n\n"
+	--
+	if BookRead
+	{
+		"It's no use."
+		"It's just as bad as it was the first time."
+		"I still cannot make heads or tails of this."
+		"This is still worthless."
+		"What a waste of time."
+		"I'm wasting my time even trying."
+		"There's nothing to glean from this."
+		"If there's something to see here, I'm not seeing it."
+		"What value does a book in this condition even have..."
+	}
+	else
+	{
+		"This is useless!"
+		"This is unusable!"
+		"This is worthless!"
+		"What kind of book is this!?"
+		"How am I supposed to use this!?"
+		"This can't help me!"
+		"I can't make any use of this!"
+		"How is this supposed to help me!?"
+	}
+	
+	if !BookRead; TotalBooksRead++
+	BookRead = 1
+}
+
+OnAskForBook : all
+{
+	reference0 = "Non-fiction"
+	reference[0] = "Non-fiction"
+	
+	_func = "Books"
+	foreach reference; _ref
+	{
+		_func += ".%(_ref)"
+	}
+	_func = REPLACE(_func," ","_")
+	_func = REPLACE(_func,"-","_")
+	
+	_display = ""
+	_final = 1
+	if ISFUNC("%(_func)")
+	{
+		_final = 0
+		_books = CALLBYNAME("%(_func)")
+		
+		foreach _books; _book
+		{
+			_display += "\![*]\__q[OnAskForBook,"
+			if reference0 != ""
+			{
+				foreach reference; _ref
+				{
+					_display += "%(_ref),"
+				}
+			}
+			_display += "%(_book)]%(_book)\__q\n"
+		}
+	}
+	
+	"\0\b[2]\_q\![set,autoscroll,disable]\![no-autopause]"
+	
+	"%(usertalk)I want a"
+	//if reference0 != ""
+	//{
+		//if reference0 == "Fiction"; " %(TOLOWER(reference0)) book in the genre...\n"
+		//else; " %(TOLOWER(reference0)) book about...\n"
+		" book about..."
+		
+		if reference2 != ""; " "
+		
+		_categories = reference
+		_categories[0] = IARRAY
+		for _i = 0; _i < ARRAYSIZE(_categories); _i++
+		{
+			if _i == 0; "\n"
+			_category = _categories[_i]
+			_last = _i + 1 >= ARRAYSIZE(_categories)
+			
+			if _final && _last; "%(em)%(_category)%(emoff)"
+			else; "%(_category) > "
+		}
+	//}
+	//elseif !_final; "..."
+	
+	"\n\n"
+	if !_final; _display
+	else
+	{
+		"Is that right?"
+		"\n\![*]\__q[OnAskForBookConfirm,%(reference)]Yes, that's the one\__q"
+		"\n"
+	}
+	"\n"
+	
+	_reflist = reference
+	_reflist[ARRAYSIZE(_reflist) - 1] = IARRAY
+	
+	if reference1 == ""; "\![*]\__q[OnSakuraMenu]Go back\__q  "
+	else; "\![*]\__q[OnAskForBook,%(_reflist)]Go back\__q  "
+	
+	"\![*]\__q[OnCancel]Never mind\__q"
+}
+
+OnAskForBookConfirm
+{
+	DesiredBook = reference
+	BookRead = 0
+	
+	if BookPrivileges
+	{
+		GiveBook("successive")
+	}
+	else
+	{
+		phase = "Earn book"
+		
+		_temp_categories = DesiredBook
+		_temp_categories[0] = IARRAY
+		
+		_specific = 1
+		if ARRAYSIZE(_temp_categories) <= 2 || ASEARCH("Other",_temp_categories) != -1; _specific = 0
+		
+		_categories = IARRAY
+		foreach _temp_categories; _category
+		{
+			if !(_category == "" || _category == "Other")
+			{
+				_categories ,= TOLOWER(_category)
+			}
+		}
+		
+		while ARRAYSIZE(_categories) > 2
+		{
+			_categories[0] = IARRAY
+		}
+		
+		
+		"\0\b[0]%(usertalk)"
+		--
+		if _specific && ARRAYSIZE(_categories) > 1
+		{
+			"I want a book on %(_categories[0]), specifically %(_categories[1])..."
+		}
+		else
+		{
+			"I want a book on %(_categories[ARRAYSIZE(_categories) - 1])..."
+		}
+		--
+		" \n\n%(hoo)\0"
+		--
+		"\0... Which I suppose I have to earn the right to borrow before he'll give to me. \n\n%(hoo)\0Let's see how difficult this ritual is..."
+		"\0... Now I just have to earn the right to borrow it by completing this ritual. \n\n%(hoo)"
+		"\0... And now for the hard part, the ritual. \n\n%(hoo)"
+		"\0... And now to make a fool of myself to complete this ritual. \n\n%(hoo)"
+		"\0... Which he won't give me until I complete the ritual he's assigned to me. \n\n%(hoo)\0There's only the tiny matter of figuring out what the ritual even is..."
+		--
+		"\0%(timebuffer)"
+	}
+}
+
+OnSettingsMenu : all
+{
+	"\C\![lock,balloonrepaint]\c"
+	"\0\b[2]\![quicksection,1]\![set,autoscroll,disable]\![no-autopause]\*"
+	"\f[align,center]Settings\_l[]\f[align,left]"
+	"\n\![*]Talkrate:\n"
+	_times = ("Off,0","1m,60","3m,180","5m,300","10m,600","15m,900")
+	
+	foreach _times; _time
+	{
+		switch TOINT(_time[1]) == aitalkinterval
+		{
+			"\__q[OnTalkRateChange,%(_time[1])]%(_time[0])\__q  "
+			"\f[underline,1]\_a[OnTalkRateChange,%(_time[1])]%(_time[0])\_a\f[underline,default]  "
+		}
+	}
+	
+	if DefaultBalloon
+	{
+		"\n\n"
+		"\![*]Owl balloon amount:\n"
+		_opts = ("Multiple","Single")
+		
+		foreach _opts; _opt
+		{
+			switch _opt == OwlBalloonAmount
+			{
+				"\__q[OnOwlBalloonAmountChange,%(_opt)]%(_opt)\__q  "
+				"\f[underline,1]\_a[OnOwlBalloonAmountChange,%(_opt)]%(_opt)\_a\f[underline,default]  "
+			}
+		}
+		
+		
+		_onebloon = OwlBalloonAmount == "Single"
+		"\n\n"
+		_opts = ("Mixed","Left","Right","Free")
+		if _onebloon
+		{
+			"\f[color,disable]"
+			"Owl balloon alignment:\n"
+			foreach _opts; _opt
+			{
+				"%(_opt)  "
+			}
+			"\f[color,default]"
+		}
+		else
+		{
+			"\![*]Owl balloon alignment:\n"
+			foreach _opts; _opt
+			{
+				switch _opt == OwlBalloonAlign
+				{
+					"\__q[OnOwlBalloonAlignChange,%(_opt)]%(_opt)\__q  "
+					"\f[underline,1]\_a[OnOwlBalloonAlignChange,%(_opt)]%(_opt)\_a\f[underline,default]  "
+				}
+			}
+		}
+		
+		"\n\n"
+		"\![*]Owl balloon tails:\n"
+		_opts = ("Mixed","Side","Bottom","None")
+		foreach _opts; _opt
+		{
+			if _onebloon && _opt == "Mixed"
+			{
+				"\f[color,disable]Mixed\f[color,default]  "
+				continue
+			}
+			switch _opt == OwlBalloonTail || (_onebloon && _opt == "None" && OwlBalloonTail == "Mixed")
+			{
+				"\__q[OnOwlBalloonTailChange,%(_opt)]%(_opt)\__q  "
+				"\f[underline,1]\_a[OnOwlBalloonTailChange,%(_opt)]%(_opt)\_a\f[underline,default]  "
+			}
+		}
+		
+		"\n\n"
+		"\![*]Patron balloon tails:\n"
+		_opts = ("Side","Bottom","None")
+		
+		foreach _opts; _opt
+		{
+			switch _opt == PatronBalloonTail
+			{
+				"\__q[OnPatronBalloonTailChange,%(_opt)]%(_opt)\__q  "
+				"\f[underline,1]\_a[OnPatronBalloonTailChange,%(_opt)]%(_opt)\_a\f[underline,default]  "
+			}
+		}
+	}
+	
+	"\n\n"
+	"\![*]\__q[OnSakuraMenu]Back\__q"
+	"\![unlock,balloonrepaint]"
+	"\e __SettingsMenu__"
+}
+
+OnTalkRateChange
+{
+	aitalkinterval = TOINT(reference0)
+	OnSettingsMenu
+}
+
+OnOwlBalloonAmountChange
+{
+	OwlBalloonAmount = reference0
+	
+
+	AlignOwlBalloons
+	--
+	OnOwlBalloonTest
+}
+
+OnOwlBalloonAlignChange
+{
+	OwlBalloonAlign = reference0
+	
+
+	AlignOwlBalloons
+	--
+	OnOwlBalloonTest
+}
+
+OnOwlBalloonTailChange
+{
+	OwlBalloonTail = reference0
+	--
+	OnOwlBalloonTest
+}
+
+OnPatronBalloonTailChange
+{
+	PatronBalloonTail = reference0
+	--
+	PatronBalloonTest
+	--
+	OnSettingsMenu
+}
+
+OnOwlBalloonTest
+{
+	"\1\s[-1]\![set,alpha,100]\0\![quicksection,1]"
+	--
+	if OwlBalloonAmount == "Single"; "\p[2]\b[100]\cHoo\n\nHoo\n\nHoo"
+	else; "\p[2]\b[100]\cHoo\p[3]\b[100]\cHoo\p[4]\b[100]\cHoo"
+	--
+	if reference0 == "back"; "\0\![raise,OnSettingsMenu]"
+	else; "\0\![raise,OnOwlBalloonTest,back]"
+}
+
+PatronBalloonTest
+{
+	"\0\![quicksection,1]"
+	--
+	"\1\b[0]\![set,alpha,50]\s[10]Test"
+	--
+	"\0"
+}
+
+OnDebug.CycleModes
+{
+	if phase == "Earn book"; phase = "Has book"
+	elseif phase == "Has book"; phase = "Ask for book"
+	else; phase = "Earn book"
+	"\![raise,OnSakuraMenu]"
+}

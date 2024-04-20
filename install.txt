@@ -1,0 +1,7 @@
+charset,UTF-8
+type,ghost
+
+name,May I have a book please?
+directory,may_i_have_a_book_please
+
+balloon.directory,reading_is_for_owls
