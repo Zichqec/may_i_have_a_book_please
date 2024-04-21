@@ -5,14 +5,14 @@ OnMouseDoubleClick
 	{
 		//reference3 is which character is being clicked
 		//If you want to add double click interactions, reference4 will be the name of the hitbox the mouse is over
-		if reference3 == 0 && !(BalloonIsOpen && "\![raise,OnBookTest]" _in_ SHIORI3FW.LastTalk)
+		if reference3 == 0 && !(BalloonIsOpen && "\![raise,OnBookTest]" _in_ Check.LastTalk)
 		{
 			if !TutorialComplete; OnFirstTutorial
 			else
 			{
 				if SHIORI3FW.IsVisible[1]
 				{
-					if "TalkingToPatron" _in_ SHIORI3FW.LastTalk
+					if "TalkingToPatron" _in_ Check.LastTalk
 					{
 						REPLACE(IgnoringPatron,"\e TalkingToPatron","")
 						--
@@ -48,13 +48,13 @@ OnMouseDoubleClick
 				else; OnSakuraMenu
 			}
 		}
-		elseif reference3 == 1 && !(BalloonIsOpen && "__SettingsMenu__" _in_ SHIORI3FW.LastTalk) && TutorialComplete
+		elseif reference3 == 1 && !(BalloonIsOpen && "__SettingsMenu__" _in_ Check.LastTalk) && TutorialComplete
 		{
-			if "TalkingToPatron" _in_ SHIORI3FW.LastTalk
+			if "TalkingToPatron" _in_ Check.LastTalk
 			{
 				IgnoringPatron
 			}
-			elseif "InsultedTheFae" _in_ SHIORI3FW.LastTalk
+			elseif "InsultedTheFae" _in_ Check.LastTalk
 			{
 				"\t\1\b[0]"
 				--
@@ -132,7 +132,7 @@ OnMouseMove
 
 OnMouseMove.Sakura
 {
-	if !(BalloonIsOpen && "\![raise,OnBookTest]" _in_ SHIORI3FW.LastTalk)
+	if !(BalloonIsOpen && "\![raise,OnBookTest]" _in_ Check.LastTalk)
 	{
 		if reference4 == "Head" || reference4 == "Bust" || reference4 == "Wing"
 		{

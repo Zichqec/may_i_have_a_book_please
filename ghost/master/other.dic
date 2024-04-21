@@ -7,6 +7,8 @@ OnTranslate
 		_talk = EVAL('"' + REPLACE(_talk,'"','""') + '"')
 	}
 	
+	
+	
 	// HootChar = 0
 	// while "[hoo]" _in_ _talk
 	// {
@@ -70,6 +72,11 @@ OnTranslate
 			_talk = REPLACE(_talk,"\1\b[0]","\1\b[10]")
 			_talk = REPLACE(_talk,"\1\b[2]","\1\b[12]")
 		}
+	}
+	
+	if reference2 != "OnHoo"
+	{
+		Check.LastTalk = reference0
 	}
 	
 	TOSTR(_talk)
