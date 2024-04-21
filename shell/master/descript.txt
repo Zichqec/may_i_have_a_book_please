@@ -37,3 +37,12 @@ char2.defaultleft,100
 char3.defaultleft,100
 char4.defaultleft,100
 kero.defaultleft,650
+
+char2.balloon.offsetx,160
+char2.balloon.offsety,-250
+
+char3.balloon.offsetx,55
+char3.balloon.offsety,-170
+
+char4.balloon.offsetx,30
+char4.balloon.offsety,-90
