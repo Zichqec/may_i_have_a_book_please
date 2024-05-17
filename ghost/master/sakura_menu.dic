@@ -691,7 +691,7 @@ OnSettingsMenu : all
 	}
 	
 	"\n\n"
-	"\![*]\__q[OnSakuraMenu]Back\__q"
+	"\![*]\__q[OnSakuraMenu]Back\__q\_l[]\f[align,right]\f[color,disable]v%(ghostver)\f[color,default]"
 	"\![unlock,balloonrepaint]"
 	"\e __SettingsMenu__"
 }
