@@ -10,3 +10,5 @@ https://yusyuparo.net/
 Some minor modifications made
 
 All images and content other than the above were self-made or do not require a clear statement of the source.
+
+Ghost for ゴーストマスカレード6 (Ghost Masquerade 6)
