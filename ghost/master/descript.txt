@@ -5,8 +5,9 @@ type,ghost
 
 shiori,yaya.dll
 
-craftman,Twoaxe Lerns
-craftmanw,Twoaxe Lerns
+craftman,Zichqec
+craftmanw,Zichqec
+craftmanurl,https://ukagaka.zichqec.com/
 
 sakura.name,Alba
 kero.name,Oriole
