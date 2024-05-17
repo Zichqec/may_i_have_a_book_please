@@ -382,9 +382,14 @@ AllActionsTaken
 	ARRAYSIZE(ActionsTaken) >= 3
 }
 
+On_homeurl
+{
+	"https://raw.githubusercontent.com/Zichqec/may_i_have_a_book_please/main/"
+}
+
 //—————————————————————————————— Right click menu links ——————————————————————————————
 
-/*
+
 //Takes an array of alternating names and urls, and formats them for use with the right click menu
 FormatLinks : all
 {
@@ -403,30 +408,12 @@ On_sakura.recommendsites
 
 recommendsites_sakura : array
 {
-	"Link label";	"https://link.example.com/link/to/whatever/here/"
+	"More from Zichqec";	"https://ukagaka.zichqec.com/"
+	"Freeshell by ゆゆぴか";	"https://yusyuparo.net/free.html"
+	"Event afterword";		"https://earlduant.blog.fc2.com/blog-entry-897.html"
+	"Wiki page";			"https://ukagakadreamteam.com/wiki/ghost/may_i_have_a_book_please"
 }
 
-On_sakura.portalsites 
-{
-	FormatLinks(portalsites_sakura)
-}
-
-portalsites_sakura : array
-{
-	"Another link label";	"https://link.example.com/link/to/whatever/here/again/"
-	"A third link label";	"https://link.example.com/link/to/whatever/a/third/time/you/can/add/as/many/as/you/want/"
-}
-
-On_kero.recommendsites
-{
-	FormatLinks(recommendsites_kero)
-}
-
-recommendsites_kero : array
-{
-	"These labels can be anything you want";	"https://link.example.com/link/to/whatever/here/once/more/"
-}
-*/
 
 
 //—————————————————————————————— User pronoun related ——————————————————————————————
