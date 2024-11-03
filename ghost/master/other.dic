@@ -382,6 +382,44 @@ AllActionsTaken
 	ARRAYSIZE(ActionsTaken) >= 3
 }
 
+OnSpectrePlugin.ConfirmCalibration
+{
+	//Add expression names as references here in any order that should be omitted from the calibration...
+	"\![raiseplugin,Spectre,OnCustomCalibrationConfirm]"
+}
+
+OnSpectrePlugin.Surface
+{
+	if reference0 == "normal"; "\1\s[20]"
+	elseif reference0 == "embarrassed"; "\1\s[21]"
+	elseif reference0 == "surprised"; "\1\s[12]"
+	elseif reference0 == "anxious"; "\1\s[13]"
+	elseif reference0 == "discouraged"; "\1\s[14]"
+	elseif reference0 == "smile"; "\1\s[26]"
+	elseif reference0 == "relieved"; "\1\s[15]"
+	elseif reference0 == "angry"; "\1\s[27]"
+	elseif reference0 == "sweat"; "\1\s[28]"
+	elseif reference0 == "indignant"; "\1\s[29]"
+	elseif reference0 == "thinking"; "\1\s[110]"
+	elseif reference0 == "unamused"; "\1\s[220]"
+}
+
+OnSpectrePlugin.Possession
+{
+	if RAND(4) == 0
+	{
+		//"\1\b[0]\s[13]I think this book is above my skill level, for now. \s[10]Alba, do you have anything that is more of an introduction to the topic? \n\n%(hoo)\1\s[15]Ah, for beginners, is it... \s[115]This will work, thank you."
+		//"\1\b[0]\s[16]I think my eyes need a break after focusing for so long. \n\n%(hoo)\1\s[116]Human eyes are weak compared to yours. I'm doing my best. \n\n\0\s[1]%(hoo('...'))"
+		"%(hoo('!'))\n\n\1\s[110]Hm? \s[140]Some kind of fae activity...?"
+		"\1\s[120]Hm? ... \s[110]Did I wander over here while I was reading...?"
+		"\1\s[110]... \s[140]Hmm. \s[142]Something strange is going on."
+		"\1\s[10]... \n\n%(hoo)\1\s[140]Alba, I believe there is some unwelcome magic affecting this place. Please resolve it. \n\n%(hoo('...'))"
+		"\1\s[10]... \s[111]Ah? I thought I was in the east wing..."
+		--
+		" %(patronleave)"
+	}
+}
+
 On_homeurl
 {
 	"https://raw.githubusercontent.com/Zichqec/may_i_have_a_book_please/main/"
@@ -389,7 +427,7 @@ On_homeurl
 
 ghostver
 {
-	"1.0.0"
+	"1.0.1"
 }
 
 //—————————————————————————————— Right click menu links ——————————————————————————————
