@@ -89,7 +89,7 @@ OnPhantaEepy
 		//TODO i want more responses... hmm
 		"\1\s[114]... Hm... \s[14]I feel a crushing weight. \w8\w8Alba, is there unwanted magic invading this space?\n\n\0\s[0]%(hoo('?')) \w8\w8\0\s[1]%(hoo('...'))\1\s[16]Yes... \s[140]yes, that's better, thank you. How strange..."
 		"\1\s[114]... Alba, I think something is amiss. \s[142]I feel as though I'm being crushed...\n\n\0\s[1]%(hoo('...!'))\1\s[16]... \s[13]Yes, that feels better. \s[113]How odd...\n\n\0\s[0]%(hoo)\1\s[140]Rogue magic, you say...? \s[117]Please see to it that it does not return."
-		"\1\s[16]... There's something pushing me downwards... \s[14]Some strange magic trying to drag me into its depths. Alba...?\n\n\0\s[2]%(hoo('!')) \w8\w8\0\s[1]%(hoo('...'))\1\s[14]Ah... \s[13]That feels better, thank you. \s[113]How strange... \s[114]For a moment I thought... \w8\w8\s[118]Well, perhaps better to leave that thought unspoken."
+		"\1\s[16]... There's something pushing me downwards... \s[14]Some strange magic trying to drag me into its depths. \w8\w8Alba...?\n\n\0\s[2]%(hoo('!')) \w8\w8\0\s[1]%(hoo('...'))\1\s[14]Ah... \s[13]That feels better, thank you. \s[113]How strange... \s[110]For a moment I... \w8\w8\s[118]Well, perhaps better to leave that thought unspoken."
 		--
 		"%(patronleave)"
 	}
