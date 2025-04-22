@@ -1,0 +1,107 @@
+OnSpectrePlugin.ConfirmCalibration
+{
+	//Add expression names as references here in any order that should be omitted from the calibration...
+	"\![raiseplugin,Spectre,OnCustomCalibrationConfirm]"
+}
+
+OnSpectrePlugin.Surface
+{
+	if reference0 == "normal"; "\1\s[20]"
+	elseif reference0 == "embarrassed"; "\1\s[21]"
+	elseif reference0 == "surprised"; "\1\s[12]"
+	elseif reference0 == "anxious"; "\1\s[13]"
+	elseif reference0 == "discouraged"; "\1\s[14]"
+	elseif reference0 == "smile"; "\1\s[26]"
+	elseif reference0 == "relieved"; "\1\s[15]"
+	elseif reference0 == "angry"; "\1\s[27]"
+	elseif reference0 == "sweat"; "\1\s[28]"
+	elseif reference0 == "indignant"; "\1\s[29]"
+	elseif reference0 == "thinking"; "\1\s[110]"
+	elseif reference0 == "unamused"; "\1\s[220]"
+}
+
+OnSpectrePlugin.Possession
+{
+	if RAND(4) == 0
+	{
+		//"\1\b[0]\s[13]I think this book is above my skill level, for now. \s[10]Alba, do you have anything that is more of an introduction to the topic? \n\n%(hoo)\1\s[15]Ah, for beginners, is it... \s[115]This will work, thank you."
+		//"\1\b[0]\s[16]I think my eyes need a break after focusing for so long. \n\n%(hoo)\1\s[116]Human eyes are weak compared to yours. I'm doing my best. \n\n\0\s[1]%(hoo('...'))"
+		"%(hoo('!'))\n\n\1\s[110]Hm? \s[140]Some kind of fae activity...?"
+		"\1\s[120]Hm? ... \s[110]Did I wander over here while I was reading...?"
+		"\1\s[110]... \s[140]Hmm. \s[142]Something strange is going on."
+		"\1\s[10]... \n\n%(hoo)\1\s[140]Alba, I believe there is some unwelcome magic affecting this place. Please resolve it. \n\n%(hoo('...'))"
+		"\1\s[10]... \s[111]Ah? I thought I was in the east wing..."
+		--
+		" %(patronleave)"
+	}
+}
+
+OnNeedlePoke
+{
+	if reference0 <= 1; "\0\b[0]%(usertalk)"
+	--
+	if reference0 == 0
+	{
+		"\s[0]"
+		"\s[1]"
+		"\s[2]"
+		--
+		_punct = ANY("","?","!","!?","...","...?","...!")
+		"%(hoo(_punct))"
+		--
+		if RAND(3) == 0
+		{
+			"\0"
+			--
+			"This may not be the best idea..."
+			"I should probably get my frustration out some other way..."
+			"I might make him angry if I keep doing this..."
+			"I don't think this is helping me get the information I need..."
+			"Maybe I should rethink my approach..."
+			"This doesn't seem likely to earn his favor..."
+			"I probably shouldn't anger the fae..."
+			"On second thought, this probably isn't advisable..."
+			"And that's what I think of this place... Better not say that aloud."
+			"Heh."
+		}
+	}
+	elseif reference0 == 1
+	{
+		"\1\s[17]Alba, I believe there is a mosquito or some other pest in here. \n\n\0\s[2]%(hoo)\1\s[117]Please take care of it, I will retreat back to my notes for now."
+		"\1\s[17]Ah-- Alba, there is some sort of pest in here. \n\n\0\s[2]%(hoo)\1\s[117]I am going back to my studying, please take care of it."
+		"\1\s[17]Ow! Alba, I believe there is a pest in here. \n\n\0\s[2]%(hoo)\1\s[16]Please take care of it, this sort of interruption will not do for my research."
+		"\1\s[17]Ah-! \n\n\0\s[2]%(hoo('?'))\1\s[142]Alba, I believe some kind of stray curse has found its way in here. Please take care of it. \n\n\0\s[2]%(hoo('...'))\1"
+		"\1\s[17]Ah-- \s[117]what is this? Some kind of magic rebound? \n\n\0\s[0]%(hoo('?'))\1\s[127]No, I think it's coming from something else... \s[116]Please take care of it, Alba. I cannot have my research interrupted by such things. \n\n\0\s[2]%(hoo)"
+		"\1\s[117]Ah-- ouch! \s[17]Alba, there's something lurking in this area of the library. \n\n\0\s[2]%(hoo('?'))\1\s[16]Please dispose of it, I have to get back to my research."
+		"\1\s[17]Ow-! Alba, I'm being harassed by some sort of pest! \n\n\0\s[2]%(hoo('!?'))\1\s[117]I'll come back later, I need to concentrate on this."
+		"\1\s[17]Ow-? \s[117]What's this? \n\n\0\s[0]%(hoo('?'))\1\s[116]... Ah. Just a sewing needle left lying on the floor. \s[10]Someone ought to pick up in here... \n\n\0\s[2]%(hoo)\1\s[110]Maybe later. I have to get back to studying."
+		"\1\s[17]Ah-- Alba, I thought I could expect this place to at least be free of pests? \n\n\0\s[2]%(hoo('?'))\1\s[16]Please take care of whatever it is that's hanging around here. I have to get back to my work."
+		"\1\s[117]Ow-- What was that? \n\n\0\s[2]%(hoo('!?'))\1\s[116]Alba, there is some sort of pest in here, and it is interrupting my research. Please take care of it. \n\n\0\s[2]%(hoo('...'))"
+		--
+		"%(patronleave)"
+	}
+}
+
+OnPhantaEepy
+{
+	if reference0 == 1
+	{
+		//TODO i want more responses... hmm
+		"\1\s[114]... Hm... \s[14]I feel a crushing weight. \w8\w8Alba, is there unwanted magic invading this space?\n\n\0\s[0]%(hoo('?')) \w8\w8\0\s[1]%(hoo('...'))\1\s[16]Yes... \s[140]yes, that's better, thank you. How strange..."
+		"\1\s[114]... Alba, I think something is amiss. \s[142]I feel as though I'm being crushed...\n\n\0\s[1]%(hoo('...!'))\1\s[16]... \s[13]Yes, that feels better. \s[113]How odd...\n\n\0\s[0]%(hoo)\1\s[140]Rogue magic, you say...? \s[117]Please see to it that it does not return."
+		"\1\s[16]... There's something pushing me downwards... \s[14]Some strange magic trying to drag me into its depths. \w8\w8Alba...?\n\n\0\s[2]%(hoo('!')) \w8\w8\0\s[1]%(hoo('...'))\1\s[14]Ah... \s[13]That feels better, thank you. \s[113]How strange... \s[110]For a moment I... \w8\w8\s[118]Well, perhaps better to leave that thought unspoken."
+		--
+		"%(patronleave)"
+	}
+	else //0
+	{
+		"\0\s[1]%(hoo('...'))"
+	}
+}
+
+OnLoboHowl : nonoverlap_pool
+{
+	"\0\s[2]%(hoo('?')) %(hoo('!')) %(hoo('!!'))"
+	"\0\s[2]%(hoo('!?')) %(hoo('!!')) %(hoo('...'))"
+	"\0\s[2]\1\s[12]... What is that terrible sound...? \n\n\0%(hoo('!'))\1\s[142]Another fae...? \s[140]Sounds troubling. I hope this isn't the beginning of a territory dispute. \n\n\0\s[1]%(hoo('...!'))\1\s[116]It also sounds like not my business, so I'll leave it up to you.%(patronleave)"
+}
