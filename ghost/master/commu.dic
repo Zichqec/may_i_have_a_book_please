@@ -1,9 +1,9 @@
+//TODO all the events in here should maybe theoretically check if you've completed the tutorial first... but can i be bothered... enh, i need to do a whole formatting update anyways so WHATEVER
 OnSpectrePlugin.ConfirmCalibration
 {
 	//Add expression names as references here in any order that should be omitted from the calibration...
 	"\![raiseplugin,Spectre,OnCustomCalibrationConfirm]"
 }
-
 OnSpectrePlugin.Surface
 {
 	if reference0 == "normal"; "\1\s[20]"
