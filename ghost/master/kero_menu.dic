@@ -252,7 +252,7 @@ hintdialogue : nonoverlap
 	}
 	
 	"\1\b[0]\s[10]Try %(_hinting). That worked for me today, it might work for you as well. \n\n%(hoo)\1\s[110]Let me know how it goes."
-	"\1\b[0]\s[123]You're a little difficult. \s[120]But when I look at you, the feeling I get is that you should %(_hint). \s[10]It's worth a try anyway. \n\n%(hoo)\1I have to get going, but I hope that works for you."
+	"\1\b[0]\s[123]You're a little difficult. \s[120]But when I look at you,\w4%(br)the feeling I get is that you should %(_hint). \s[10]It's worth a try anyway. \n\n%(hoo)\1I have to get going, but I hope that works for you." //TODO br with pause aaa
 	"\1\b[0]\s[20]%(_caphint). It's what I'd do in your situation. \s[10]Try it and get back to me, I've got to go for now."
 	"\1\b[0]\s[20]Giving you trouble, is it? \s[120]Hm... What would Alba be thinking for you... \n\n%(hoo)\1\s[142]Hmm... %(_hint). \s[140]Yes, that sounds right. \s[120]Try that. I have to go for now, but I hope it helps."
 	"\1\b[0]\s[142]Let's see, your ritual... ritual... \n\n%(hoo)\1\s[20]Maybe you should try %(_hinting)? That seems right for you. \n\n%(hoo)\1\s[10]I have to go back to my work. Good luck with it."
@@ -612,11 +612,11 @@ OnConversation.MagesGuild : all
 			HintReady = 1
 	
 			"\0\b[0]%(usertalk)"
-			"\1\b[0]\s[16]It's quite simple really. It's the downside of the greatest benefit to having a Mages Guild. \s[20]With many minds working together, they can promote discoveries and make resources much more readily available. It has been a great boon for magical literacy the world over. \n\n"
+			"\1\b[0]\s[16]It's quite simple really. It's the downside of the greatest benefit to having a Mages Guild.\w8\w8%(br)\s[20]With many minds working together, they can promote discoveries and make resources much more readily available. It has been a great boon for magical literacy the world over. \n\n" //TODO the br here has a pause but i just... i hate it
 			"%(hoo)"
-			"\1\s[16]Unfortunately, that also means that if they don't like you for some reason, you become cut off from those benefits. \s[116]It makes them, for most practical purposes, the arbiter of who can and cannot practice. \s[142]It's a truly tragic state of affairs... \n\n"
+			"\1\s[16]Unfortunately, that also means that if they don't like you for some reason, you become cut off from those benefits. \s[116]It makes them, for most practical purposes, the arbiters of who can and cannot practice. \s[142]It's a truly tragic state of affairs... \n\n"
 			"%(hoo)"
-			"\1\s[14]... Well. \s[110]I have to get back to my work now. \s[120]Without their support, I have to work a lot harder to have a hope of meeting my goals. Good luck to you, and I hope your interactions with the Mages Guild are few and far between."
+			"\1\s[14]... Well. \s[110]I have to get back to my work now. \s[120]Without their support, I have to work a lot harder to have a hope of meeting my goals. Good luck to you, and I hope your interactions with the Mages Guild are few and far between.%(patronleave)"
 			"\e TalkingToPatron"
 		}
 		
@@ -1262,7 +1262,7 @@ OnConversation.HereLong : all
 OnConversation.AboutTheLibrary : all
 {
 	"\0\b[0]%(usertalk)"
-	"\1\b[0]\s[120]Hm, there's a lot I could say about the library. Is there something in particular you were wondering about? \n\n"
+	"\1\b[0]\s[120]Hm, there's a lot I could say about the library.\w8\w8%(br)Is there something in particular you were wondering about? \n\n" //TODO br with pause
 	
 	"\0\_q"
 	"\![*]\__q[OnConversation.NoOtherPatrons]How come I've never seen any other patrons?\__q\n"
@@ -1274,7 +1274,7 @@ OnConversation.AboutTheLibrary : all
 	OnConversation.NoOtherPatrons : all
 	{
 		"\0\b[0]%(usertalk)"
-		"\1\b[0]\s[110]I've seen other patrons, deeper in the library. \s[20]Strangely, I never see them come back to the entrance here... \s[28]I think perhaps they have been here for a long time. You and I may be the only more recent patrons, though I can't say for sure how long ""recent"" is... \n\n"
+		"\1\b[0]\s[110]I've seen other patrons, deeper in the library.\w8\w8%(br)\s[20]Strangely, I never see them come back to the entrance here... \s[28]I think perhaps they have been here for a long time. You and I may be the only more recent patrons, though I can't say for sure how long ""recent"" is... \n\n" //TODO br with pause
 		
 		"\0\_q"
 		"\![*]\__q[OnConversation.HereLongTime]Here for a long time?\_w[] What do you mean by that?\__q\n"
@@ -1313,7 +1313,7 @@ OnConversation.AboutTheLibrary : all
 				HintReady = 1
 	
 				"\0\b[0]%(usertalk)"
-				"\1\b[0]\s[23].\w8.\w8.\w8 \w8\w8\s[13]I don't know. \s[113]I keep telling myself that if it's a fae snare of some kind, then there will be some kind of catalyst. Some moment where I choose my fate. \s[14]So long as I am vigilant and watch for that moment, I can leave before the point of no return, right...? \n\n"
+				"\1\b[0]\s[23].\w8.\w8.\w8 \w8\w8\s[13]I don't know. \s[113]I keep telling myself that if%(br)it's a fae snare of some kind, then there will be some kind of catalyst. Some moment where I choose my fate. \s[14]So long as I am vigilant and watch for that moment, I can leave before the point of no return, right...? \n\n"
 				"%(hoo)"
 				"\1... \s[113]I should go now, I have work to be doing.%(patronleave)"
 				"\e TalkingToPatron"
@@ -1324,7 +1324,7 @@ OnConversation.AboutTheLibrary : all
 				HintReady = 1
 	
 				"\0\b[0]%(usertalk)"
-				"\1\b[0]\s[13]... I've thought about it a few times. \s[23]But the research I'm doing is too important, and I won't find what I need anywhere else. I have to take the risk."
+				"\1\b[0]\s[13]... I've thought about it a few times. \s[23]But the research I'm doing is too important, and I won't find what I need anywhere else. I have to take the risk.\n\n"
 				"%(hoo)"
 				"\1\s[28]Perhaps that's how the others felt, too. Perhaps that's why they're still here. And perhaps that makes you and I destined to meet the same fate... \s[18]I'll admit, sometimes I find myself wondering if staying here forever, slowly consuming all of the knowledge within these walls, would even be that bad of a fate. There are worse things than that... \n\n"
 				"%(hoo)"
@@ -1385,7 +1385,7 @@ OnConversation.AboutTheLibrary : all
 		OnConversation.OutOfTheWay : all
 		{
 			"\0\b[0]%(usertalk)"
-			"\1\b[0]\s[10]Hm, perhaps. \s[110]It almost makes one wonder if this place is designed to trap the desperate... \s[116]Those who seek knowledge that is forbidden elsewhere, and would do anything to get it. \n\n"
+			"\1\b[0]\s[10]Hm, perhaps. \s[110]It almost makes one wonder if this place is designed to trap the desperate...\w8\w8%(br)\s[116]Those who seek knowledge that is forbidden elsewhere, and would do anything to get it. \n\n" //TODO br with pause
 			
 			"\0\_q"
 			"\![*]\__q[OnConversation.ReallyThinkSo]Do you really think so?\__q\n"
@@ -1486,7 +1486,7 @@ OnConversation.AboutTheLibrary : all
 				"\0\b[0]%(usertalk)"
 				"\1\b[0]\s[142]Easier for mortals, perhaps. But this library isn't necessarily made for mortal benefit. This is Alba's collection, arranged in Alba's way. \n\n"
 				"%(hoo)"
-				"\1\s[20]I'm sure it also serves as a way for him to be able to filter what he wants each patron to see. \s[120]I suspect that our rituals reveal something about us to him, and he decides from there what he is willing to share. \s[116]If we could choose all of the books for ourselves, he would have less control."
+				"\1\s[20]I'm sure it also serves as a way for him to be able to filter what he wants each patron to see. \s[120]I suspect that our rituals reveal something about us to him, and he decides from there what he is willing to share. \s[116]If we could choose all of the books for ourselves, he would have less control.\n\n"
 				"%(hoo)"
 				"\1\s[110]Whatever the case may be, I need to get back to my studies now. Good luck to you.%(patronleave)"
 				"\e TalkingToPatron"
@@ -1644,7 +1644,7 @@ OnConversation.AboutTheLibrary : all
 				"\0\b[0]%(usertalk)"
 				"\1\b[0]\s[113]In a normal library, it wouldn't be a bad idea. \s[123]However, I know that these books are able to move on their own at times. I cannot guarantee that such markings would not simply erase themselves behind me, leaving me stranded. \n\n"
 				"%(hoo)"
-				"\1\s[14]No, much as I long to see what lies deeper in, it is not a risk I am willing to take. Not when I already have all that I need here. \n\n"
+				"\1\s[14]No, much as I long to see what lies deeper in,\w4%(br)it is not a risk I am willing to take. Not when I already have all that I need here. \n\n" //TODO br with pause
 				"%(hoo)"
 				"\1\s[23]I don't recommend that you try it either, but it's your own life to risk. \s[13]... I have to get back to my work now. Farewell.%(patronleave)"
 				"\e TalkingToPatron"
@@ -1680,7 +1680,7 @@ OnConversation.AboutTheLibrary : all
 				"\0\b[0]%(usertalk)"
 				"\1\b[0]\s[20]It's entirely possible that the information in the book is not in written form. \s[120]There could be knowledge hidden in a magical seal that only those with proper training can discern the meaning of. In such a case, the state of the book itself is rather irrelevant. \n\n"
 				"%(hoo)"
-				"\1\s[142]There's also the possibility that some books are in a cipher, or in a language that is long lost to time, but still readable by Alba. Just because we cannot ourselves read the knowledge doesn't mean it is not there. \s[20]All I know for certain is that Alba would not keep something that is entirely without worth. If what you are receiving is not comprehensible to you, then you may need to look harder, or it could simply be above your skill level.\n\n"
+				"\1\s[142]There's also the possibility that some books are in a cipher, or in a language that is long lost to time, but still readable by Alba. Just because we cannot ourselves read the knowledge doesn't mean it is not there. \s[20]All I know for certain is that Alba would not keep something that is entirely without worth. If what you are receiving is not comprehensible%(br)to you, then you may need to look harder, or it could simply be above your skill level.\n\n"
 				"%(hoo)"
 				"\1\s[10]Anyway, I should leave you to it. I have to get back to my studies now.%(patronleave)"
 				"\e TalkingToPatron"
@@ -1693,7 +1693,7 @@ OnConversation.AboutTheLibrary : all
 				"\0\b[0]%(usertalk)"
 				"\1\b[0]\s[141]Just because the value is not apparent to your mortal eyes does not mean that it is of no value to a fae, or other such creatures that perceive what we cannot. \n\n"
 				"%(hoo)"
-				"\1\s[140]I also would not say that any of these books are necessarily beyond repair. I would not be surprised if the damage is only on the surface level, and Alba can reverse it if he so chooses. \s[20]Very likely, he keeps some books difficult to read on the surface to prevent valuable knowledge from being stolen and used without care. \n\n"
+				"\1\s[140]I also would not say that any of these books are necessarily beyond repair. I would not be surprised if the damage is only on the surface level, and Alba can reverse it if he so chooses.\w8\w8%(br)\s[20]Very likely, he keeps some books difficult to read on the surface to prevent valuable knowledge from being stolen and used without care. \n\n" //TODO br with pause
 				"%(hoo)"
 				"\1\s[110]Or, perhaps it simply amuses him to see you struggle. It's hard to say. \s[10]Either way, I should be going now. Good luck with it.%(patronleave)"
 				"\e TalkingToPatron"

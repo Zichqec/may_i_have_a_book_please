@@ -1713,7 +1713,7 @@ ReadBook
 	{
 		"Several pages are torn out... I can only make out a few words here and there that survived near the spine. \n\n %(QBookWords)... \n\n %(QBookWords)..."
 		"Pages have been ripped from this book... Many of them. Even if the information I need is here, it is almost certainly incomplete."
-		"Several dozen pages have been torn out, leaving only scraps behind... I can make out a few words here at the bottom, where part of this page is left... \n\n %(QBookWords)... \n\n %(QBookWords)... \n\n The information I need might have been here, but it is gone now."
+		"Several dozen pages have been torn out, leaving only scraps behind... I can make out a few words here at the bottom, where part of this page is left... \n\n %(QBookWords)... \n\n %(QBookWords)... \n\n The information I need might have been here, but it's gone now."
 		"There used to be pages here, at one point. I assume, anyways. Most of them have been completely torn out, quite violently. I can make out a few words on some pages towards the back that are partially intact... \n\n%(QBookWords)... \n\n%(QBookWords)... \n\nIf the information I needed was here, it isn't any longer."
 		"These pages are all torn in half... I can read bits and pieces, but the full message is entirely lost. Who would do such a thing...?"
 	}
